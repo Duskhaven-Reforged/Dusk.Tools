@@ -1,0 +1,15 @@
+<div [formGroup]="addressForm">
+  <label>{{ label }}</label>
+  <div>
+    <label for="street">Street:</label>
+    <input id="street" formControlName="street" />
+  </div>
+  <div>
+    <label for="city">City:</label>
+    <input id="city" formControlName="city" />
+  </div>
+  <div>
+    <label for="zip">Zip:</label>
+    <input id="zip" formControlName="zip" />
+  </div>
+</div>

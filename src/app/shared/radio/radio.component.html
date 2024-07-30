@@ -1,0 +1,11 @@
+<div [formGroup]="form">
+  <label *ngFor="let option of options" [for]="option.value">
+    <input
+      type="radio"
+      [formControlName]="controlName"
+      [id]="option.value"
+      [value]="option.value"
+    />
+    {{ option.label }}
+  </label>
+</div>
