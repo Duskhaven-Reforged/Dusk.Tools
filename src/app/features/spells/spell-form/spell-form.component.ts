@@ -1,16 +1,17 @@
 import { Component } from '@angular/core';
-import { SharedModule } from '../../shared/shared.module';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { SharedModule } from '../../../shared/shared.module';
 import { CommonModule } from '@angular/common';
 
+
 @Component({
-  selector: 'app-spells',
+  selector: 'app-spell-form',
   standalone: true,
   imports: [SharedModule, ReactiveFormsModule, CommonModule],
-  templateUrl: './spells.component.html',
-  styleUrl: './spells.component.scss'
+  templateUrl: './spell-form.component.html',
+  styleUrl: './spell-form.component.scss'
 })
-export class SpellsComponent {
+export class SpellFormComponent {
   form!: FormGroup;
   genderOptions = [
     { value: 'male', label: 'Male' },
