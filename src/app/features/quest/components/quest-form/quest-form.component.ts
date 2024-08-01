@@ -1,22 +1,24 @@
-import { Component } from '@angular/core';
-import {
-  FormArray,
-  FormBuilder,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
-import { SharedModule } from '../../../shared/shared.module';
 import { CommonModule } from '@angular/common';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+  FormArray,
+  ReactiveFormsModule,
+} from '@angular/forms';
+import { SharedModule } from '../../../../shared/shared.module';
+import { QuestService } from '../../services/quest.service';
+import { SubSink } from 'subsink';
 
 @Component({
-  selector: 'app-spell-form',
+  selector: 'app-quest-form',
   standalone: true,
   imports: [SharedModule, ReactiveFormsModule, CommonModule],
-  templateUrl: './spell-form.component.html',
-  styleUrl: './spell-form.component.scss',
+  templateUrl: './quest-form.component.html',
+  styleUrl: './quest-form.component.scss',
 })
-export class SpellFormComponent {
+export class QuestFormComponent implements OnInit, OnDestroy {
   form!: FormGroup;
   genderOptions = [
     { value: 'male', label: 'Male' },
@@ -27,10 +29,11 @@ export class SpellFormComponent {
     { value: 'monthly', label: 'Monthly' },
     { value: 'yearly', label: 'Yearly' },
   ];
+  private questService = inject(QuestService);
+  private fb = inject(FormBuilder);
+  private subs = new SubSink();
 
-  constructor(private fb: FormBuilder) {}
-
-  ngOnInit(): void {
+  constructor() {
     this.form = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -40,7 +43,17 @@ export class SpellFormComponent {
       items: this.fb.array([this.createItem()]),
       addresses: this.fb.array([this.createAddress()]),
     });
+
+    this.subs.sink = this.form.valueChanges.subscribe((value) => {
+      this.questService.setQuestValues(value);
+    });
   }
+
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
+  }
+
+  ngOnInit(): void {}
 
   get items() {
     return this.form.get('items') as FormArray;

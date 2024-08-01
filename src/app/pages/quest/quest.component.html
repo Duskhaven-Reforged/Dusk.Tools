@@ -1,8 +1,6 @@
 <div class="flex w-full min-h-screen py-5 px-3">
   <div class="flex flex-col gap-3 w-3/4">
-    <button hlmBtn variant="outline" (click)="exportCode()" class="w-1/2">
-      Test
-    </button>
+    <app-quest-form />
   </div>
   <section class="w-1/4 h-fit" hlmCard>
     <div hlmCardHeader>
@@ -16,5 +14,6 @@
         <button hlmBtn variant="outline" (click)="copyCode()" class="absolute top-0 right-6" ><hlm-icon size="sm" name="lucideCopy"></hlm-icon></button>
     }
     </pre>
+    <app-quest-output></app-quest-output>
   </section>
 </div>

@@ -1,9 +1,20 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class QuestService {
+  private questValues = new BehaviorSubject<any>({});
+
+  getQuestValues() {
+    return of(this.questValues);
+  }
+
+  setQuestValues(values: any) {
+    this.questValues.next(values);
+  }
+
   constructor() {}
 
   constructCode() {
