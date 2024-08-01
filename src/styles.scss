@@ -4,6 +4,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import "./app/shared/styles/code.scss";
+@import "ngx-toastr/toastr";
+
+.toast-success {
+  background-color: black !important;
+  border: 1px solid hsl(var(--border));
+  box-shadow: none !important;
+}
 
 :root {
   --font-sans: "";

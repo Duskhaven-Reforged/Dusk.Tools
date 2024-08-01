@@ -1,0 +1,117 @@
+pre code.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 1em;
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius);
+
+  /* width */
+  &::-webkit-scrollbar {
+    height: 0.5rem;
+  }
+
+  /* Track */
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted));
+    border-radius: var(--radius);
+  }
+
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+}
+
+code.hljs {
+  padding: 3px 5px;
+}
+/**
+ * Panda Syntax Theme for Highlight.js edited for DuskTolls
+ * Based on: https://github.com/tinkertrain/panda-syntax-vscode
+ * Author: Annmarie Switzer <https://github.com/annmarie-switzer>
+ */
+.hljs {
+  color: #e6e6e6;
+  display: none;
+  background: var(--background);
+}
+.hljs-emphasis {
+  font-style: italic;
+}
+.hljs-strong {
+  font-weight: bold;
+}
+.hljs-link {
+  text-decoration: underline;
+}
+.hljs-comment,
+.hljs-quote {
+  color: #bbbbbb;
+  font-style: italic;
+}
+.hljs-params {
+  color: #bbbbbb;
+}
+.hljs-punctuation,
+.hljs-attr {
+  color: #e6e6e6;
+}
+.hljs-selector-tag,
+.hljs-name,
+.hljs-meta {
+  color: #ff4b82;
+}
+.hljs-operator,
+.hljs-char.escape_ {
+  color: #b084eb;
+}
+.hljs-keyword,
+.hljs-deletion {
+  color: #ff75b5;
+}
+.hljs-regexp,
+.hljs-selector-pseudo,
+.hljs-selector-attr,
+.hljs-variable.language_ {
+  color: #ff9ac1;
+}
+.hljs-subst,
+.hljs-property,
+.hljs-code,
+.hljs-formula,
+.hljs-section,
+.hljs-title.function_ {
+  color: #45a9f9;
+}
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition,
+.hljs-selector-class,
+.hljs-title.class_,
+.hljs-title.class_.inherited__,
+.hljs-meta .hljs-string {
+  color: #ffd95a;
+}
+.hljs-variable,
+.hljs-template-variable,
+.hljs-number,
+.hljs-literal,
+.hljs-type,
+.hljs-link,
+.hljs-built_in,
+.hljs-title,
+.hljs-selector-id,
+.hljs-tag,
+.hljs-doctag,
+.hljs-attribute,
+.hljs-template-tag,
+.hljs-meta .hljs-keyword,
+.hljs-punctuation {
+  color: #ffb86c;
+}
