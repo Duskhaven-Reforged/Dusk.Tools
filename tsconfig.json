@@ -23,38 +23,59 @@
       "dom"
     ],
     "paths": {
-      "@spartan-ng/ui-card-helm": [
-        ".\\libs/ui/ui-card-helm/src/index.ts"
+      "@spartan-ng/ui-accordion-helm": [
+        ".\\src/app/shared/directives/ui-accordion-helm/src/index.ts"
       ],
-      "@spartan-ng/ui-icon-helm": [
-        ".\\libs/ui/ui-icon-helm/src/index.ts"
-      ],
-      "@spartan-ng/ui-input-helm": [
-        ".\\libs/ui/ui-input-helm/src/index.ts"
-      ],
-      "@spartan-ng/ui-label-helm": [
-        ".\\libs/ui/ui-label-helm/src/index.ts"
-      ],
-      "@spartan-ng/ui-separator-helm": [
-        ".\\libs/ui/ui-separator-helm/src/index.ts"
-      ],
-      "@spartan-ng/ui-toggle-helm": [
-        ".\\libs/ui/ui-toggle-helm/src/index.ts"
-      ],
-      "@spartan-ng/ui-checkbox-helm": [
-        ".\\libs/ui/ui-checkbox-helm/src/index.ts"
-      ],
-      "@spartan-ng/ui-helm-helm": [
-        ".\\libs/ui/ui-helm-helm/src/index.ts"
-      ],
-      "@spartan-ng/ui-formfield-helm": [
-        ".\\libs/ui/ui-formfield-helm/src/index.ts"
+      "@spartan-ng/ui-alert-helm": [
+        ".\\src/app/shared/directives/ui-alert-helm/src/index.ts"
       ],
       "@spartan-ng/ui-button-helm": [
-        ".\\libs/ui/ui-button-helm/src/index.ts"
+        ".\\src/app/shared/directives/ui-button-helm/src/index.ts"
       ],
-      "@spartan-ng/ui-scrollarea-helm": [
-        ".\\libs/ui/ui-scrollarea-helm/src/index.ts"
+      "@spartan-ng/ui-card-helm": [
+        ".\\src/app/shared/directives/ui-card-helm/src/index.ts"
+      ],
+      "@spartan-ng/ui-dialog-helm": [
+        ".\\src/app/shared/directives/ui-dialog-helm/src/index.ts"
+      ],
+      "@spartan-ng/ui-icon-helm": [
+        ".\\src/app/shared/directives/ui-icon-helm/src/index.ts"
+      ],
+      "@spartan-ng/ui-input-helm": [
+        ".\\src/app/shared/directives/ui-input-helm/src/index.ts"
+      ],
+      "@spartan-ng/ui-label-helm": [
+        ".\\src/app/shared/directives/ui-label-helm/src/index.ts"
+      ],
+      "@spartan-ng/ui-radiogroup-helm": [
+        ".\\src/app/shared/directives/ui-radiogroup-helm/src/index.ts"
+      ],
+      "@spartan-ng/ui-separator-helm": [
+        ".\\src/app/shared/directives/ui-separator-helm/src/index.ts"
+      ],
+      "@spartan-ng/ui-spinner-helm": [
+        ".\\src/app/shared/directives/ui-spinner-helm/src/index.ts"
+      ],
+      "@spartan-ng/ui-switch-helm": [
+        ".\\src/app/shared/directives/ui-switch-helm/src/index.ts"
+      ],
+      "@spartan-ng/ui-toggle-helm": [
+        ".\\src/app/shared/directives/ui-toggle-helm/src/index.ts"
+      ],
+      "@spartan-ng/ui-checkbox-helm": [
+        ".\\src/app/shared/directives/ui-checkbox-helm/src/index.ts"
+      ],
+      "@spartan-ng/ui-tooltip-helm": [
+        ".\\src/app/shared/directives/ui-tooltip-helm/src/index.ts"
+      ],
+      "@spartan-ng/ui-select-helm": [
+        ".\\src/app/shared/directives/ui-select-helm/src/index.ts"
+      ],
+      "@spartan-ng/ui-helm-helm": [
+        ".\\src/app/shared/directives/ui-helm-helm/src/index.ts"
+      ],
+      "@spartan-ng/ui-formfield-helm": [
+        ".\\src/app/shared/directives/ui-formfield-helm/src/index.ts"
       ]
     }
   },

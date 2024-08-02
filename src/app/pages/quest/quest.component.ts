@@ -10,7 +10,6 @@ import {
 import { QuestService } from '../../features/quest/services/quest.service';
 import { Highlight, HighlightAuto, HighlightModule } from 'ngx-highlightjs';
 import { HlmButtonDirective } from '@spartan-ng/ui-button-helm';
-import { HlmScrollAreaComponent } from '@spartan-ng/ui-scrollarea-helm';
 import { ToastrService } from 'ngx-toastr';
 import { HlmIconComponent } from '@spartan-ng/ui-icon-helm';
 import { provideIcons } from '@ng-icons/core';
@@ -31,7 +30,6 @@ import { QuestOutputComponent } from '../../features/quest/components/quest-outp
     Highlight,
     HighlightAuto,
     HlmButtonDirective,
-    HlmScrollAreaComponent,
     HlmIconComponent,
     HlmIconComponent,
     QuestFormComponent,
