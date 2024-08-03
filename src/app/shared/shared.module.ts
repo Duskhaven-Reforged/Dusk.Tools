@@ -7,8 +7,8 @@ import { RadioComponent } from './components/radio/radio.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ErrorComponent } from './components/error/error.component';
 import { AddressComponent } from './components/address/address.component';
-
-
+import { HlmInputDirective } from '@spartan-ng/ui-input-helm';
+import { HlmLabelDirective } from '@spartan-ng/ui-label-helm';
 
 @NgModule({
   declarations: [
@@ -17,11 +17,13 @@ import { AddressComponent } from './components/address/address.component';
     CheckboxComponent,
     RadioComponent,
     ErrorComponent,
-    AddressComponent
+    AddressComponent,
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    HlmInputDirective,
+    HlmLabelDirective,
   ],
   exports: [
     InputComponent,
@@ -29,7 +31,7 @@ import { AddressComponent } from './components/address/address.component';
     CheckboxComponent,
     RadioComponent,
     ErrorComponent,
-    AddressComponent
-  ]
+    AddressComponent,
+  ],
 })
-export class SharedModule { }
+export class SharedModule {}

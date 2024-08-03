@@ -10,6 +10,7 @@ import {
 import { SharedModule } from '../../../../shared/shared.module';
 import { QuestService } from '../../services/quest.service';
 import { SubSink } from 'subsink';
+import { Questform } from '../../../../types/questform.type';
 
 @Component({
   selector: 'app-quest-form',
@@ -26,10 +27,10 @@ export class QuestFormComponent implements OnInit, OnDestroy {
 
   constructor() {
     this.form = this.fb.group({
-      name: ['', Validators.required],
+      title: ['', Validators.required],
     });
 
-    this.subs.sink = this.form.valueChanges.subscribe((value) => {
+    this.subs.sink = this.form.valueChanges.subscribe((value: Questform) => {
       this.questService.setQuestValues(value);
     });
   }

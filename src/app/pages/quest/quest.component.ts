@@ -45,9 +45,7 @@ export class QuestComponent {
 
   code = '';
 
-  exportCode() {
-    this.code = this.questService.constructCode();
-  }
+  exportCode() {}
 
   copyCode() {
     try {

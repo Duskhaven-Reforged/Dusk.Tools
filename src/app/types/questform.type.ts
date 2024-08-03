@@ -1,3 +1,3 @@
 export interface Questform {
-  title: string;
+  title?: string;
 }

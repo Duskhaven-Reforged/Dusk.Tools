@@ -2,18 +2,5 @@
   <div class="flex flex-col gap-3 w-3/4">
     <app-quest-form />
   </div>
-  <section class="w-1/4 h-fit" hlmCard>
-    <div hlmCardHeader>
-      <h3 hlmCardTitle>Output</h3>
-    </div>
-    <pre
-      class="my-4 relative"
-      hlmCardContent
-    ><code [highlightAuto]="code" language="ts"></code>
-    @if (code.length > 0) {
-        <button hlmBtn variant="outline" (click)="copyCode()" class="absolute top-0 right-6" ><hlm-icon size="sm" name="lucideCopy"></hlm-icon></button>
-    }
-    </pre>
-    <app-quest-output></app-quest-output>
-  </section>
+  <app-quest-output class="w-1/4 h-fit" />
 </div>

@@ -1,1 +1,18 @@
-{{ code | json }}
+<section hlmCard>
+  <div hlmCardHeader>
+    <h3 hlmCardTitle>Output</h3>
+  </div>
+  <pre
+    class="my-2 relative px-6"
+    hlmCardContent
+  ><code [highlightAuto]="code" language="ts"></code>
+    @if (code.length > 0) {
+        <button hlmBtn variant="outline" class="absolute top-0 right-6" ><hlm-icon size="sm" name="lucideCopy"></hlm-icon></button>
+    }
+    </pre>
+  <!-- WILL BE USED LATER FOR LOADING SPELLS <div class="flex flex-row gap-3 px-6 mb-4">
+    <button hlmBtn>
+      <hlm-icon size="sm" class="mr-2" name="lucideZap" />Generate
+    </button>
+  </div> -->
+</section>

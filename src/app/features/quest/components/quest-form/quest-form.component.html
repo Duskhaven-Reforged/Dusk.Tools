@@ -1,6 +1,5 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
-  <app-input formControlName="name" label="Name"></app-input>
-  <button type="submit" [disabled]="form.invalid">Submit</button>
+<form [formGroup]="form">
+  <div class="flex flex-row gap-5">
+    <app-input formControlName="title" label="Title"></app-input>
+  </div>
 </form>
-
-form values{{ form.value | json }} form errors{{ form.errors | json }}

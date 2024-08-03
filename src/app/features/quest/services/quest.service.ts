@@ -1,30 +1,33 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, of } from 'rxjs';
+import { Questform } from '../../../types/questform.type';
 
 @Injectable({
   providedIn: 'root',
 })
 export class QuestService {
-  private questValues = new BehaviorSubject<any>({});
+  private questValues = new BehaviorSubject<Questform>({});
 
   getQuestValues() {
-    return of(this.questValues);
+    return this.questValues.asObservable();
   }
 
-  setQuestValues(values: any) {
+  setQuestValues(values: Questform) {
     this.questValues.next(values);
   }
 
   constructor() {}
 
   constructCode() {
-    return `export const KILLED_CREATURE =
-    std.CreatureTemplates
-    .create('tswow-tests', 'killed-creature')
-    .Name.enGB.set('Killed Creature')
-    .Models.addDefaultBear()
-    .FactionTemplate.set(189)
-    .Level.set(1)`;
+    const title = this.questValues.value.title;
+    if (!title) return ''; // Handle case where title is undefined
+
+    let code = `export const ${title.split(' ').join('_').toUpperCase()} = 
+      std.Quests
+      .create('duskhaven-quests', '${title.split(' ').join('-').toUpperCase()}')
+      .Name.enGB.set('${title}');`;
+
+    return code;
   }
 
   async copyToClipboard(code: string) {

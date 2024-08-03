@@ -1,10 +1,11 @@
 <div>
-    <label>{{ label }}</label>
-    <input
-      [type]="type"
-      [value]="value"
-      (input)="handleInputChange($event)"
-      (blur)="onTouched()"
-    />
-  </div>
-  
+  <label hlmLabel>{{ label }}</label>
+  <input
+    hlmInput
+    [type]="type"
+    [value]="value"
+    (input)="handleInputChange($event)"
+    (blur)="onTouched()"
+    [class]="inputClass"
+  />
+</div>
