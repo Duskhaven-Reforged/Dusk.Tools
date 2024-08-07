@@ -2,4 +2,31 @@
   <div class="flex flex-row gap-5">
     <app-input formControlName="title" label="Title"></app-input>
   </div>
+  <section hlmCard class="mt-3">
+    <div class="flex flex-row justify-between items-center" hlmCardHeader>
+      <h3 hlmCardTitle>Objectives</h3>
+      <hlm-dialog>
+        <button id="edit-profile" brnDialogTrigger hlmBtn>
+          <hlm-icon size="sm" name="lucidePlus"></hlm-icon>
+        </button>
+        <hlm-dialog-content
+          class="sm:max-w-[425px]"
+          *brnDialogContent="let ctx"
+        >
+          <hlm-dialog-header>
+            <h3 hlmDialogTitle>Add Objective</h3>
+            <p hlmDialogDescription>Specify the Objective type</p>
+          </hlm-dialog-header>
+          <div class="py-4 grid gap-4">
+            <div class="items-center grid grid-cols-4 gap-4">
+              <label hlmLabel for="name" class="text-right">Name</label>
+            </div>
+          </div>
+          <hlm-dialog-footer>
+            <button hlmBtn type="submit">Save changes</button>
+          </hlm-dialog-footer>
+        </hlm-dialog-content>
+      </hlm-dialog>
+    </div>
+  </section>
 </form>

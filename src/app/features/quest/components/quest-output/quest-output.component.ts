@@ -3,7 +3,6 @@ import { QuestService } from '../../services/quest.service';
 import { SubSink } from 'subsink';
 import { CommonModule } from '@angular/common';
 import {
-  HlmCardDescriptionDirective,
   HlmCardDirective,
   HlmCardHeaderDirective,
   HlmCardTitleDirective,
@@ -47,5 +46,5 @@ export class QuestOutputComponent implements OnInit, OnDestroy {
     this.subs.unsubscribe();
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 }
