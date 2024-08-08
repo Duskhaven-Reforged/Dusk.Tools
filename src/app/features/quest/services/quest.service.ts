@@ -22,17 +22,17 @@ export class QuestService {
     const objectives = this.constructObjectives();
     const comments = this.constructComments();
     const title = this.questValues.value.title;
+    const moduleName = this.questValues.value.moduleName;
     if (!title) return ''; // Handle case where title is undefined
 
     let code = `${comments}export const ${title
       .split(' ')
       .join('_')
       .toUpperCase()} = 
-      std.Quests
-      .create('duskhaven-quests', '${title
-        .split(' ')
-        .join('-')
-        .toUpperCase()}') ${objectives.map((objective) => objective)}
+      std.Quests.create('${moduleName}', '${title
+      .split(' ')
+      .join('-')
+      .toUpperCase()}') ${objectives.map((objective) => objective)}
       .Name.enGB.set('${title}');`;
 
     return code;
