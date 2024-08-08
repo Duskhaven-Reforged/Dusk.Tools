@@ -20,26 +20,38 @@ export class QuestService {
 
   constructCode() {
     const objectives = this.constructObjectives();
+    const comments = this.constructComments();
     const title = this.questValues.value.title;
     if (!title) return ''; // Handle case where title is undefined
 
-    let code = `export const ${title.split(' ').join('_').toUpperCase()} = 
+    let code = `${comments}export const ${title
+      .split(' ')
+      .join('_')
+      .toUpperCase()} = 
       std.Quests
       .create('duskhaven-quests', '${title
         .split(' ')
         .join('-')
-        .toUpperCase()}') ${
-      objectives === undefined ? '' : objectives.map((objective) => objective)
-    }
+        .toUpperCase()}') ${objectives.map((objective) => objective)}
       .Name.enGB.set('${title}');`;
 
     return code;
   }
 
+  constructComments() {
+    const designerComments = this.questValues.value.designerComments;
+    if (!designerComments || designerComments === '') return '';
+
+    return `/*
+${designerComments}
+*/
+`;
+  }
+
   constructObjectives() {
     const objectiveObj = this.questValues.value.objectives;
     if (!objectiveObj) {
-      return;
+      return [''];
     }
 
     const returnCode: string[] = [];

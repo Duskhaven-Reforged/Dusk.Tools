@@ -11,6 +11,7 @@ import { HlmInputDirective } from '@spartan-ng/ui-input-helm';
 import { HlmLabelDirective } from '@spartan-ng/ui-label-helm';
 import { HlmSelectModule } from '@spartan-ng/ui-select-helm';
 import { BrnSelectModule } from '@spartan-ng/ui-select-brain';
+import { TextareaComponent } from './components/textarea/textarea.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { BrnSelectModule } from '@spartan-ng/ui-select-brain';
     RadioComponent,
     ErrorComponent,
     AddressComponent,
+    TextareaComponent,
   ],
   imports: [
     CommonModule,
@@ -36,6 +38,7 @@ import { BrnSelectModule } from '@spartan-ng/ui-select-brain';
     RadioComponent,
     ErrorComponent,
     AddressComponent,
+    TextareaComponent,
   ],
 })
 export class SharedModule {}

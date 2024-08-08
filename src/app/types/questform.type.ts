@@ -1,6 +1,7 @@
 export interface Questform {
   title?: string;
   objectives?: Objective[];
+  designerComments?: string;
 }
 
 interface ObjectiveItem {

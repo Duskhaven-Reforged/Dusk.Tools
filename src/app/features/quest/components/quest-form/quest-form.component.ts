@@ -52,6 +52,7 @@ export class QuestFormComponent implements OnInit, OnDestroy {
     this.form = this.fb.group({
       title: ['', Validators.required],
       objectives: this.fb.array([]),
+      designerComments: [''],
     });
 
     console.log(this.form.value);

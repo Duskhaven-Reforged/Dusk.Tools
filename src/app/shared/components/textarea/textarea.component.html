@@ -1,0 +1,10 @@
+<div>
+  <label hlmLabel>{{ label }}</label>
+  <textarea
+    [value]="value"
+    (input)="handleInputChange($event)"
+    (blur)="onTouched()"
+    [class]="inputClass"
+    hlmInput
+  ></textarea>
+</div>
