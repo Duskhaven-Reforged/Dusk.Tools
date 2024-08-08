@@ -1,8 +1,18 @@
 <div [formGroup]="form">
-  <label [for]="controlName">{{ label }}</label>
-  <select [formControlName]="controlName" [id]="controlName">
+  <label hlmLabel [for]="controlName">{{ label }}</label>
+  <!-- <select [formControlName]="controlName" [id]="controlName">
     <option *ngFor="let option of options" [value]="option.value">
       {{ option.label }}
     </option>
-  </select>
+  </select> -->
+  <brn-select [formControlName]="controlName">
+    <hlm-select-trigger class="w-56">
+      <hlm-select-value />
+    </hlm-select-trigger>
+    <hlm-select-content>
+      <hlm-option *ngFor="let option of options" [value]="option.value">{{
+        option.label
+      }}</hlm-option>
+    </hlm-select-content>
+  </brn-select>
 </div>

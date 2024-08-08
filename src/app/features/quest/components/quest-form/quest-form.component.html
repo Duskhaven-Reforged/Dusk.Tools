@@ -5,28 +5,32 @@
   <section hlmCard class="mt-3">
     <div class="flex flex-row justify-between items-center" hlmCardHeader>
       <h3 hlmCardTitle>Objectives</h3>
-      <hlm-dialog>
-        <button id="edit-profile" brnDialogTrigger hlmBtn>
-          <hlm-icon size="sm" name="lucidePlus"></hlm-icon>
+      <app-objective-dialog
+        (addObjectiveEvent)="addObjective($event)"
+      ></app-objective-dialog>
+    </div>
+    <div formArrayName="objectives" hlmCardContent class="flex flex-col gap-3">
+      <section
+        hlmCard
+        *ngFor="let objective of objectives.controls; let i = index"
+        class="p-3 flex justify-between items-center"
+      >
+        <div [formGroupName]="i">
+          <app-input
+            formControlName="objectiveItemID"
+            label="Item ID"
+            *ngIf="objective.get('objectiveItemID') !== null"
+          />
+          <app-input
+            formControlName="objectiveCreatureID"
+            label="Creature ID"
+            *ngIf="objective.get('objectiveCreatureID') !== null"
+          />
+        </div>
+        <button hlmBtn variant="destructive" (click)="removeObjective(i)">
+          <hlm-icon size="sm" name="lucideTrash"></hlm-icon>
         </button>
-        <hlm-dialog-content
-          class="sm:max-w-[425px]"
-          *brnDialogContent="let ctx"
-        >
-          <hlm-dialog-header>
-            <h3 hlmDialogTitle>Add Objective</h3>
-            <p hlmDialogDescription>Specify the Objective type</p>
-          </hlm-dialog-header>
-          <div class="py-4 grid gap-4">
-            <div class="items-center grid grid-cols-4 gap-4">
-              <label hlmLabel for="name" class="text-right">Name</label>
-            </div>
-          </div>
-          <hlm-dialog-footer>
-            <button hlmBtn type="submit">Save changes</button>
-          </hlm-dialog-footer>
-        </hlm-dialog-content>
-      </hlm-dialog>
+      </section>
     </div>
   </section>
 </form>

@@ -9,6 +9,8 @@ import { ErrorComponent } from './components/error/error.component';
 import { AddressComponent } from './components/address/address.component';
 import { HlmInputDirective } from '@spartan-ng/ui-input-helm';
 import { HlmLabelDirective } from '@spartan-ng/ui-label-helm';
+import { HlmSelectModule } from '@spartan-ng/ui-select-helm';
+import { BrnSelectModule } from '@spartan-ng/ui-select-brain';
 
 @NgModule({
   declarations: [
@@ -24,6 +26,8 @@ import { HlmLabelDirective } from '@spartan-ng/ui-label-helm';
     ReactiveFormsModule,
     HlmInputDirective,
     HlmLabelDirective,
+    HlmSelectModule,
+    BrnSelectModule,
   ],
   exports: [
     InputComponent,

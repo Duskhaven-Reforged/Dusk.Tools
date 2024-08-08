@@ -12,25 +12,16 @@ import { QuestService } from '../../services/quest.service';
 import { SubSink } from 'subsink';
 import { Questform } from '../../../../types/questform.type';
 import {
+  HlmCardContentDirective,
   HlmCardDirective,
   HlmCardHeaderDirective,
   HlmCardTitleDirective,
 } from '@spartan-ng/ui-card-helm';
 import { HlmButtonDirective } from '@spartan-ng/ui-button-helm';
-import {
-  BrnDialogTriggerDirective,
-  BrnDialogContentDirective,
-} from '@spartan-ng/ui-dialog-brain';
-import {
-  HlmDialogComponent,
-  HlmDialogContentComponent,
-  HlmDialogHeaderComponent,
-  HlmDialogFooterComponent,
-  HlmDialogTitleDirective,
-  HlmDialogDescriptionDirective,
-} from '@spartan-ng/ui-dialog-helm';
-import { HlmIconComponent, provideIcons } from '@spartan-ng/ui-icon-helm';
-import { lucidePlus } from '@ng-icons/lucide';
+import { ObjectiveDialogComponent } from './objective-dialog/objective-dialog.component';
+import { provideIcons } from '@spartan-ng/ui-icon-helm';
+import { lucideTrash } from '@ng-icons/lucide';
+import { HlmIconComponent } from '../../../../shared/directives/ui-icon-helm/src/lib/hlm-icon.component';
 
 @Component({
   selector: 'app-quest-form',
@@ -41,19 +32,13 @@ import { lucidePlus } from '@ng-icons/lucide';
     CommonModule,
     HlmCardDirective,
     HlmCardTitleDirective,
+    HlmCardContentDirective,
     HlmCardHeaderDirective,
     HlmButtonDirective,
-    BrnDialogTriggerDirective,
-    BrnDialogContentDirective,
-    HlmDialogComponent,
-    HlmDialogContentComponent,
-    HlmDialogHeaderComponent,
-    HlmDialogFooterComponent,
-    HlmDialogTitleDirective,
-    HlmDialogDescriptionDirective,
+    ObjectiveDialogComponent,
     HlmIconComponent,
   ],
-  providers: [provideIcons({ lucidePlus })],
+  providers: [provideIcons({ lucideTrash })],
   templateUrl: './quest-form.component.html',
   styleUrl: './quest-form.component.scss',
 })
@@ -66,8 +51,10 @@ export class QuestFormComponent implements OnInit, OnDestroy {
   constructor() {
     this.form = this.fb.group({
       title: ['', Validators.required],
-      objectives: this.fb.array([this.createObjective()]),
+      objectives: this.fb.array([]),
     });
+
+    console.log(this.form.value);
 
     this.subs.sink = this.form.valueChanges.subscribe((value: Questform) => {
       this.questService.setQuestValues(value);
@@ -86,15 +73,23 @@ export class QuestFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  createObjective(): FormGroup {
-    return this.fb.group({ address: '' });
+  createObjective(type?: 'Item Drop' | 'NPC Target'): FormGroup {
+    if (type === 'Item Drop') return this.fb.group({ objectiveItemID: 0 });
+
+    return this.fb.group({ objectiveCreatureID: 0 });
   }
 
   get objectives(): FormArray {
     return this.form.get('objectives') as FormArray;
   }
 
-  addObjective() {
-    this.objectives.push(this.createObjective());
+  addObjective(type?: 'Item Drop' | 'NPC Target') {
+    console.log(this.objectives);
+    this.objectives.push(this.createObjective(type));
+    console.log('ADD OBJECTIVE CALLED');
+  }
+
+  removeObjective(index: number) {
+    this.objectives.removeAt(index);
   }
 }
