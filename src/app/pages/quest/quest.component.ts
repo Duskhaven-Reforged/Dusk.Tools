@@ -16,6 +16,7 @@ import { provideIcons } from '@ng-icons/core';
 import { lucideCopy } from '@ng-icons/lucide';
 import { QuestFormComponent } from '../../features/quest/components/quest-form/quest-form.component';
 import { QuestOutputComponent } from '../../features/quest/components/quest-output/quest-output.component';
+import { QuestDocsComponent } from '../../features/quest/components/quest-docs/quest-docs.component';
 
 @Component({
   selector: 'app-quest',
@@ -34,6 +35,7 @@ import { QuestOutputComponent } from '../../features/quest/components/quest-outp
     HlmIconComponent,
     QuestFormComponent,
     QuestOutputComponent,
+    QuestDocsComponent,
   ],
   providers: [provideIcons({ lucideCopy })],
   templateUrl: './quest.component.html',

@@ -87,9 +87,7 @@ export class QuestFormComponent implements OnInit, OnDestroy {
   }
 
   addObjective(type?: 'Item Drop' | 'NPC Target') {
-    console.log(this.objectives);
     this.objectives.push(this.createObjective(type));
-    console.log('ADD OBJECTIVE CALLED');
   }
 
   removeObjective(index: number) {
