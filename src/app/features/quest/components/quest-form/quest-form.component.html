@@ -26,6 +26,7 @@
             label="Creature ID"
             *ngIf="objective.get('objectiveCreatureID') !== null"
           />
+          <app-input formControlName="count" label="Count" />
         </div>
         <button hlmBtn variant="destructive" (click)="removeObjective(i)">
           <hlm-icon size="sm" name="lucideTrash"></hlm-icon>

@@ -74,9 +74,10 @@ export class QuestFormComponent implements OnInit, OnDestroy {
   }
 
   createObjective(type?: 'Item Drop' | 'NPC Target'): FormGroup {
-    if (type === 'Item Drop') return this.fb.group({ objectiveItemID: 0 });
+    if (type === 'Item Drop')
+      return this.fb.group({ objectiveItemID: 0, count: 0 });
 
-    return this.fb.group({ objectiveCreatureID: 0 });
+    return this.fb.group({ objectiveCreatureID: 0, count: 0 });
   }
 
   get objectives(): FormArray {
