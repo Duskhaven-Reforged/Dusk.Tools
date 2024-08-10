@@ -3,6 +3,11 @@ export interface Questform {
   objectives?: Objective[];
   designerComments?: string;
   moduleName?: string;
+  objectiveText?: string;
+  pickupText?: string;
+  incompleteText?: string;
+  completeText?: string;
+  completeLogText?: string;
 }
 
 interface ObjectiveItem {
