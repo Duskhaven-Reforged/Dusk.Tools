@@ -1,0 +1,20 @@
+<hlm-dialog>
+  <button id="edit-profile" brnDialogTrigger hlmBtn>
+    <hlm-icon size="sm" name="lucidePlus"></hlm-icon>
+  </button>
+  <hlm-dialog-content class="sm:max-w-[425px]" *brnDialogContent="let ctx">
+    <hlm-dialog-header>
+      <h3 hlmDialogTitle>Add Quest Giver</h3>
+      <p hlmDialogDescription>Specify the Quest Giver type</p>
+    </hlm-dialog-header>
+    <div class="py-4 flex flex-row gap-4">
+      <button hlmBtn variant="outline" (click)="addQuestGiver(ctx, 'object')">
+        Game Object
+      </button>
+      <button hlmBtn variant="outline" (click)="addQuestGiver(ctx, 'creature')">
+        Creature
+      </button>
+    </div>
+    <!-- <hlm-dialog-footer> </hlm-dialog-footer> -->
+  </hlm-dialog-content>
+</hlm-dialog>

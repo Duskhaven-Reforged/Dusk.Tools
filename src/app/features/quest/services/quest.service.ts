@@ -25,6 +25,7 @@ export class QuestService {
     const moduleName = this.questValues.value.moduleName;
     const textContent = this.constructTextContent();
     const POIs = this.constructPOIs();
+    const questGivers = this.constructQuestGivers();
     if (!title) return ''; // Handle case where title is undefined
 
     let code = `${comments}export const ${title
@@ -36,7 +37,9 @@ export class QuestService {
       .join('-')
       .toUpperCase()}')${textContent.map((text) => text).join('')} ${objectives
       .map((objective) => objective)
-      .join('')} ${POIs.map((poi) => poi).join('')}
+      .join('')} ${POIs.map((poi) => poi).join('')} ${questGivers
+      .map((questGiver) => questGiver)
+      .join('')}
       .Name.enGB.set('${title}');`;
 
     return code;
@@ -128,6 +131,33 @@ ${designerComments}
 
       returnCode.push(`
     .POIs.add(${objective}, [${poiStrings.map((poi) => poi)}])`);
+    });
+
+    return returnCode;
+  }
+
+  constructQuestGivers() {
+    if (!this.questValues.value.questGivers) {
+      return [''];
+    }
+
+    const returnCode: string[] = [];
+    const methodMapping = {
+      creaturetrue: '.Questgiver.addCreatureStarter',
+      creaturefalse: '.Questgiver.addCreatureEnder',
+      objecttrue: '.Questgiver.addObjectStarter',
+      objectfalse: '.Questgiver.addObjectEnder',
+    };
+
+    this.questValues.value.questGivers.forEach((questGiver) => {
+      const entityType = questGiver.entityType;
+      const methodKey = `${entityType}${questGiver.starter}`;
+      const methodName = methodMapping[methodKey as keyof typeof methodMapping];
+
+      if (methodName) {
+        returnCode.push(`
+      ${methodName}(${questGiver.id})`);
+      }
     });
 
     return returnCode;

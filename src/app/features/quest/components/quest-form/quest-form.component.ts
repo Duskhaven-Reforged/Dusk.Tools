@@ -10,7 +10,10 @@ import {
 import { SharedModule } from '../../../../shared/shared.module';
 import { QuestService } from '../../services/quest.service';
 import { SubSink } from 'subsink';
-import { Questform } from '../../../../types/questform.type';
+import {
+  Questform,
+  QuestGiverEntityType,
+} from '../../../../types/questform.type';
 import {
   HlmCardContentDirective,
   HlmCardDirective,
@@ -22,6 +25,8 @@ import { ObjectiveDialogComponent } from './objective-dialog/objective-dialog.co
 import { provideIcons } from '@spartan-ng/ui-icon-helm';
 import { lucidePlus, lucideTrash } from '@ng-icons/lucide';
 import { HlmIconComponent } from '../../../../shared/directives/ui-icon-helm/src/lib/hlm-icon.component';
+import { QuestGiverDialogComponent } from './quest-giver-dialog/quest-giver-dialog.component';
+import { HlmSwitchComponent } from '@spartan-ng/ui-switch-helm';
 
 @Component({
   selector: 'app-quest-form',
@@ -37,6 +42,8 @@ import { HlmIconComponent } from '../../../../shared/directives/ui-icon-helm/src
     HlmButtonDirective,
     ObjectiveDialogComponent,
     HlmIconComponent,
+    QuestGiverDialogComponent,
+    HlmSwitchComponent,
   ],
   providers: [provideIcons({ lucideTrash, lucidePlus })],
   templateUrl: './quest-form.component.html',
@@ -60,6 +67,7 @@ export class QuestFormComponent implements OnInit, OnDestroy {
       completeText: [''],
       completeLogText: [''],
       POIs: this.fb.array([]),
+      questGivers: this.fb.array([]),
     });
 
     console.log(this.form.value);
@@ -114,5 +122,21 @@ export class QuestFormComponent implements OnInit, OnDestroy {
 
   removePOI(index: number) {
     this.POIs.removeAt(index);
+  }
+
+  createQuestGiver(entityType: QuestGiverEntityType): FormGroup {
+    return this.fb.group({ entityType, id: '', starter: true });
+  }
+
+  get questGivers(): FormArray {
+    return this.form.get('questGivers') as FormArray;
+  }
+
+  addQuestGiver(entityType: QuestGiverEntityType) {
+    this.questGivers.push(this.createQuestGiver(entityType));
+  }
+
+  removeQuestGiver(index: number) {
+    this.questGivers.removeAt(index);
   }
 }

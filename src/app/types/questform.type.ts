@@ -9,6 +9,7 @@ export interface Questform {
   completeText?: string;
   completeLogText?: string;
   POIs?: POI[];
+  questGivers?: QuestGiver[];
 }
 
 interface ObjectiveItem {
@@ -30,4 +31,12 @@ export interface POI {
   z: number;
   o: number;
   map: number | string;
+}
+
+export type QuestGiverEntityType = 'creature' | 'object';
+
+interface QuestGiver {
+  entityType: QuestGiverEntityType;
+  id: string;
+  starter: boolean;
 }
