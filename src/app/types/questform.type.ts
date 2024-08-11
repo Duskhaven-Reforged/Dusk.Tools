@@ -8,6 +8,7 @@ export interface Questform {
   incompleteText?: string;
   completeText?: string;
   completeLogText?: string;
+  POIs?: POI[];
 }
 
 interface ObjectiveItem {
@@ -21,3 +22,12 @@ interface ObjectiveCreature {
 }
 
 type Objective = ObjectiveItem | ObjectiveCreature;
+
+export interface POI {
+  objective: number;
+  x: number;
+  y: number;
+  z: number;
+  o: number;
+  map: number | string;
+}

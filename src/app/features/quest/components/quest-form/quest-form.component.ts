@@ -20,7 +20,7 @@ import {
 import { HlmButtonDirective } from '@spartan-ng/ui-button-helm';
 import { ObjectiveDialogComponent } from './objective-dialog/objective-dialog.component';
 import { provideIcons } from '@spartan-ng/ui-icon-helm';
-import { lucideTrash } from '@ng-icons/lucide';
+import { lucidePlus, lucideTrash } from '@ng-icons/lucide';
 import { HlmIconComponent } from '../../../../shared/directives/ui-icon-helm/src/lib/hlm-icon.component';
 
 @Component({
@@ -38,7 +38,7 @@ import { HlmIconComponent } from '../../../../shared/directives/ui-icon-helm/src
     ObjectiveDialogComponent,
     HlmIconComponent,
   ],
-  providers: [provideIcons({ lucideTrash })],
+  providers: [provideIcons({ lucideTrash, lucidePlus })],
   templateUrl: './quest-form.component.html',
   styleUrl: './quest-form.component.scss',
 })
@@ -59,6 +59,7 @@ export class QuestFormComponent implements OnInit, OnDestroy {
       incompleteText: [''],
       completeText: [''],
       completeLogText: [''],
+      POIs: this.fb.array([]),
     });
 
     console.log(this.form.value);
@@ -97,5 +98,21 @@ export class QuestFormComponent implements OnInit, OnDestroy {
 
   removeObjective(index: number) {
     this.objectives.removeAt(index);
+  }
+
+  createPOI(): FormGroup {
+    return this.fb.group({ objective: 0, x: 0, y: 0, z: 0, o: 0, map: 0 });
+  }
+
+  get POIs(): FormArray {
+    return this.form.get('POIs') as FormArray;
+  }
+
+  addPOI() {
+    this.POIs.push(this.createPOI());
+  }
+
+  removePOI(index: number) {
+    this.POIs.removeAt(index);
   }
 }

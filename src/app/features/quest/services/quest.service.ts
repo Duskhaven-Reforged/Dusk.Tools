@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, of } from 'rxjs';
-import { Questform } from '../../../types/questform.type';
+import { POI, Questform } from '../../../types/questform.type';
 
 @Injectable({
   providedIn: 'root',
@@ -24,6 +24,7 @@ export class QuestService {
     const title = this.questValues.value.title;
     const moduleName = this.questValues.value.moduleName;
     const textContent = this.constructTextContent();
+    const POIs = this.constructPOIs();
     if (!title) return ''; // Handle case where title is undefined
 
     let code = `${comments}export const ${title
@@ -35,7 +36,7 @@ export class QuestService {
       .join('-')
       .toUpperCase()}')${textContent.map((text) => text).join('')} ${objectives
       .map((objective) => objective)
-      .join('')}
+      .join('')} ${POIs.map((poi) => poi).join('')}
       .Name.enGB.set('${title}');`;
 
     return code;
@@ -75,36 +76,59 @@ ${designerComments}
   constructTextContent() {
     const returnCode = [''];
 
-    const objectiveText = this.questValues.value.objectiveText;
-    const pickupText = this.questValues.value.pickupText;
-    const incompleteText = this.questValues.value.incompleteText;
-    const completeText = this.questValues.value.completeText;
-    const completeLogText = this.questValues.value.completeLogText;
+    // Mapping text types to method names
+    const textTypes = [
+      { type: 'objectiveText', method: '.ObjectiveText.enGB.set' },
+      { type: 'pickupText', method: '.PickupText.enGB.set' },
+      { type: 'incompleteText', method: '.IncompleteText.enGB.set' },
+      { type: 'completeText', method: '.CompleteText.enGB.set' },
+      { type: 'completeLogText', method: '.CompleteLogText.enGB.set' },
+    ];
 
-    if (objectiveText) {
-      returnCode.push(`
-      .ObjectiveText.enGB.set("${objectiveText}")`);
+    // Iterate over each text type and append to returnCode if value exists
+    textTypes.forEach(({ type, method }) => {
+      const textValue = this.questValues.value[type as keyof Questform];
+      if (textValue) {
+        returnCode.push(`
+      ${method}("${textValue}")`);
+      }
+    });
+
+    return returnCode;
+  }
+
+  constructPOIs() {
+    if (!this.questValues.value.POIs) {
+      return [];
     }
 
-    if (pickupText) {
-      returnCode.push(`
-      .PickupText.enGB.set("${pickupText}")`);
-    }
+    const returnCode: string[] = [];
 
-    if (incompleteText) {
-      returnCode.push(`
-      .IncompleteText.enGB.set("${incompleteText}")`);
-    }
+    const groupedByObjective = this.questValues.value.POIs.reduce(
+      (acc, poi) => {
+        const key = poi.objective;
+        if (!acc[key]) {
+          acc[key] = [];
+        }
+        acc[key].push(poi);
+        return acc;
+      },
+      {} as Record<number, POI[]>
+    );
 
-    if (completeText) {
-      returnCode.push(`
-      .CompleteText.enGB.set("${completeText}")`);
-    }
+    Object.entries(groupedByObjective).forEach(([objective, POIs]) => {
+      const poiStrings: string[] = [];
 
-    if (completeLogText) {
+      POIs.forEach((poi) =>
+        poiStrings.push(
+          `
+      {x: ${poi.x}, y: ${poi.y}, z: ${poi.z}, o: ${poi.o}, map: ${poi.map}}`
+        )
+      );
+
       returnCode.push(`
-      .CompleteLogText.enGB.set("${completeLogText}")`);
-    }
+    .POIs.add(${objective}, [${poiStrings.map((poi) => poi)}])`);
+    });
 
     return returnCode;
   }

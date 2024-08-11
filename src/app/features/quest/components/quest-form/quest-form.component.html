@@ -83,6 +83,37 @@
     </div>
   </section>
 
+  <section hlmCard class="mt-3">
+    <div
+      class="flex flex-row justify-between items-center p-4 bg-stone-900 rounded-t-sm"
+      hlmCardHeader
+    >
+      <h3 hlmCardTitle>POIs</h3>
+      <button hlmBtn (click)="addPOI()">
+        <hlm-icon size="sm" name="lucidePlus"></hlm-icon>
+      </button>
+    </div>
+    <div formArrayName="POIs" hlmCardContent class="flex flex-col gap-3 py-3">
+      <section
+        hlmCard
+        *ngFor="let poi of POIs.controls; let i = index"
+        class="p-3 flex justify-between items-center"
+      >
+        <div [formGroupName]="i" class="grid grid-rows-2 grid-cols-3 gap-3">
+          <app-input formControlName="objective" label="Objective" />
+          <app-input formControlName="map" label="Map ID" />
+          <app-input formControlName="x" label="X" type="number" />
+          <app-input formControlName="y" label="Y" type="number" />
+          <app-input formControlName="z" label="Z" type="number" />
+          <app-input formControlName="o" label="O" type="number" />
+        </div>
+        <button hlmBtn variant="destructive" (click)="removePOI(i)">
+          <hlm-icon size="sm" name="lucideTrash"></hlm-icon>
+        </button>
+      </section>
+    </div>
+  </section>
+
   <div class="mt-3 w-full">
     <!-- <app-input formControlName="designerComments" label="Desginer Comments" /> -->
     <app-textarea
