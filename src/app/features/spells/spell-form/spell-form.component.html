@@ -1,58 +1,50 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <app-input
-    formControlName="name"
-      label="Name"
-    ></app-input>
-    <app-error [controlName]="form.controls['name']"></app-error>
-    <app-input
-    formControlName="email"
-      label="Email"
-      type="email"
-    ></app-input>
-    <app-error [controlName]="form.controls['email']"></app-error>
-    <app-select
+  <app-input formControlName="name" label="Name"></app-input>
+  <app-error [controlName]="form.controls['name']"></app-error>
+  <app-input formControlName="email" label="Email" type="email"></app-input>
+  <app-error [controlName]="form.controls['email']"></app-error>
+  <!-- <app-select
       [form]="form"
       controlName="gender"
       label="Gender"
       [options]="genderOptions"
-    ></app-select>
-    <app-error [controlName]="form.controls['gender']"></app-error>
-    <app-checkbox
-      [form]="form"
-      controlName="terms"
-      label="I agree to the terms and conditions"
-    ></app-checkbox>
-    <app-radio
-      [form]="form"
-      controlName="subscription"
-      label="Subscription"
-      [options]="subscriptionOptions"
-    ></app-radio>
-  
-    <div formArrayName="items">
-      <ng-container *ngFor="let item of items.controls; let i = index">
-        <div [formGroupName]="i">
-            <app-input
-            formControlName="itemName"
-            label="Item Name"
-          ></app-input>
-        </div>
-        
-        <button type="button" (click)="removeItem(i)">Remove</button>
-      </ng-container>
-    </div>
+    ></app-select> -->
+  <app-error [controlName]="form.controls['gender']"></app-error>
+  <app-checkbox
+    [form]="form"
+    controlName="terms"
+    label="I agree to the terms and conditions"
+  ></app-checkbox>
+  <app-radio
+    [form]="form"
+    controlName="subscription"
+    label="Subscription"
+    [options]="subscriptionOptions"
+  ></app-radio>
 
-    <div formArrayName="addresses">
-    <div *ngFor="let address of addresses.controls; let i = index" [formGroupName]="i">
+  <div formArrayName="items">
+    <ng-container *ngFor="let item of items.controls; let i = index">
+      <div [formGroupName]="i">
+        <app-input formControlName="itemName" label="Item Name"></app-input>
+      </div>
+
+      <button type="button" (click)="removeItem(i)">Remove</button>
+    </ng-container>
+  </div>
+
+  <div formArrayName="addresses">
+    <div
+      *ngFor="let address of addresses.controls; let i = index"
+      [formGroupName]="i"
+    >
       <app-address formControlName="address" label="Address"></app-address>
       <button type="button" (click)="removeAddress(i)">Remove</button>
     </div>
   </div>
-  
-    <button type="button" (click)="addItem()">Add Item</button>
-    <button type="button" (click)="addAddress()">Add Address</button>
-    <button type="submit" [disabled]="form.invalid">Submit</button>
-  </form>
 
-  form values{{ form.value | json}}
-  form errors{{ form.errors | json}}
+  <button type="button" (click)="addItem()">Add Item</button>
+  <button type="button" (click)="addAddress()">Add Address</button>
+  <button type="submit" [disabled]="form.invalid">Submit</button>
+</form>
+
+form values{{ form.value | json }} form errors{{ form.errors | json }}

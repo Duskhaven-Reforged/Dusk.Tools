@@ -1,10 +1,5 @@
 <div [formGroup]="form">
-  <label hlmLabel [for]="controlName">{{ label }}</label>
-  <!-- <select [formControlName]="controlName" [id]="controlName">
-    <option *ngFor="let option of options" [value]="option.value">
-      {{ option.label }}
-    </option>
-  </select> -->
+  <label hlmLabel>{{ label }}</label>
   <brn-select [formControlName]="controlName">
     <hlm-select-trigger class="w-56">
       <hlm-select-value />

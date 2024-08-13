@@ -26,20 +26,21 @@ export class QuestService {
     const textContent = this.constructTextContent();
     const POIs = this.constructPOIs();
     const questGivers = this.constructQuestGivers();
+    const factions = this.constructFactions();
+
     if (!title) return ''; // Handle case where title is undefined
 
     let code = `${comments}export const ${title
       .split(' ')
       .join('_')
-      .toUpperCase()} = 
-      std.Quests.create('${moduleName}', '${title
+      .toUpperCase()} = std.Quests.create('${moduleName}', '${title
       .split(' ')
       .join('-')
       .toUpperCase()}')${textContent.map((text) => text).join('')} ${objectives
       .map((objective) => objective)
       .join('')} ${POIs.map((poi) => poi).join('')} ${questGivers
       .map((questGiver) => questGiver)
-      .join('')}
+      .join('')} ${factions}
       .Name.enGB.set('${title}');`;
 
     return code;
@@ -93,7 +94,7 @@ ${designerComments}
       const textValue = this.questValues.value[type as keyof Questform];
       if (textValue) {
         returnCode.push(`
-      ${method}("${textValue}")`);
+      ${method}(\`${textValue}\`)`);
       }
     });
 
@@ -163,9 +164,23 @@ ${designerComments}
     return returnCode;
   }
 
-  async copyToClipboard(code: string) {
+  constructFactions() {
+    const faction = this.questValues.value.faction;
+
+    if (!faction) {
+      return '';
+    }
+
+    let factionCode = faction.toUpperCase();
+    if (factionCode === 'NEUTRAL') factionCode = 'ALL';
+
+    return `
+      .RaceMask.${factionCode}.set(true)`;
+  }
+
+  async copyToClipboard() {
     try {
-      await navigator.clipboard.writeText(code);
+      await navigator.clipboard.writeText(this.constructCode());
     } catch (error) {
       throw new Error(`${error}`);
     }

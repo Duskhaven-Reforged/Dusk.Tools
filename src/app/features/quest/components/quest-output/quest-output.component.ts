@@ -11,6 +11,7 @@ import { HighlightAuto, HighlightModule, Highlight } from 'ngx-highlightjs';
 import { HlmIconComponent, provideIcons } from '@spartan-ng/ui-icon-helm';
 import { lucideCopy, lucideZap } from '@ng-icons/lucide';
 import { HlmButtonDirective } from '@spartan-ng/ui-button-helm';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-quest-output',
@@ -33,6 +34,7 @@ import { HlmButtonDirective } from '@spartan-ng/ui-button-helm';
 })
 export class QuestOutputComponent implements OnInit, OnDestroy {
   private questService = inject(QuestService);
+  private toastr = inject(ToastrService);
   private subs = new SubSink();
   code: any = '';
 
@@ -46,5 +48,15 @@ export class QuestOutputComponent implements OnInit, OnDestroy {
     this.subs.unsubscribe();
   }
 
-  ngOnInit(): void { }
+  copyCode() {
+    try {
+      this.questService.copyToClipboard();
+      this.toastr.success('Copied to clipboard');
+    } catch (error) {
+      this.toastr.error('Something went wrong, check your console');
+      console.log(error);
+    }
+  }
+
+  ngOnInit(): void {}
 }

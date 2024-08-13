@@ -41,20 +41,4 @@ import { QuestDocsComponent } from '../../features/quest/components/quest-docs/q
   templateUrl: './quest.component.html',
   styleUrl: './quest.component.scss',
 })
-export class QuestComponent {
-  private questService = inject(QuestService);
-  private toastr = inject(ToastrService);
-
-  code = '';
-
-  exportCode() {}
-
-  copyCode() {
-    try {
-      this.questService.copyToClipboard(this.code);
-      this.toastr.success('Copied to clipboard');
-    } catch (error) {
-      this.toastr.error('Could not copy');
-    }
-  }
-}
+export class QuestComponent {}

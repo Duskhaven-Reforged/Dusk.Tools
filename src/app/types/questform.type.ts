@@ -10,6 +10,7 @@ export interface Questform {
   completeLogText?: string;
   POIs?: POI[];
   questGivers?: QuestGiver[];
+  faction?: Factions;
 }
 
 interface ObjectiveItem {
@@ -40,3 +41,5 @@ interface QuestGiver {
   id: string;
   starter: boolean;
 }
+
+export type Factions = 'neutral' | 'alliance' | 'horde';

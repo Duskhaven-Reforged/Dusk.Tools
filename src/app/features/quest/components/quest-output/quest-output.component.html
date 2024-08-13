@@ -7,7 +7,7 @@
     hlmCardContent
   ><code [highlightAuto]="code" language="ts"></code>
     @if (code.length > 0) {
-        <button hlmBtn variant="outline" class="absolute top-0 right-6" ><hlm-icon size="sm" name="lucideCopy"></hlm-icon></button>
+        <button hlmBtn variant="outline" class="absolute top-0 right-6" (click)="copyCode()" ><hlm-icon size="sm" name="lucideCopy"></hlm-icon></button>
     }
     </pre>
   <!-- WILL BE USED LATER FOR LOADING SPELLS <div class="flex flex-row gap-3 px-6 mb-4">

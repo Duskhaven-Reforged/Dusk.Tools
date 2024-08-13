@@ -55,6 +55,12 @@ export class QuestFormComponent implements OnInit, OnDestroy {
   private fb = inject(FormBuilder);
   private subs = new SubSink();
 
+  factionOptions: { value: string; label: string }[] = [
+    { value: 'neutral', label: 'Neutral' },
+    { value: 'alliance', label: 'Alliance' },
+    { value: 'horde', label: 'Horde' },
+  ];
+
   constructor() {
     this.form = this.fb.group({
       title: ['', Validators.required],
@@ -68,9 +74,8 @@ export class QuestFormComponent implements OnInit, OnDestroy {
       completeLogText: [''],
       POIs: this.fb.array([]),
       questGivers: this.fb.array([]),
+      faction: ['neutral'],
     });
-
-    console.log(this.form.value);
 
     this.subs.sink = this.form.valueChanges.subscribe((value: Questform) => {
       this.questService.setQuestValues(value);
