@@ -55,6 +55,29 @@ export class QuestFormComponent implements OnInit, OnDestroy {
   private fb = inject(FormBuilder);
   private subs = new SubSink();
 
+  difficultyOptions: { value: string; label: string }[] = [
+    { value: '1', label: '1 - Simple Quests: Usually close by "Speak with X"' },
+    {
+      value: '2',
+      label: '2 - Simple Quests: Further run distance than the former',
+    },
+    { value: '3', label: '3 - Simple Quests: Outside the quest-givers zone' },
+    {
+      value: '4',
+      label:
+        '4 - Normal Quests: Closeby Item Deliveries, "Slay X" where X < 10',
+    },
+    {
+      value: '5',
+      label:
+        '5 - Normal Quests: Faraway Item Deliveries, "Slay X" where X > 10',
+    },
+    {
+      value: '6',
+      label: '6 - Elite Quests: Quests you need a group to complete',
+    },
+  ];
+
   factionOptions: { value: string; label: string }[] = [
     { value: 'neutral', label: 'Neutral' },
     { value: 'alliance', label: 'Alliance' },
@@ -75,6 +98,20 @@ export class QuestFormComponent implements OnInit, OnDestroy {
       POIs: this.fb.array([]),
       questGivers: this.fb.array([]),
       faction: ['neutral'],
+      level: [0],
+      levelRequired: [0],
+      flags: this.fb.group({
+        sharable: [false],
+        pvp: [false],
+        partyAccept: [false],
+        repeatable: [false],
+        stayAlive: [false],
+        daily: [false],
+        raid: [false],
+        weekly: [false],
+      }),
+      groupSize: [1],
+      difficulty: ['1'],
     });
 
     this.subs.sink = this.form.valueChanges.subscribe((value: Questform) => {

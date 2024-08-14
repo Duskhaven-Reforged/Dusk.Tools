@@ -11,6 +11,11 @@ export interface Questform {
   POIs?: POI[];
   questGivers?: QuestGiver[];
   faction?: Factions;
+  level?: number;
+  levelRequired?: number;
+  flags?: Flags;
+  groupSize?: number;
+  difficulty?: string;
 }
 
 interface ObjectiveItem {
@@ -43,3 +48,14 @@ interface QuestGiver {
 }
 
 export type Factions = 'neutral' | 'alliance' | 'horde';
+
+export interface Flags {
+  sharable?: boolean;
+  pvp?: boolean;
+  partyAccept?: boolean;
+  repeatable?: boolean;
+  stayAlive?: boolean;
+  daily?: boolean;
+  raid?: boolean;
+  weekly?: boolean;
+}

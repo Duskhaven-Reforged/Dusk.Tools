@@ -1,5 +1,5 @@
 <form [formGroup]="form">
-  <div class="flex flex-row gap-5">
+  <div class="flex flex-row gap-5 flex-wrap">
     <app-input formControlName="title" label="Title"></app-input>
     <app-input formControlName="moduleName" label="Module Name"></app-input>
     <app-select
@@ -8,7 +8,64 @@
       label="Faction"
       [options]="factionOptions"
     ></app-select>
+    <app-input formControlName="level" label="Level" type="number"></app-input>
+    <app-input
+      formControlName="levelRequired"
+      label="Level Required"
+      type="number"
+    ></app-input>
+    <app-input
+      formControlName="groupSize"
+      label="Group Size"
+      type="number"
+    ></app-input>
+    <app-select
+      controlName="difficulty"
+      [form]="form"
+      label="Difficulty"
+      [options]="difficultyOptions"
+    ></app-select>
   </div>
+
+  <section hlmCard class="mt-3" formGroupName="flags">
+    <div hlmCardHeader class="p-4 bg-stone-900 rounded-t-sm">
+      <h3 hlmCardTitle>Flags</h3>
+    </div>
+    <div hlmCardContent class="py-3 grid grid-cols-4 grid-rows-2 gap-7">
+      <label class="flex items-center" hlmLabel
+        ><hlm-switch class="mr-2" formControlName="sharable" />
+        Sharable
+      </label>
+      <label class="flex items-center" hlmLabel
+        ><hlm-switch class="mr-2" formControlName="pvp" />
+        PVP
+      </label>
+      <label class="flex items-center" hlmLabel
+        ><hlm-switch class="mr-2" formControlName="partyAccept" />
+        Party Accept
+      </label>
+      <label class="flex items-center" hlmLabel
+        ><hlm-switch class="mr-2" formControlName="repeatable" />
+        Repeatable
+      </label>
+      <label class="flex items-center" hlmLabel
+        ><hlm-switch class="mr-2" formControlName="stayAlive" />
+        Stay Alive
+      </label>
+      <label class="flex items-center" hlmLabel
+        ><hlm-switch class="mr-2" formControlName="daily" />
+        Daily
+      </label>
+      <label class="flex items-center" hlmLabel
+        ><hlm-switch class="mr-2" formControlName="raid" />
+        Raid
+      </label>
+      <label class="flex items-center" hlmLabel
+        ><hlm-switch class="mr-2" formControlName="weekly" />
+        Weekly
+      </label>
+    </div>
+  </section>
 
   <section hlmCard class="mt-3">
     <div hlmCardHeader class="p-4 bg-stone-900 rounded-t-sm">

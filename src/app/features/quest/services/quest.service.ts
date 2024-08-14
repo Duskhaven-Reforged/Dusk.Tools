@@ -19,16 +19,23 @@ export class QuestService {
   constructor() {}
 
   constructCode() {
+    const title = this.questValues.value.title;
+    if (!title) return '';
+
     const objectives = this.constructObjectives();
     const comments = this.constructComments();
-    const title = this.questValues.value.title;
     const moduleName = this.questValues.value.moduleName;
     const textContent = this.constructTextContent();
     const POIs = this.constructPOIs();
     const questGivers = this.constructQuestGivers();
     const factions = this.constructFactions();
-
-    if (!title) return ''; // Handle case where title is undefined
+    const level = this.constructLevel();
+    const levelRequired = this.constructLevelRequired();
+    const flags = this.constructFlags();
+    const groupSize = this.constructGroupSize(
+      title.split(' ').join('_').toUpperCase()
+    );
+    const difficulty = this.constructDifficulty();
 
     let code = `${comments}export const ${title
       .split(' ')
@@ -40,8 +47,10 @@ export class QuestService {
       .map((objective) => objective)
       .join('')} ${POIs.map((poi) => poi).join('')} ${questGivers
       .map((questGiver) => questGiver)
-      .join('')} ${factions}
-      .Name.enGB.set('${title}');`;
+      .join('')} ${factions} ${level} ${levelRequired} ${flags
+      .map((flag) => flag)
+      .join('')} ${difficulty}
+      .Name.enGB.set('${title}'); ${groupSize}`;
 
     return code;
   }
@@ -176,6 +185,65 @@ ${designerComments}
 
     return `
       .RaceMask.${factionCode}.set(true)`;
+  }
+
+  constructLevel() {
+    const level = this.questValues.value.level;
+
+    if (level === undefined) return '';
+
+    return `
+      .QuestLevel.set(${level})`;
+  }
+
+  constructLevelRequired() {
+    const levelRequired = this.questValues.value.levelRequired;
+
+    return levelRequired === undefined
+      ? ''
+      : `
+      .MinLevel.set(${levelRequired})`;
+  }
+
+  constructFlags(): string[] {
+    const { flags } = this.questValues.value;
+
+    if (!flags) return [''];
+
+    const flagMap = {
+      SHARABLE: flags.sharable,
+      PVP: flags.pvp,
+      PARTY_ACCEPT: flags.partyAccept,
+      STAY_ALIVE: flags.stayAlive,
+      DAILY: flags.daily,
+      RAID: flags.raid,
+      WEEKLY: flags.weekly,
+    };
+
+    return Object.entries(flagMap)
+      .filter(([_, value]) => value !== undefined)
+      .map(
+        ([key, value]) => `
+      .Flags.${key}.set(${value})`
+      );
+  }
+
+  constructGroupSize(titleVar: string) {
+    const groupSize = this.questValues.value.groupSize;
+
+    return groupSize === undefined
+      ? ''
+      : `
+${titleVar}.row.SuggestedGroupNum.set(${groupSize})`;
+  }
+
+  constructDifficulty() {
+    const difficulty = this.questValues.value.difficulty;
+
+    return difficulty === undefined
+      ? ''
+      : `
+      .Rewards.Difficulty.set(${difficulty})`;
   }
 
   async copyToClipboard() {
