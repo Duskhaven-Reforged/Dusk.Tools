@@ -19,12 +19,12 @@ export interface Questform {
 }
 
 interface ObjectiveItem {
-  objectiveItemID: number;
+  objectiveItemID: string;
   count: number;
 }
 
 interface ObjectiveCreature {
-  objectiveCreatureID: number;
+  objectiveCreatureID: string;
   count: number;
 }
 

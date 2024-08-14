@@ -75,11 +75,15 @@ ${designerComments}
 
     objectiveObj.forEach((objective) => {
       if ('objectiveItemID' in objective) {
+        const formattedId = this.formatID(objective.objectiveItemID);
+
         returnCode.push(`
-      .Objectives.Item.add(${objective.objectiveItemID}, ${objective.count})`);
+      .Objectives.Item.add(${formattedId}, ${objective.count})`);
       } else {
+        const formattedID = this.formatID(objective.objectiveCreatureID);
+
         returnCode.push(`
-      .Objectives.Entity.add(${objective.objectiveCreatureID}, ${objective.count})`);
+      .Objectives.Entity.add(${formattedID}, ${objective.count})`);
       }
     });
 
@@ -165,8 +169,9 @@ ${designerComments}
       const methodName = methodMapping[methodKey as keyof typeof methodMapping];
 
       if (methodName) {
+        const formattedId = this.formatID(questGiver.id);
         returnCode.push(`
-      ${methodName}(${questGiver.id})`);
+      ${methodName}(${formattedId})`);
       }
     });
 
@@ -244,6 +249,10 @@ ${titleVar}.row.SuggestedGroupNum.set(${groupSize})`;
       ? ''
       : `
       .Rewards.Difficulty.set(${difficulty})`;
+  }
+
+  formatID(ID: string) {
+    return /^\d+$/.test(ID) ? ID : `${ID}.ID`;
   }
 
   async copyToClipboard() {

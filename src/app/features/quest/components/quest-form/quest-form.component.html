@@ -129,13 +129,11 @@
             formControlName="objectiveItemID"
             label="Item ID"
             *ngIf="objective.get('objectiveItemID') !== null"
-            type="number"
           />
           <app-input
             formControlName="objectiveCreatureID"
             label="Creature ID"
             *ngIf="objective.get('objectiveCreatureID') !== null"
-            type="number"
           />
           <app-input formControlName="count" label="Count" type="number" />
         </div>
@@ -203,7 +201,6 @@
                 ? 'Creature ID'
                 : 'Object ID'
             "
-            type="number"
           />
           <label class="flex items-center" hlmLabel>
             <hlm-switch class="mr-2" formControlName="starter" />
