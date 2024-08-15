@@ -1,36 +1,30 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import {
-  FormGroup,
-  FormBuilder,
-  Validators,
   FormArray,
+  FormBuilder,
+  FormGroup,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { SharedModule } from '../../../../shared/shared.module';
-import { QuestService } from '../../services/quest.service';
-import { SubSink } from 'subsink';
-import {
-  Questform,
-  QuestGiverEntityType,
-} from '../../../../types/questform.type';
+import { lucidePlus, lucideTrash } from '@ng-icons/lucide';
+import { HlmButtonDirective } from '@spartan-ng/ui-button-helm';
 import {
   HlmCardContentDirective,
   HlmCardDirective,
   HlmCardHeaderDirective,
   HlmCardTitleDirective,
 } from '@spartan-ng/ui-card-helm';
-import { HlmButtonDirective } from '@spartan-ng/ui-button-helm';
-import { ObjectiveDialogComponent } from './objective-dialog/objective-dialog.component';
 import { provideIcons } from '@spartan-ng/ui-icon-helm';
-import { lucidePlus, lucideTrash } from '@ng-icons/lucide';
-import { HlmIconComponent } from '../../../../shared/directives/ui-icon-helm/src/lib/hlm-icon.component';
-import { QuestGiverDialogComponent } from './quest-giver-dialog/quest-giver-dialog.component';
 import { HlmSwitchComponent } from '@spartan-ng/ui-switch-helm';
-import { SelectChoice } from '../../../../types/selectChoice.type';
-import { HttpClient } from '@angular/common/http';
-import { AreaTableRoot } from '../../../../types/areaTable.type';
-import { ComboboxComponent } from '../../../../shared/components/combobox/combobox.component';
+import { SubSink } from 'subsink';
+import { HlmIconComponent } from '../../../../shared/directives/ui-icon-helm/src/lib/hlm-icon.component';
+import { SharedModule } from '../../../../shared/shared.module';
+import { ObjectiveDialogComponent } from './objective-dialog/objective-dialog.component';
+import { QuestGiverDialogComponent } from './quest-giver-dialog/quest-giver-dialog.component';
+import { SingleQuestFormComponent } from './single-quest-form/single-quest-form.component';
+import { QuestService } from '../../services/quest.service';
+import { HlmAccordionImports } from '@spartan-ng/ui-accordion-helm';
+import { BrnAccordionImports } from '@spartan-ng/ui-accordion-brain';
 
 @Component({
   selector: 'app-quest-form',
@@ -48,6 +42,9 @@ import { ComboboxComponent } from '../../../../shared/components/combobox/combob
     HlmIconComponent,
     QuestGiverDialogComponent,
     HlmSwitchComponent,
+    SingleQuestFormComponent,
+    HlmAccordionImports,
+    BrnAccordionImports,
   ],
   providers: [
     provideIcons({
@@ -59,158 +56,39 @@ import { ComboboxComponent } from '../../../../shared/components/combobox/combob
   styleUrl: './quest-form.component.scss',
 })
 export class QuestFormComponent implements OnInit, OnDestroy {
-  form!: FormGroup;
-  private questService = inject(QuestService);
+  parentForm!: FormGroup;
   private fb = inject(FormBuilder);
-  private httpClient = inject(HttpClient);
   private subs = new SubSink();
+  private questService = inject(QuestService);
 
-  areaOptions: SelectChoice[] = [];
-
-  difficultyOptions: { value: string; label: string }[] = [
-    { value: '1', label: '1 - Simple Quests: Usually close by "Speak with X"' },
-    {
-      value: '2',
-      label: '2 - Simple Quests: Further run distance than the former',
-    },
-    { value: '3', label: '3 - Simple Quests: Outside the quest-givers zone' },
-    {
-      value: '4',
-      label:
-        '4 - Normal Quests: Closeby Item Deliveries, "Slay X" where X < 10',
-    },
-    {
-      value: '5',
-      label:
-        '5 - Normal Quests: Faraway Item Deliveries, "Slay X" where X > 10',
-    },
-    {
-      value: '6',
-      label: '6 - Elite Quests: Quests you need a group to complete',
-    },
-  ];
-
-  factionOptions: { value: string; label: string }[] = [
-    { value: 'neutral', label: 'Neutral' },
-    { value: 'alliance', label: 'Alliance' },
-    { value: 'horde', label: 'Horde' },
-  ];
-
-  constructor() {
-    this.form = this.fb.group({
-      title: ['', Validators.required],
-      objectives: this.fb.array([]),
-      designerComments: [''],
-      moduleName: [''],
-      objectiveText: [''],
-      pickupText: [''],
-      incompleteText: [''],
-      completeText: [''],
-      completeLogText: [''],
-      POIs: this.fb.array([]),
-      questGivers: this.fb.array([]),
-      faction: ['neutral'],
-      level: [0],
-      levelRequired: [0],
-      flags: this.fb.group({
-        sharable: [false],
-        pvp: [false],
-        partyAccept: [false],
-        repeatable: [false],
-        stayAlive: [false],
-        daily: [false],
-        raid: [false],
-        weekly: [false],
-      }),
-      groupSize: [1],
-      difficulty: ['1'],
-      areaSort: [''],
+  ngOnInit(): void {
+    this.parentForm = this.fb.group({
+      quests: this.fb.array([this.createQuest()]),
     });
 
-    this.subs.sink = this.form.valueChanges.subscribe((value: Questform) => {
+    this.subs.sink = this.parentForm.valueChanges.subscribe((value) => {
       this.questService.setQuestValues(value);
     });
   }
-
   ngOnDestroy(): void {
     this.subs.unsubscribe();
   }
 
-  ngOnInit(): void {
-    this.loadAreaTable();
-  }
-
-  onSubmit(): void {
-    if (this.form.valid) {
-      console.log(this.form.value);
-    }
-  }
-
-  private loadAreaTable() {
-    this.httpClient.get('assets/data/areaTable.json').subscribe({
-      next: (response) => {
-        const data = response as AreaTableRoot;
-        this.areaOptions = data.areaTable.map((areaTable) => {
-          return {
-            label: areaTable.AreaName_Lang_enUS,
-            value: areaTable.ID.toString(),
-          };
-        });
-      },
-      error: (error) => {
-        console.log(error);
-      },
+  createQuest(): FormGroup {
+    return this.fb.group({
+      quest: '',
     });
   }
 
-  createObjective(type?: 'Item Drop' | 'NPC Target'): FormGroup {
-    if (type === 'Item Drop')
-      return this.fb.group({ objectiveItemID: '0', count: 0 });
-
-    return this.fb.group({ objectiveCreatureID: '0', count: 0 });
+  get quests() {
+    return this.parentForm.get('quests') as FormArray;
   }
 
-  get objectives(): FormArray {
-    return this.form.get('objectives') as FormArray;
+  addQuest() {
+    this.quests.push(this.createQuest());
   }
 
-  addObjective(type?: 'Item Drop' | 'NPC Target') {
-    this.objectives.push(this.createObjective(type));
-  }
-
-  removeObjective(index: number) {
-    this.objectives.removeAt(index);
-  }
-
-  createPOI(): FormGroup {
-    return this.fb.group({ objective: 0, x: 0, y: 0, z: 0, o: 0, map: 0 });
-  }
-
-  get POIs(): FormArray {
-    return this.form.get('POIs') as FormArray;
-  }
-
-  addPOI() {
-    this.POIs.push(this.createPOI());
-  }
-
-  removePOI(index: number) {
-    this.POIs.removeAt(index);
-  }
-
-  createQuestGiver(entityType: QuestGiverEntityType): FormGroup {
-    return this.fb.group({ entityType, id: '', starter: true });
-  }
-
-  get questGivers(): FormArray {
-    return this.form.get('questGivers') as FormArray;
-  }
-
-  addQuestGiver(entityType: QuestGiverEntityType) {
-    this.questGivers.push(this.createQuestGiver(entityType));
-  }
-
-  removeQuestGiver(index: number) {
-    this.questGivers.removeAt(index);
+  deleteQuest(index: number) {
+    this.quests.removeAt(index);
   }
 }

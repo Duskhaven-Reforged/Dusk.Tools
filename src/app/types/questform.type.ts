@@ -19,6 +19,10 @@ export interface Questform {
   areaSort?: string;
 }
 
+export interface ParentQuestForm {
+  quests?: { quest: Questform }[];
+}
+
 interface ObjectiveItem {
   objectiveItemID: string;
   count: number;

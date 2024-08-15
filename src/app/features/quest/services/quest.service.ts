@@ -1,63 +1,77 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, of } from 'rxjs';
-import { POI, Questform } from '../../../types/questform.type';
+import { ParentQuestForm, POI, Questform } from '../../../types/questform.type';
 
 @Injectable({
   providedIn: 'root',
 })
 export class QuestService {
-  private questValues = new BehaviorSubject<Questform>({});
+  private questValues = new BehaviorSubject<ParentQuestForm>({});
 
   getQuestValues() {
     return this.questValues.asObservable();
   }
 
-  setQuestValues(values: Questform) {
+  setQuestValues(values: ParentQuestForm) {
     this.questValues.next(values);
   }
 
   constructor() {}
 
   constructCode() {
-    const title = this.questValues.value.title;
-    if (!title) return '';
+    if (!this.questValues.value.quests) {
+      return '';
+    }
 
-    const objectives = this.constructObjectives();
-    const comments = this.constructComments();
-    const moduleName = this.questValues.value.moduleName;
-    const textContent = this.constructTextContent();
-    const POIs = this.constructPOIs();
-    const questGivers = this.constructQuestGivers();
-    const factions = this.constructFactions();
-    const level = this.constructLevel();
-    const levelRequired = this.constructLevelRequired();
-    const flags = this.constructFlags();
-    const groupSize = this.constructGroupSize(
-      title.split(' ').join('_').toUpperCase()
-    );
-    const difficulty = this.constructDifficulty();
-    const areaSort = this.constructAreaSort();
+    console.log(this.questValues.value.quests);
 
-    let code = `${comments}export const ${title
-      .split(' ')
-      .join('_')
-      .toUpperCase()} = std.Quests.create('${moduleName}', '${title
-      .split(' ')
-      .join('-')
-      .toUpperCase()}')${textContent.map((text) => text).join('')} ${objectives
-      .map((objective) => objective)
-      .join('')} ${POIs.map((poi) => poi).join('')} ${questGivers
-      .map((questGiver) => questGiver)
-      .join('')} ${factions} ${level} ${levelRequired} ${flags
-      .map((flag) => flag)
-      .join('')} ${difficulty} ${areaSort}
+    const code = this.questValues.value.quests
+      .map((questObj) => {
+        const title = questObj.quest.title;
+        console.log(title);
+        if (!title) return '';
+
+        const objectives = this.constructObjectives(questObj.quest);
+        const comments = this.constructComments(questObj.quest);
+        const moduleName = questObj.quest.moduleName;
+        const textContent = this.constructTextContent(questObj.quest);
+        const POIs = this.constructPOIs(questObj.quest);
+        const questGivers = this.constructQuestGivers(questObj.quest);
+        const factions = this.constructFactions(questObj.quest);
+        const level = this.constructLevel(questObj.quest);
+        const levelRequired = this.constructLevelRequired(questObj.quest);
+        const flags = this.constructFlags(questObj.quest);
+        const groupSize = this.constructGroupSize(
+          title.split(' ').join('_').toUpperCase(),
+          questObj.quest
+        );
+        const difficulty = this.constructDifficulty(questObj.quest);
+        const areaSort = this.constructAreaSort(questObj.quest);
+
+        return `${comments}export const ${title
+          .split(' ')
+          .join('_')
+          .toUpperCase()} = std.Quests.create('${moduleName}', '${title
+          .split(' ')
+          .join('-')
+          .toUpperCase()}')${textContent
+          .map((text) => text)
+          .join('')} ${objectives
+          .map((objective) => objective)
+          .join('')} ${POIs.map((poi) => poi).join('')} ${questGivers
+          .map((questGiver) => questGiver)
+          .join('')} ${factions} ${level} ${levelRequired} ${flags
+          .map((flag) => flag)
+          .join('')} ${difficulty} ${areaSort}
       .Name.enGB.set('${title}'); ${groupSize}`;
+      })
+      .join('\n\r\n\r');
 
     return code;
   }
 
-  constructComments() {
-    const designerComments = this.questValues.value.designerComments;
+  constructComments(quest: Questform) {
+    const designerComments = quest.designerComments;
     if (!designerComments || designerComments === '') return '';
 
     return `/*
@@ -66,8 +80,8 @@ ${designerComments}
 `;
   }
 
-  constructObjectives() {
-    const objectiveObj = this.questValues.value.objectives;
+  constructObjectives(quest: Questform) {
+    const objectiveObj = quest.objectives;
     if (!objectiveObj) {
       return [''];
     }
@@ -91,7 +105,7 @@ ${designerComments}
     return returnCode;
   }
 
-  constructTextContent() {
+  constructTextContent(quest: Questform) {
     const returnCode = [''];
 
     // Mapping text types to method names
@@ -105,7 +119,7 @@ ${designerComments}
 
     // Iterate over each text type and append to returnCode if value exists
     textTypes.forEach(({ type, method }) => {
-      const textValue = this.questValues.value[type as keyof Questform];
+      const textValue = quest[type as keyof Questform];
       if (textValue) {
         returnCode.push(`
       ${method}(\`${textValue}\`)`);
@@ -115,24 +129,21 @@ ${designerComments}
     return returnCode;
   }
 
-  constructPOIs() {
-    if (!this.questValues.value.POIs) {
+  constructPOIs(quest: Questform) {
+    if (!quest.POIs) {
       return [];
     }
 
     const returnCode: string[] = [];
 
-    const groupedByObjective = this.questValues.value.POIs.reduce(
-      (acc, poi) => {
-        const key = poi.objective;
-        if (!acc[key]) {
-          acc[key] = [];
-        }
-        acc[key].push(poi);
-        return acc;
-      },
-      {} as Record<number, POI[]>
-    );
+    const groupedByObjective = quest.POIs.reduce((acc, poi) => {
+      const key = poi.objective;
+      if (!acc[key]) {
+        acc[key] = [];
+      }
+      acc[key].push(poi);
+      return acc;
+    }, {} as Record<number, POI[]>);
 
     Object.entries(groupedByObjective).forEach(([objective, POIs]) => {
       const poiStrings: string[] = [];
@@ -151,8 +162,8 @@ ${designerComments}
     return returnCode;
   }
 
-  constructQuestGivers() {
-    if (!this.questValues.value.questGivers) {
+  constructQuestGivers(quest: Questform) {
+    if (!quest.questGivers) {
       return [''];
     }
 
@@ -164,7 +175,7 @@ ${designerComments}
       objectfalse: '.Questgiver.addObjectEnder',
     };
 
-    this.questValues.value.questGivers.forEach((questGiver) => {
+    quest.questGivers.forEach((questGiver) => {
       const entityType = questGiver.entityType;
       const methodKey = `${entityType}${questGiver.starter}`;
       const methodName = methodMapping[methodKey as keyof typeof methodMapping];
@@ -179,8 +190,8 @@ ${designerComments}
     return returnCode;
   }
 
-  constructFactions() {
-    const faction = this.questValues.value.faction;
+  constructFactions(quest: Questform) {
+    const faction = quest.faction;
 
     if (!faction) {
       return '';
@@ -193,8 +204,8 @@ ${designerComments}
       .RaceMask.${factionCode}.set(true)`;
   }
 
-  constructLevel() {
-    const level = this.questValues.value.level;
+  constructLevel(quest: Questform) {
+    const level = quest.level;
 
     if (level === undefined) return '';
 
@@ -202,8 +213,8 @@ ${designerComments}
       .QuestLevel.set(${level})`;
   }
 
-  constructLevelRequired() {
-    const levelRequired = this.questValues.value.levelRequired;
+  constructLevelRequired(quest: Questform) {
+    const levelRequired = quest.levelRequired;
 
     return levelRequired === undefined
       ? ''
@@ -211,8 +222,8 @@ ${designerComments}
       .MinLevel.set(${levelRequired})`;
   }
 
-  constructFlags(): string[] {
-    const { flags } = this.questValues.value;
+  constructFlags(quest: Questform): string[] {
+    const { flags } = quest;
 
     if (!flags) return [''];
 
@@ -234,8 +245,8 @@ ${designerComments}
       );
   }
 
-  constructGroupSize(titleVar: string) {
-    const groupSize = this.questValues.value.groupSize;
+  constructGroupSize(titleVar: string, quest: Questform) {
+    const groupSize = quest.groupSize;
 
     return groupSize === undefined
       ? ''
@@ -243,8 +254,8 @@ ${designerComments}
 ${titleVar}.row.SuggestedGroupNum.set(${groupSize})`;
   }
 
-  constructDifficulty() {
-    const difficulty = this.questValues.value.difficulty;
+  constructDifficulty(quest: Questform) {
+    const difficulty = quest.difficulty;
 
     return difficulty === undefined
       ? ''
@@ -252,8 +263,8 @@ ${titleVar}.row.SuggestedGroupNum.set(${groupSize})`;
       .Rewards.Difficulty.set(${difficulty})`;
   }
 
-  constructAreaSort() {
-    const areaSort = this.questValues.value.areaSort;
+  constructAreaSort(quest: Questform) {
+    const areaSort = quest.areaSort;
     console.log(areaSort);
     return areaSort === undefined || areaSort === ''
       ? ''

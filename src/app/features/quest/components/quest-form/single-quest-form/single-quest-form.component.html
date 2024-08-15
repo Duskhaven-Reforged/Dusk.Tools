@@ -1,0 +1,234 @@
+<form [formGroup]="form">
+  <div class="flex flex-row gap-5 flex-wrap">
+    <app-input formControlName="title" label="Title"></app-input>
+    <app-input formControlName="moduleName" label="Module Name"></app-input>
+    <app-select
+      controlName="faction"
+      [form]="form"
+      label="Faction"
+      [options]="factionOptions"
+    ></app-select>
+    <app-input formControlName="level" label="Level" type="number"></app-input>
+    <app-input
+      formControlName="levelRequired"
+      label="Level Required"
+      type="number"
+    ></app-input>
+    <app-input
+      formControlName="groupSize"
+      label="Group Size"
+      type="number"
+    ></app-input>
+    <app-select
+      controlName="difficulty"
+      [form]="form"
+      label="Difficulty"
+      [options]="difficultyOptions"
+    ></app-select>
+    <app-combobox
+      [options]="areaOptions"
+      label="Area Sort"
+      [control]="form.controls['areaSort']"
+    />
+  </div>
+
+  <section hlmCard class="mt-3" formGroupName="flags">
+    <div hlmCardHeader class="p-4 bg-stone-900 rounded-t-sm">
+      <h3 hlmCardTitle>Flags</h3>
+    </div>
+    <div hlmCardContent class="py-3 grid grid-cols-4 grid-rows-2 gap-7">
+      <label class="flex items-center" hlmLabel
+        ><hlm-switch class="mr-2" formControlName="sharable" />
+        Sharable
+      </label>
+      <label class="flex items-center" hlmLabel
+        ><hlm-switch class="mr-2" formControlName="pvp" />
+        PVP
+      </label>
+      <label class="flex items-center" hlmLabel
+        ><hlm-switch class="mr-2" formControlName="partyAccept" />
+        Party Accept
+      </label>
+      <label class="flex items-center" hlmLabel
+        ><hlm-switch class="mr-2" formControlName="repeatable" />
+        Repeatable
+      </label>
+      <label class="flex items-center" hlmLabel
+        ><hlm-switch class="mr-2" formControlName="stayAlive" />
+        Stay Alive
+      </label>
+      <label class="flex items-center" hlmLabel
+        ><hlm-switch class="mr-2" formControlName="daily" />
+        Daily
+      </label>
+      <label class="flex items-center" hlmLabel
+        ><hlm-switch class="mr-2" formControlName="raid" />
+        Raid
+      </label>
+      <label class="flex items-center" hlmLabel
+        ><hlm-switch class="mr-2" formControlName="weekly" />
+        Weekly
+      </label>
+    </div>
+  </section>
+
+  <section hlmCard class="mt-3">
+    <div hlmCardHeader class="p-4 bg-stone-900 rounded-t-sm">
+      <h3 hlmCardTitle>Text Content</h3>
+    </div>
+    <div hlmCardContent class="py-3 grid grid-cols-2 grid-rows-6 gap-7">
+      <app-input
+        formControlName="objectiveText"
+        label="Objective"
+        class="col-span-2"
+        inputClass="w-full"
+      />
+      <app-textarea
+        formControlName="pickupText"
+        label="Description"
+        class="col-span-2 row-span-2"
+        inputClass="w-full h-3/4"
+        wrapperClass="w-full h-full"
+      />
+      <app-input
+        formControlName="incompleteText"
+        label="Incomplete"
+        inputClass="w-full"
+      />
+      <app-input
+        formControlName="completeText"
+        label="Complete"
+        inputClass="w-full"
+      />
+      <app-input
+        formControlName="completeLogText"
+        label="Quest Log (Complete)"
+        inputClass="w-full"
+        class="col-span-2"
+      />
+    </div>
+  </section>
+
+  <section hlmCard class="mt-3">
+    <div
+      class="flex flex-row justify-between items-center p-4 bg-stone-900 rounded-t-sm"
+      hlmCardHeader
+    >
+      <h3 hlmCardTitle>Objectives</h3>
+      <app-objective-dialog
+        (addObjectiveEvent)="addObjective($event)"
+      ></app-objective-dialog>
+    </div>
+    <div
+      formArrayName="objectives"
+      hlmCardContent
+      class="flex flex-col gap-3 py-3"
+    >
+      <section
+        hlmCard
+        *ngFor="let objective of objectives.controls; let i = index"
+        class="p-3 flex justify-between items-center"
+      >
+        <div [formGroupName]="i" class="flex flex-row gap-3">
+          <app-input
+            formControlName="objectiveItemID"
+            label="Item ID"
+            *ngIf="objective.get('objectiveItemID') !== null"
+          />
+          <app-input
+            formControlName="objectiveCreatureID"
+            label="Creature ID"
+            *ngIf="objective.get('objectiveCreatureID') !== null"
+          />
+          <app-input formControlName="count" label="Count" type="number" />
+        </div>
+        <button hlmBtn variant="destructive" (click)="removeObjective(i)">
+          <hlm-icon size="sm" name="lucideTrash"></hlm-icon>
+        </button>
+      </section>
+    </div>
+  </section>
+
+  <section hlmCard class="mt-3">
+    <div
+      class="flex flex-row justify-between items-center p-4 bg-stone-900 rounded-t-sm"
+      hlmCardHeader
+    >
+      <h3 hlmCardTitle>POIs</h3>
+      <button hlmBtn (click)="addPOI()">
+        <hlm-icon size="sm" name="lucidePlus"></hlm-icon>
+      </button>
+    </div>
+    <div formArrayName="POIs" hlmCardContent class="flex flex-col gap-3 py-3">
+      <section
+        hlmCard
+        *ngFor="let poi of POIs.controls; let i = index"
+        class="p-3 flex justify-between items-center"
+      >
+        <div [formGroupName]="i" class="grid grid-rows-2 grid-cols-3 gap-3">
+          <app-input formControlName="objective" label="Objective" />
+          <app-input formControlName="map" label="Map ID" />
+          <app-input formControlName="x" label="X" type="number" />
+          <app-input formControlName="y" label="Y" type="number" />
+          <app-input formControlName="z" label="Z" type="number" />
+          <app-input formControlName="o" label="O" type="number" />
+        </div>
+        <button hlmBtn variant="destructive" (click)="removePOI(i)">
+          <hlm-icon size="sm" name="lucideTrash"></hlm-icon>
+        </button>
+      </section>
+    </div>
+  </section>
+
+  <section hlmCard class="mt-3">
+    <div
+      class="flex flex-row justify-between items-center p-4 bg-stone-900 rounded-t-sm"
+      hlmCardHeader
+    >
+      <h3 hlmCardTitle>Quest Givers</h3>
+      <app-quest-giver-dialog (addQuestGiverEvent)="addQuestGiver($event)" />
+    </div>
+    <div
+      formArrayName="questGivers"
+      hlmCardContent
+      class="flex flex-col gap-3 py-3"
+    >
+      <section
+        hlmCard
+        *ngFor="let questGiver of questGivers.controls; let i = index"
+        class="p-3 flex justify-between items-center"
+      >
+        <div [formGroupName]="i" class="flex flex-row gap-3">
+          <app-input
+            formControlName="id"
+            [label]="
+              questGiver.get('entityType')?.value === 'creature'
+                ? 'Creature ID'
+                : 'Object ID'
+            "
+          />
+          <label class="flex items-center" hlmLabel>
+            <hlm-switch class="mr-2" formControlName="starter" />
+            {{
+              questGiver.get("starter")?.value
+                ? "This is a Quest Starter"
+                : "This is a Quest Ender"
+            }}
+          </label>
+        </div>
+        <button hlmBtn variant="destructive" (click)="removeQuestGiver(i)">
+          <hlm-icon size="sm" name="lucideTrash"></hlm-icon>
+        </button>
+      </section>
+    </div>
+  </section>
+
+  <div class="mt-3 w-full">
+    <!-- <app-input formControlName="designerComments" label="Desginer Comments" /> -->
+    <app-textarea
+      formControlName="designerComments"
+      label="Designer Comments"
+      inputClass="w-full min-h-40 resize-none"
+    />
+  </div>
+</form>
