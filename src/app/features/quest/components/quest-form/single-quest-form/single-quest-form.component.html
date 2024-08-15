@@ -1,6 +1,6 @@
-<form [formGroup]="form">
+<form [formGroup]="form" (keydown)="handleInput($event)">
   <div class="flex flex-row gap-5 flex-wrap">
-    <app-input formControlName="title" label="Title"></app-input>
+    <app-input formControlName="title" label="Title" type="text"></app-input>
     <app-input formControlName="moduleName" label="Module Name"></app-input>
     <app-select
       controlName="faction"

@@ -107,6 +107,10 @@ export class SingleQuestFormComponent
     { value: 'horde', label: 'Horde' },
   ];
 
+  handleInput(event: KeyboardEvent) {
+    event.stopPropagation();
+  }
+
   onChange: any = () => {};
   onTouched: any = () => {};
 

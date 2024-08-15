@@ -9,9 +9,10 @@ import {
 } from '@spartan-ng/ui-card-helm';
 import { HighlightAuto, HighlightModule, Highlight } from 'ngx-highlightjs';
 import { HlmIconComponent, provideIcons } from '@spartan-ng/ui-icon-helm';
-import { lucideCopy, lucideZap } from '@ng-icons/lucide';
+import { lucideCopy, lucideUpload } from '@ng-icons/lucide';
 import { HlmButtonDirective } from '@spartan-ng/ui-button-helm';
 import { ToastrService } from 'ngx-toastr';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-quest-output',
@@ -28,7 +29,7 @@ import { ToastrService } from 'ngx-toastr';
     Highlight,
     HighlightAuto,
   ],
-  providers: [provideIcons({ lucideCopy, lucideZap })],
+  providers: [provideIcons({ lucideCopy, lucideUpload })],
   templateUrl: './quest-output.component.html',
   styleUrl: './quest-output.component.scss',
 })
@@ -36,7 +37,9 @@ export class QuestOutputComponent implements OnInit, OnDestroy {
   private questService = inject(QuestService);
   private toastr = inject(ToastrService);
   private subs = new SubSink();
+  private sanitizer = inject(DomSanitizer);
   code: any = '';
+  downloadJSONhref!: SafeUrl;
 
   constructor() {
     this.subs.sink = this.questService.getQuestValues().subscribe((value) => {
@@ -56,6 +59,14 @@ export class QuestOutputComponent implements OnInit, OnDestroy {
       this.toastr.error('Something went wrong, check your console');
       console.log(error);
     }
+  }
+
+  export() {
+    var questsJSON = JSON.stringify(this.questService.questValues.value);
+    var uri = this.sanitizer.bypassSecurityTrustUrl(
+      'data:text/json;charset=UTF-8,' + encodeURIComponent(questsJSON)
+    );
+    this.downloadJSONhref = uri;
   }
 
   ngOnInit(): void {}

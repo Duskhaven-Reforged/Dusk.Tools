@@ -10,9 +10,11 @@
         <button hlmBtn variant="outline" class="absolute top-0 right-6" (click)="copyCode()" ><hlm-icon size="sm" name="lucideCopy"></hlm-icon></button>
     }
     </pre>
-  <!-- WILL BE USED LATER FOR LOADING SPELLS <div class="flex flex-row gap-3 px-6 mb-4">
-    <button hlmBtn>
-      <hlm-icon size="sm" class="mr-2" name="lucideZap" />Generate
-    </button>
-  </div> -->
+  <div class="flex flex-row gap-3 px-6 mb-4">
+    <a download="download.json" (click)="export()" [href]="downloadJSONhref">
+      <button hlmBtn>
+        <hlm-icon size="sm" class="mr-2" name="lucideUpload" />Export
+      </button>
+    </a>
+  </div>
 </section>

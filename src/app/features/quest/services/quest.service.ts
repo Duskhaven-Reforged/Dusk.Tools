@@ -6,7 +6,7 @@ import { ParentQuestForm, POI, Questform } from '../../../types/questform.type';
   providedIn: 'root',
 })
 export class QuestService {
-  private questValues = new BehaviorSubject<ParentQuestForm>({});
+  public questValues = new BehaviorSubject<ParentQuestForm>({});
 
   getQuestValues() {
     return this.questValues.asObservable();
