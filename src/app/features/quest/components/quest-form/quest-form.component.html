@@ -25,6 +25,11 @@
       label="Difficulty"
       [options]="difficultyOptions"
     ></app-select>
+    <app-combobox
+      [options]="areaOptions"
+      label="Area Sort"
+      [control]="form.controls['areaSort']"
+    />
   </div>
 
   <section hlmCard class="mt-3" formGroupName="flags">

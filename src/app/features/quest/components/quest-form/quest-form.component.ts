@@ -27,6 +27,10 @@ import { lucidePlus, lucideTrash } from '@ng-icons/lucide';
 import { HlmIconComponent } from '../../../../shared/directives/ui-icon-helm/src/lib/hlm-icon.component';
 import { QuestGiverDialogComponent } from './quest-giver-dialog/quest-giver-dialog.component';
 import { HlmSwitchComponent } from '@spartan-ng/ui-switch-helm';
+import { SelectChoice } from '../../../../types/selectChoice.type';
+import { HttpClient } from '@angular/common/http';
+import { AreaTableRoot } from '../../../../types/areaTable.type';
+import { ComboboxComponent } from '../../../../shared/components/combobox/combobox.component';
 
 @Component({
   selector: 'app-quest-form',
@@ -45,7 +49,12 @@ import { HlmSwitchComponent } from '@spartan-ng/ui-switch-helm';
     QuestGiverDialogComponent,
     HlmSwitchComponent,
   ],
-  providers: [provideIcons({ lucideTrash, lucidePlus })],
+  providers: [
+    provideIcons({
+      lucideTrash,
+      lucidePlus,
+    }),
+  ],
   templateUrl: './quest-form.component.html',
   styleUrl: './quest-form.component.scss',
 })
@@ -53,7 +62,10 @@ export class QuestFormComponent implements OnInit, OnDestroy {
   form!: FormGroup;
   private questService = inject(QuestService);
   private fb = inject(FormBuilder);
+  private httpClient = inject(HttpClient);
   private subs = new SubSink();
+
+  areaOptions: SelectChoice[] = [];
 
   difficultyOptions: { value: string; label: string }[] = [
     { value: '1', label: '1 - Simple Quests: Usually close by "Speak with X"' },
@@ -112,6 +124,7 @@ export class QuestFormComponent implements OnInit, OnDestroy {
       }),
       groupSize: [1],
       difficulty: ['1'],
+      areaSort: [''],
     });
 
     this.subs.sink = this.form.valueChanges.subscribe((value: Questform) => {
@@ -123,12 +136,31 @@ export class QuestFormComponent implements OnInit, OnDestroy {
     this.subs.unsubscribe();
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.loadAreaTable();
+  }
 
   onSubmit(): void {
     if (this.form.valid) {
       console.log(this.form.value);
     }
+  }
+
+  private loadAreaTable() {
+    this.httpClient.get('assets/data/areaTable.json').subscribe({
+      next: (response) => {
+        const data = response as AreaTableRoot;
+        this.areaOptions = data.areaTable.map((areaTable) => {
+          return {
+            label: areaTable.AreaName_Lang_enUS,
+            value: areaTable.ID.toString(),
+          };
+        });
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
   }
 
   createObjective(type?: 'Item Drop' | 'NPC Target'): FormGroup {

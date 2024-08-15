@@ -16,6 +16,7 @@ export interface Questform {
   flags?: Flags;
   groupSize?: number;
   difficulty?: string;
+  areaSort?: string;
 }
 
 interface ObjectiveItem {

@@ -76,6 +76,12 @@
       ],
       "@spartan-ng/ui-formfield-helm": [
         ".\\src/app/shared/directives/ui-formfield-helm/src/index.ts"
+      ],
+      "@spartan-ng/ui-command-helm": [
+        ".\\src/app/shared/directives/ui-command-helm/src/index.ts"
+      ],
+      "@spartan-ng/ui-popover-helm": [
+        ".\\src/app/shared/directives/ui-popover-helm/src/index.ts"
       ]
     }
   },

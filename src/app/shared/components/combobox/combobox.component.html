@@ -1,0 +1,39 @@
+<div class="relative" #boundary>
+  <form [formGroup]="searchForm">
+    <label hlmLabel>{{ label }}</label>
+    <input
+      type="text"
+      placeholder="Select an item"
+      hlmInput
+      *ngIf="dropdownVisible"
+      formControlName="input"
+      autofocus
+    />
+  </form>
+  <button
+    hlmBtn
+    variant="outline"
+    *ngIf="!dropdownVisible"
+    (click)="toggleDropdown()"
+    class="showButton"
+  >
+    {{ selectedItem() ? selectedItem()?.label : "Select an Option" }}
+  </button>
+  <div *ngIf="dropdownVisible" class="absolute w-full z-30">
+    <cdk-virtual-scroll-viewport itemSize="50" class="h-72 w-full bg-stone-950">
+      <button
+        *cdkVirtualFor="let option of shownItems"
+        class="option"
+        (click)="selectOption(option)"
+        hlmBtn
+        variant="ghost"
+        class="w-full"
+      >
+        {{ option.label }}
+      </button>
+      @if (shownItems.length === 0) {
+      <div class="cmdk-empty py-6 text-center text-sm">No results found</div>
+      }
+    </cdk-virtual-scroll-viewport>
+  </div>
+</div>

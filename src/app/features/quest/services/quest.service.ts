@@ -36,6 +36,7 @@ export class QuestService {
       title.split(' ').join('_').toUpperCase()
     );
     const difficulty = this.constructDifficulty();
+    const areaSort = this.constructAreaSort();
 
     let code = `${comments}export const ${title
       .split(' ')
@@ -49,7 +50,7 @@ export class QuestService {
       .map((questGiver) => questGiver)
       .join('')} ${factions} ${level} ${levelRequired} ${flags
       .map((flag) => flag)
-      .join('')} ${difficulty}
+      .join('')} ${difficulty} ${areaSort}
       .Name.enGB.set('${title}'); ${groupSize}`;
 
     return code;
@@ -249,6 +250,15 @@ ${titleVar}.row.SuggestedGroupNum.set(${groupSize})`;
       ? ''
       : `
       .Rewards.Difficulty.set(${difficulty})`;
+  }
+
+  constructAreaSort() {
+    const areaSort = this.questValues.value.areaSort;
+    console.log(areaSort);
+    return areaSort === undefined || areaSort === ''
+      ? ''
+      : `
+      .AreaSort.set(${areaSort})`;
   }
 
   formatID(ID: string) {
