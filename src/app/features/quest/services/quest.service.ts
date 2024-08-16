@@ -1,12 +1,28 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, of } from 'rxjs';
-import { ParentQuestForm, POI, Questform } from '../../../types/questform.type';
+import {
+  ImportQuest,
+  ParentQuestForm,
+  POI,
+  Questform,
+} from '../../../types/questform.type';
 
 @Injectable({
   providedIn: 'root',
 })
 export class QuestService {
   public questValues = new BehaviorSubject<ParentQuestForm>({});
+  public importedQuest = new BehaviorSubject<ImportQuest | undefined>(
+    undefined
+  );
+
+  getImportedQuest() {
+    return this.importedQuest.asObservable();
+  }
+
+  setImportedQuest(jsonData: ImportQuest) {
+    this.importedQuest.next(jsonData);
+  }
 
   getQuestValues() {
     return this.questValues.asObservable();

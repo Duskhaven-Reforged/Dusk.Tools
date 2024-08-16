@@ -64,3 +64,7 @@ export interface Flags {
   raid?: boolean;
   weekly?: boolean;
 }
+
+export interface ImportQuest {
+  quests: { quest: Questform }[];
+}

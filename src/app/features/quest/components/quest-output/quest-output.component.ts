@@ -1,18 +1,26 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
-import { QuestService } from '../../services/quest.service';
-import { SubSink } from 'subsink';
 import { CommonModule } from '@angular/common';
+import {
+  Component,
+  ElementRef,
+  inject,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { lucideCopy, lucideDownload, lucideUpload } from '@ng-icons/lucide';
+import { HlmButtonDirective } from '@spartan-ng/ui-button-helm';
 import {
   HlmCardDirective,
   HlmCardHeaderDirective,
   HlmCardTitleDirective,
 } from '@spartan-ng/ui-card-helm';
-import { HighlightAuto, HighlightModule, Highlight } from 'ngx-highlightjs';
 import { HlmIconComponent, provideIcons } from '@spartan-ng/ui-icon-helm';
-import { lucideCopy, lucideUpload } from '@ng-icons/lucide';
-import { HlmButtonDirective } from '@spartan-ng/ui-button-helm';
+import { Highlight, HighlightAuto, HighlightModule } from 'ngx-highlightjs';
 import { ToastrService } from 'ngx-toastr';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { SubSink } from 'subsink';
+import { ImportQuest } from '../../../../types/questform.type';
+import { QuestService } from '../../services/quest.service';
 
 @Component({
   selector: 'app-quest-output',
@@ -29,7 +37,7 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
     Highlight,
     HighlightAuto,
   ],
-  providers: [provideIcons({ lucideCopy, lucideUpload })],
+  providers: [provideIcons({ lucideCopy, lucideUpload, lucideDownload })],
   templateUrl: './quest-output.component.html',
   styleUrl: './quest-output.component.scss',
 })
@@ -38,6 +46,7 @@ export class QuestOutputComponent implements OnInit, OnDestroy {
   private toastr = inject(ToastrService);
   private subs = new SubSink();
   private sanitizer = inject(DomSanitizer);
+  @ViewChild('fileInput') fileInput!: ElementRef;
   code: any = '';
   downloadJSONhref!: SafeUrl;
 
@@ -49,6 +58,19 @@ export class QuestOutputComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subs.unsubscribe();
+  }
+
+  openFileDialog() {
+    this.fileInput.nativeElement.click();
+  }
+
+  async uploadQuest(event: Event) {
+    const target = event.target as HTMLInputElement;
+    const files = target?.files;
+    if (!files) return;
+
+    const parsedJSON: ImportQuest = JSON.parse(await files[0].text());
+    this.questService.setImportedQuest(parsedJSON);
   }
 
   copyCode() {

@@ -16,5 +16,14 @@
         <hlm-icon size="sm" class="mr-2" name="lucideUpload" />Export
       </button>
     </a>
+    <button hlmBtn (click)="openFileDialog()">
+      <hlm-icon size="sm" class="mr-2" name="lucideDownload" /> Import
+    </button>
+    <input
+      type="file"
+      #fileInput
+      (change)="uploadQuest($event)"
+      style="display: none"
+    />
   </div>
 </section>

@@ -9,6 +9,7 @@ import { SelectChoice } from '../../../types/selectChoice.type';
 import Fuse from 'fuse.js';
 import {
   AbstractControl,
+  ControlValueAccessor,
   FormBuilder,
   FormControl,
   FormGroup,
@@ -23,7 +24,7 @@ import { SubSink } from 'subsink';
     provideIcons({ lucideChevronsUpDown, lucideCheck, lucideSearch }),
   ],
 })
-export class ComboboxComponent implements OnChanges {
+export class ComboboxComponent implements OnChanges, ControlValueAccessor {
   dropdownVisible = false;
   selectedItem = signal<SelectChoice | undefined>(undefined);
   @Input() options!: SelectChoice[];
@@ -50,6 +51,37 @@ export class ComboboxComponent implements OnChanges {
         }
       }
     );
+  }
+
+  onChange: any = () => {};
+  onTouched: any = () => {};
+
+  writeValue(value: any): void {
+    console.log(value);
+
+    if (value) {
+      const option = this.options.find((op) => op.value === value);
+      if (!option) return;
+
+      this.selectedItem.set(option);
+      this.control.setValue(option.value);
+    }
+  }
+
+  registerOnChange(fn: any): void {
+    this.onChange = fn;
+  }
+
+  registerOnTouched(fn: any): void {
+    this.onTouched = fn;
+  }
+
+  setDisabledState?(isDisabled: boolean): void {
+    if (isDisabled) {
+      this.searchForm.disable();
+    } else {
+      this.searchForm.enable();
+    }
   }
 
   ngOnChanges(): void {

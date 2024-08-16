@@ -5,6 +5,7 @@ import {
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
 import { lucidePlus, lucideTrash } from '@ng-icons/lucide';
 import { HlmButtonDirective } from '@spartan-ng/ui-button-helm';
@@ -25,6 +26,7 @@ import { SingleQuestFormComponent } from './single-quest-form/single-quest-form.
 import { QuestService } from '../../services/quest.service';
 import { HlmAccordionImports } from '@spartan-ng/ui-accordion-helm';
 import { BrnAccordionImports } from '@spartan-ng/ui-accordion-brain';
+import { ImportQuest, Questform } from '../../../../types/questform.type';
 
 @Component({
   selector: 'app-quest-form',
@@ -69,7 +71,12 @@ export class QuestFormComponent implements OnInit, OnDestroy {
     this.subs.sink = this.parentForm.valueChanges.subscribe((value) => {
       this.questService.setQuestValues(value);
     });
+
+    this.subs.sink = this.questService.importedQuest.subscribe((value) => {
+      if (value) this.loadJSONData(value);
+    });
   }
+
   ngOnDestroy(): void {
     this.subs.unsubscribe();
   }
@@ -77,6 +84,50 @@ export class QuestFormComponent implements OnInit, OnDestroy {
   createQuest(): FormGroup {
     return this.fb.group({
       quest: '',
+    });
+  }
+
+  loadJSONData(importQuest: ImportQuest) {
+    const questGroups: FormArray = this.fb.array(
+      importQuest.quests.map((quest) =>
+        this.fb.group({ quest: this.parseJSON(quest.quest) })
+      )
+    );
+
+    this.parentForm.setControl('quests', questGroups);
+  }
+
+  parseJSON(quest: Questform): FormGroup {
+    const flags = quest.flags || {}; // Default to empty object if flags is undefined
+
+    return this.fb.group({
+      title: [quest.title, Validators.required],
+      objectives: this.fb.array([]),
+      designerComments: [quest.designerComments],
+      moduleName: [quest.moduleName],
+      objectiveText: [quest.objectiveText],
+      pickupText: [quest.pickupText],
+      incompleteText: [quest.incompleteText],
+      completeText: [quest.completeText],
+      completeLogText: [quest.completeLogText],
+      POIs: this.fb.array([]),
+      questGivers: this.fb.array([]),
+      faction: [quest.faction],
+      level: [quest.level],
+      levelRequired: [quest.levelRequired],
+      flags: this.fb.group({
+        sharable: [flags.sharable],
+        pvp: [flags.pvp],
+        partyAccept: [flags.partyAccept],
+        repeatable: [flags.repeatable],
+        stayAlive: [flags.stayAlive],
+        daily: [flags.daily],
+        raid: [flags.raid],
+        weekly: [flags.weekly],
+      }),
+      groupSize: [quest.groupSize],
+      difficulty: [quest.difficulty],
+      areaSort: [quest.areaSort],
     });
   }
 
