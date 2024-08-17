@@ -39,12 +39,9 @@ export class QuestService {
       return '';
     }
 
-    console.log(this.questValues.value.quests);
-
     const code = this.questValues.value.quests
       .map((questObj) => {
         const title = questObj.quest.title;
-        console.log(title);
         if (!title) return '';
 
         const objectives = this.constructObjectives(questObj.quest);
@@ -281,7 +278,6 @@ ${titleVar}.row.SuggestedGroupNum.set(${groupSize})`;
 
   constructAreaSort(quest: Questform) {
     const areaSort = quest.areaSort;
-    console.log(areaSort);
     return areaSort === undefined || areaSort === ''
       ? ''
       : `

@@ -57,8 +57,6 @@ export class ComboboxComponent implements OnChanges, ControlValueAccessor {
   onTouched: any = () => {};
 
   writeValue(value: any): void {
-    console.log(value);
-
     if (value) {
       const option = this.options.find((op) => op.value === value);
       if (!option) return;
@@ -103,7 +101,6 @@ export class ComboboxComponent implements OnChanges, ControlValueAccessor {
   searchList(input: string) {
     const result = this.fuse.search(input);
     this.fuse.getIndex();
-    console.log(this.fuse.getIndex());
 
     return result.map((res) => res.item);
   }

@@ -1,4 +1,4 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
+<form [formGroup]="form">
   <app-input formControlName="name" label="Name"></app-input>
   <app-error [controlName]="form.controls['name']"></app-error>
   <app-input formControlName="email" label="Email" type="email"></app-input>
@@ -44,7 +44,6 @@
 
   <button type="button" (click)="addItem()">Add Item</button>
   <button type="button" (click)="addAddress()">Add Address</button>
-  <button type="submit" [disabled]="form.invalid">Submit</button>
 </form>
 
 form values{{ form.value | json }} form errors{{ form.errors | json }}

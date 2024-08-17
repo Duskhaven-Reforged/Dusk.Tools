@@ -75,10 +75,4 @@ export class SpellFormComponent {
   removeAddress(index: number): void {
     this.addresses.removeAt(index);
   }
-
-  onSubmit(): void {
-    if (this.form.valid) {
-      console.log(this.form.value);
-    }
-  }
 }

@@ -159,12 +159,6 @@ export class SingleQuestFormComponent
     this.loadAreaTable();
   }
 
-  onSubmit(): void {
-    if (this.form.valid) {
-      console.log(this.form.value);
-    }
-  }
-
   private loadAreaTable() {
     this.httpClient.get('assets/data/areaTable.json').subscribe({
       next: (response) => {
