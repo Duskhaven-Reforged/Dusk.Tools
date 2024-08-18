@@ -1,0 +1,29 @@
+<section hlmCard>
+  <div hlmCardHeader>
+    <h3 hlmCardTitle>Output</h3>
+  </div>
+  <pre
+    class="my-2 relative px-6"
+    hlmCardContent
+  ><code [highlightAuto]="code" language="ts"></code>
+    @if (code.length > 0) {
+        <button hlmBtn variant="outline" class="absolute top-0 right-6" (click)="copyCode()" ><hlm-icon size="sm" name="lucideCopy"></hlm-icon></button>
+    }
+    </pre>
+  <!-- <div class="flex flex-row gap-3 px-6 mb-4">
+    <a download="download.json" (click)="export()" [href]="downloadJSONhref">
+      <button hlmBtn>
+        <hlm-icon size="sm" class="mr-2" name="lucideUpload" />Export
+      </button>
+    </a>
+    <button hlmBtn (click)="openFileDialog()">
+      <hlm-icon size="sm" class="mr-2" name="lucideDownload" /> Import
+    </button>
+    <input
+      type="file"
+      #fileInput
+      (change)="uploadQuest($event)"
+      style="display: none"
+    />
+  </div> -->
+</section>

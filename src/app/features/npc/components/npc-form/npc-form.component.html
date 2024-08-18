@@ -1,0 +1,131 @@
+<form [formGroup]="form" (keydown)="handleInput($event)">
+  <div class="flex flex-row gap-5 flex-wrap">
+    <app-input formControlName="name" label="Name" />
+    <app-input formControlName="moduleName" label="Module" />
+    <app-input formControlName="subname" label="Sub Name" />
+    <app-input formControlName="minLevel" label="Min Level" type="number" />
+    <app-input formControlName="maxLevel" label="Max Level" type="number" />
+    <app-select
+      [form]="form"
+      controlName="class"
+      label="Class"
+      [options]="unitClassOptions"
+    />
+    <app-select
+      [form]="form"
+      controlName="damageSchool"
+      label="Damage School"
+      [options]="damageSchoolOptions"
+    />
+    <app-select
+      [form]="form"
+      controlName="rank"
+      label="Rank"
+      [options]="rankOptions"
+    />
+    <app-select
+      [form]="form"
+      controlName="type"
+      label="Type"
+      [options]="creatureTypeOptions"
+    />
+    <app-select
+      [form]="form"
+      controlName="factionTemplate"
+      label="Faction Template"
+      [options]="factionTemplateOptions"
+      *ngIf="form.get('type')?.value !== 'BEAST'"
+    />
+    <app-select
+      [form]="form"
+      controlName="family"
+      label="Family"
+      [options]="familyOptions"
+      *ngIf="form.get('type')?.value === 'BEAST'"
+    />
+  </div>
+
+  <section hlmCard class="mt-3" formGroupName="primaryFlags">
+    <div hlmCardHeader class="p-4 bg-stone-900 rounded-t-sm">
+      <h3 hlmCardTitle>Primary Flags</h3>
+    </div>
+    <div hlmCardContent class="py-3 grid grid-cols-4 grid-rows-2 gap-7">
+      <label class="flex items-center" hlmLabel>
+        <hlm-switch class="mr-2" formControlName="gossip" />
+        Gossip
+      </label>
+      <label class="flex items-center" hlmLabel>
+        <hlm-switch class="mr-2" formControlName="repair" />
+        Repairer
+      </label>
+      <label class="flex items-center" hlmLabel>
+        <hlm-switch class="mr-2" formControlName="questGiver" />
+        Quest Giver
+      </label>
+      <label class="flex items-center" hlmLabel>
+        <hlm-switch class="mr-2" formControlName="flightMaster" />
+        Flight Master
+      </label>
+      <label class="flex items-center" hlmLabel>
+        <hlm-switch class="mr-2" formControlName="trainer" />
+        Trainer
+      </label>
+      <label class="flex items-center" hlmLabel>
+        <hlm-switch class="mr-2" formControlName="innKeeper" />
+        Innkeeper
+      </label>
+      <label class="flex items-center" hlmLabel>
+        <hlm-switch class="mr-2" formControlName="vendor" />
+        Vendor
+      </label>
+    </div>
+  </section>
+
+  <section hlmCard class="mt-3" formGroupName="secondaryFlags">
+    <div hlmCardHeader class="p-4 bg-stone-900 rounded-t-sm">
+      <h3 hlmCardTitle>Secondary Flags</h3>
+    </div>
+    <div hlmCardContent class="py-3 grid grid-cols-4 grid-rows-2 gap-7">
+      <label class="flex items-center" hlmLabel>
+        <hlm-switch class="mr-2" formControlName="immuneToPlayers" />
+        Immune To Players
+      </label>
+      <label class="flex items-center" hlmLabel>
+        <hlm-switch class="mr-2" formControlName="immuneToNPC" />
+        Immune To NPC
+      </label>
+      <!-- <label class="flex items-center" hlmLabel>
+        <hlm-switch class="mr-2" formControlName="notInteractable" />
+        Not Interactable
+      </label> -->
+      <!-- <label class="flex items-center" hlmLabel>
+        <hlm-switch class="mr-2" formControlName="canWalk" />
+        Can Walk
+      </label> -->
+      <label class="flex items-center" hlmLabel>
+        <hlm-switch class="mr-2" formControlName="canSwim" />
+        Can Swim
+      </label>
+      <!-- <label class="flex items-center" hlmLabel>
+        <hlm-switch class="mr-2" formControlName="canFly" />
+        Can Fly
+      </label> -->
+      <label class="flex items-center" hlmLabel>
+        <hlm-switch class="mr-2" formControlName="skinnable" />
+        Skinnable
+      </label>
+      <!-- <label class="flex items-center" hlmLabel>
+        <hlm-switch class="mr-2" formControlName="noWoundAnimation" />
+        No Wound Animation
+      </label> -->
+      <label class="flex items-center" hlmLabel>
+        <hlm-switch class="mr-2" formControlName="forceGossip" />
+        Force Gossip
+      </label>
+      <!-- <label class="flex items-center" hlmLabel>
+        <hlm-switch class="mr-2" formControlName="isBoss" />
+        Is Boss
+      </label> -->
+    </div>
+  </section>
+</form>
