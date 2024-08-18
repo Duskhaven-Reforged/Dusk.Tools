@@ -29,6 +29,7 @@ export class NpcCode extends CodeCreator {
     const gossipMenu = this.constructGossipMenu();
     const exportKeyword = this.exportOptions.includeExport ? 'export' : '';
     const designerComments = this.constructComments();
+    const model = this.constructModel();
 
     const flags = this.constructFlags();
 
@@ -40,7 +41,7 @@ export class NpcCode extends CodeCreator {
       .toUpperCase()} = std.CreatureTemplates.create('${moduleName}', '${name
       .split(' ')
       .join('-')
-      .toUpperCase()}') ${subName}${level}${unitClass}${rank}${type}${faction}${family}${damageSchool}${flags}${gossipMenu}`;
+      .toUpperCase()}') ${subName}${level}${unitClass}${rank}${type}${faction}${family}${damageSchool}${flags}${gossipMenu} ${model}`;
   }
 
   private constructSubName() {
@@ -113,5 +114,12 @@ export class NpcCode extends CodeCreator {
     const returnCode = flags.constructAllFlags();
 
     return returnCode;
+  }
+
+  private constructModel() {
+    return this.values.modelID !== 0
+      ? `
+    .Models.copyFrom(std.CreatureTemplates.load(${this.values.modelID}).Models)`
+      : '';
   }
 }

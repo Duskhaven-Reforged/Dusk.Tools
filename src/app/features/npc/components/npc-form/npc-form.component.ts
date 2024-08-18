@@ -123,6 +123,7 @@ export class NpcFormComponent implements OnInit, OnDestroy {
       secondaryFlags: this.createSecondaryFlags(),
       gossipMenu: [''],
       designerComments: [''],
+      modelID: [0],
     });
 
     this.subs.sink = this.form.valueChanges.subscribe((value) =>

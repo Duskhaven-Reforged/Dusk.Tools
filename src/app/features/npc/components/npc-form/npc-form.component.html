@@ -43,6 +43,11 @@
       [options]="familyOptions"
       *ngIf="form.get('type')?.value === 'BEAST'"
     />
+    <app-input
+      formControlName="modelID"
+      label="Model (Copy From)"
+      type="number"
+    />
   </div>
 
   <section hlmCard class="mt-3" formGroupName="primaryFlags">

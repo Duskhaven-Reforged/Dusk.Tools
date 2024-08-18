@@ -14,6 +14,7 @@ export interface NPCForm {
   secondaryFlags?: NPCSecondaryFlags;
   gossipMenu?: string;
   designerComments?: string;
+  modelID?: number;
 }
 
 export interface NPCPrimaryFlags {
