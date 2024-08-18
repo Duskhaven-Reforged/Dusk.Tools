@@ -1,7 +1,6 @@
 import { CodeCreator } from '../../../shared/classes/code-creator';
 import { ExportOptions } from '../../../types/exportOptions.type';
 import { NPCForm } from '../../../types/npcForm.type';
-import { Questform } from '../../../types/questform.type';
 import { NpcFlags } from './npc-flags';
 
 export class NpcCode extends CodeCreator {

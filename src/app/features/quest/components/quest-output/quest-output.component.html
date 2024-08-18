@@ -1,6 +1,18 @@
 <section hlmCard>
-  <div hlmCardHeader>
+  <div hlmCardHeader class="gap-2">
     <h3 hlmCardTitle>Output</h3>
+    <div hlmCardDescription>
+      <form [formGroup]="form" class="flex flex-row gap-2">
+        <label class="flex items-center text-xs" hlmLabel>
+          <hlm-switch class="mr-2" formControlName="includeSTDImport" />
+          Include STD Imports
+        </label>
+        <label class="flex items-center text-xs" hlmLabel>
+          <hlm-switch class="mr-2" formControlName="includeExport" />
+          Include Export
+        </label>
+      </form>
+    </div>
   </div>
   <pre
     class="my-2 relative px-6"

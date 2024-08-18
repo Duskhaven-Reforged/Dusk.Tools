@@ -7,35 +7,37 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { lucideCopy, lucideDownload, lucideUpload } from '@ng-icons/lucide';
 import { HlmButtonDirective } from '@spartan-ng/ui-button-helm';
-import {
-  HlmCardDirective,
-  HlmCardHeaderDirective,
-  HlmCardTitleDirective,
-} from '@spartan-ng/ui-card-helm';
+import { HlmCardImports } from '@spartan-ng/ui-card-helm';
 import { HlmIconComponent, provideIcons } from '@spartan-ng/ui-icon-helm';
 import { Highlight, HighlightAuto, HighlightModule } from 'ngx-highlightjs';
 import { ToastrService } from 'ngx-toastr';
 import { SubSink } from 'subsink';
-import { ImportQuest } from '../../../../types/questform.type';
+import { ExportOptions } from '../../../../types/exportOptions.type';
+import { ImportQuest, ParentQuestForm } from '../../../../types/questform.type';
+import { QuestCode } from '../../classes/quest-code';
 import { QuestService } from '../../services/quest.service';
+import { HlmSwitchImports } from '@spartan-ng/ui-switch-helm';
+import { HlmLabelDirective } from '@spartan-ng/ui-label-helm';
 
 @Component({
   selector: 'app-quest-output',
   standalone: true,
   imports: [
     CommonModule,
-    HlmCardHeaderDirective,
-    HlmCardTitleDirective,
-    HlmCardDirective,
+    HlmCardImports,
     HlmButtonDirective,
     HlmIconComponent,
     HighlightModule,
     HlmIconComponent,
     Highlight,
     HighlightAuto,
+    ReactiveFormsModule,
+    HlmSwitchImports,
+    HlmLabelDirective,
   ],
   providers: [provideIcons({ lucideCopy, lucideUpload, lucideDownload })],
   templateUrl: './quest-output.component.html',
@@ -46,14 +48,55 @@ export class QuestOutputComponent implements OnInit, OnDestroy {
   private toastr = inject(ToastrService);
   private subs = new SubSink();
   private sanitizer = inject(DomSanitizer);
+  private fb = inject(FormBuilder);
+
   @ViewChild('fileInput') fileInput!: ElementRef;
   code: any = '';
   downloadJSONhref!: SafeUrl;
+  form!: FormGroup;
+  outputOptions: ExportOptions = {
+    includeExport: true,
+    includeSTDImport: true,
+  };
 
-  constructor() {
+  constructor() {}
+
+  ngOnInit(): void {
     this.subs.sink = this.questService.getQuestValues().subscribe((value) => {
-      this.code = this.questService.constructCode();
+      this.code = this.constructCode(value);
     });
+
+    this.form = this.fb.group({
+      includeSTDImport: [true],
+      includeExport: [true],
+    });
+
+    this.subs.sink = this.form.valueChanges.subscribe((value) => {
+      this.outputOptions = value;
+      this.code = this.constructCode(this.questService.questValues.value);
+    });
+  }
+
+  constructCode(values: ParentQuestForm) {
+    if (!values.quests) {
+      return '';
+    }
+
+    const code = values.quests
+      .map((questObj) => {
+        return new QuestCode(
+          questObj.quest,
+          this.outputOptions
+        ).constructCode();
+      })
+      .join('\n\r\n\r');
+
+    const stdImport = this.outputOptions.includeSTDImport
+      ? `import { std } from "wow/wotlk
+`
+      : '';
+
+    return `${stdImport}${code}`;
   }
 
   ngOnDestroy(): void {
@@ -73,13 +116,13 @@ export class QuestOutputComponent implements OnInit, OnDestroy {
     this.questService.setImportedQuest(parsedJSON);
   }
 
-  copyCode() {
+  async copyCode() {
     try {
-      this.questService.copyToClipboard();
+      await navigator.clipboard.writeText(this.code);
       this.toastr.success('Copied to clipboard');
     } catch (error) {
-      this.toastr.error('Something went wrong, check your console');
       console.log(error);
+      this.toastr.error('Something went wrong, check your console');
     }
   }
 
@@ -90,6 +133,4 @@ export class QuestOutputComponent implements OnInit, OnDestroy {
     );
     this.downloadJSONhref = uri;
   }
-
-  ngOnInit(): void {}
 }

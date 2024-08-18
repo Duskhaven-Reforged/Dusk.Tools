@@ -65,8 +65,6 @@ export class NpcOutputComponent implements OnInit, OnDestroy {
   form!: FormGroup;
 
   ngOnInit(): void {
-    console.log(this.outputOptions);
-
     this.subs.sink = this.npcService.getNPCValues().subscribe((value) => {
       this.code = new NpcCode(value, this.outputOptions).constructCode();
     });
@@ -109,7 +107,8 @@ export class NpcOutputComponent implements OnInit, OnDestroy {
       await navigator.clipboard.writeText(this.code);
       this.toastr.success('Copied to clipboard');
     } catch (error) {
-      throw new Error(`${error}`);
+      console.log(error);
+      this.toastr.error('Something went wrong, check your console');
     }
   }
 
