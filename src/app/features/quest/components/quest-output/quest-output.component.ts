@@ -84,8 +84,8 @@ export class QuestOutputComponent implements OnInit, OnDestroy {
   }
 
   export() {
-    var questsJSON = JSON.stringify(this.questService.questValues.value);
-    var uri = this.sanitizer.bypassSecurityTrustUrl(
+    let questsJSON = JSON.stringify(this.questService.questValues.value);
+    let uri = this.sanitizer.bypassSecurityTrustUrl(
       'data:text/json;charset=UTF-8,' + encodeURIComponent(questsJSON)
     );
     this.downloadJSONhref = uri;

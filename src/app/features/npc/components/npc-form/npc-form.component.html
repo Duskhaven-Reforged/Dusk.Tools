@@ -128,4 +128,27 @@
       </label> -->
     </div>
   </section>
+
+  <section hlmCard class="mt-3" *ngIf="form.get('primaryFlags.gossip')?.value">
+    <div hlmCardHeader class="p-4 bg-stone-900 rounded-t-sm">
+      <h3 hlmCardTitle>Gossip Menu</h3>
+    </div>
+    <div class="pt-4" hlmCardContent>
+      <app-textarea
+        formControlName="gossipMenu"
+        inputClass="w-full h-full min-h-40"
+      />
+    </div>
+  </section>
+  <section hlmCard class="mt-3">
+    <div hlmCardHeader class="p-4 bg-stone-900 rounded-t-sm">
+      <h3 hlmCardTitle>Designer Comments</h3>
+    </div>
+    <div class="pt-4" hlmCardContent>
+      <app-textarea
+        formControlName="designerComments"
+        inputClass="w-full h-full min-h-40"
+      />
+    </div>
+  </section>
 </form>

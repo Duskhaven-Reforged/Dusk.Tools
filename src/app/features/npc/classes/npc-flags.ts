@@ -62,63 +62,87 @@ export class NpcFlags {
 
   // Primary Flags
   constructGossip(gossip?: boolean) {
-    return `
-    .NPCFlags.GOSSIP.set(${gossip})`;
+    return gossip === true
+      ? `
+    .NPCFlags.GOSSIP.set(${gossip})`
+      : '';
   }
 
   constructRepairer(repair?: boolean) {
-    return `
-    .NPCFlags.REPAIRER.set(${repair})`;
+    return repair === true
+      ? `
+    .NPCFlags.REPAIRER.set(${repair})`
+      : '';
   }
 
   constructQuestGiver(questGiver?: boolean) {
-    return `
-    .NPCFlags.QUEST_GIVER.set(${questGiver})`;
+    return questGiver === true
+      ? `
+    .NPCFlags.QUEST_GIVER.set(${questGiver})`
+      : '';
   }
 
   constructFlightMaster(flightMaster?: boolean) {
-    return `
-    .NPCFlags.FLIGHT_MASTER.set(${flightMaster})`;
+    return flightMaster === true
+      ? `
+    .NPCFlags.FLIGHT_MASTER.set(${flightMaster})`
+      : '';
   }
 
   constructTrainer(trainer?: boolean) {
-    return `
-    .NPCFlags.TRAINER.set(${trainer})`;
+    return trainer === true
+      ? `
+    .NPCFlags.TRAINER.set(${trainer})`
+      : '';
   }
 
   constructInnKeeper(innkeeper?: boolean) {
-    return `
-    .NPCFlags.INNKEEPER.set(${innkeeper})`;
+    return innkeeper === true
+      ? `
+    .NPCFlags.INNKEEPER.set(${innkeeper})`
+      : '';
   }
 
   constructVendor(vendor?: boolean) {
-    return `
-    .NPCFlags.VENDOR.set(${vendor})`;
+    return vendor === true
+      ? `
+    .NPCFlags.VENDOR.set(${vendor})`
+      : '';
   }
 
   // Secondary Flags
   constructImmuneToPC(immuneToPlayers?: boolean) {
-    return `
-    .UnitFlags.IMMUNE_TO_PC.set(${immuneToPlayers})`;
+    return immuneToPlayers === true
+      ? `
+    .UnitFlags.IMMUNE_TO_PC.set(${immuneToPlayers})`
+      : '';
   }
 
   constructImmuneToNPC(immuneToNPC?: boolean) {
-    return `
-    .UnitFlags.IMMUNE_TO_NPC.set(${immuneToNPC})`;
+    return immuneToNPC === true
+      ? `
+    .UnitFlags.IMMUNE_TO_NPC.set(${immuneToNPC})`
+      : '';
   }
 
   constructCanSwim(canSwim?: boolean) {
-    return `
-    .UnitFlags.CAN_SWIM.set(${canSwim})`;
+    return canSwim === true
+      ? `
+    .UnitFlags.CAN_SWIM.set(${canSwim})`
+      : '';
   }
 
   constructSkinnable(skinnable?: boolean) {
-    return `
-    .UnitFlags.SKINNABLE.set(${skinnable})`;
+    return skinnable === true
+      ? `
+    .UnitFlags.SKINNABLE.set(${skinnable})`
+      : '';
   }
 
   constructForceGossip(forceGossip?: boolean) {
-    return `
-    .TypeFlags.FORCE_GOSSIP.set(${forceGossip})`;
+    return forceGossip === true
+      ? `
+    .TypeFlags.FORCE_GOSSIP.set(${forceGossip})`
+      : '';
   }
 }

@@ -12,6 +12,8 @@ export interface NPCForm {
   damageSchool?: string;
   primaryFlags?: NPCPrimaryFlags;
   secondaryFlags?: NPCSecondaryFlags;
+  gossipMenu?: string;
+  designerComments?: string;
 }
 
 export interface NPCPrimaryFlags {

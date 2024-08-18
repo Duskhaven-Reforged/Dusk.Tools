@@ -1,6 +1,18 @@
 <section hlmCard>
-  <div hlmCardHeader>
+  <div hlmCardHeader class="gap-2">
     <h3 hlmCardTitle>Output</h3>
+    <div hlmCardDescription>
+      <form [formGroup]="form" class="flex flex-row gap-2">
+        <label class="flex items-center text-xs" hlmLabel>
+          <hlm-switch class="mr-2" formControlName="includeSTDImport" />
+          Include STD Imports
+        </label>
+        <label class="flex items-center text-xs" hlmLabel>
+          <hlm-switch class="mr-2" formControlName="includeExport" />
+          Include Export
+        </label>
+      </form>
+    </div>
   </div>
   <pre
     class="my-2 relative px-6"
@@ -10,7 +22,7 @@
         <button hlmBtn variant="outline" class="absolute top-0 right-6" (click)="copyCode()" ><hlm-icon size="sm" name="lucideCopy"></hlm-icon></button>
     }
     </pre>
-  <!-- <div class="flex flex-row gap-3 px-6 mb-4">
+  <div class="flex flex-row gap-3 px-6 mb-4">
     <a download="download.json" (click)="export()" [href]="downloadJSONhref">
       <button hlmBtn>
         <hlm-icon size="sm" class="mr-2" name="lucideUpload" />Export
@@ -25,5 +37,5 @@
       (change)="uploadQuest($event)"
       style="display: none"
     />
-  </div> -->
+  </div>
 </section>

@@ -1,5 +1,6 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import {
+  FormArray,
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
@@ -14,7 +15,7 @@ import { HlmLabelDirective } from '@spartan-ng/ui-label-helm';
 import { HlmSwitchComponent } from '../../../../shared/directives/ui-switch-helm/src/lib/hlm-switch.component';
 import { HlmSwitchImports } from '@spartan-ng/ui-switch-helm';
 import { SelectChoice } from '../../../../types/selectChoice.type';
-import { CreatureFamily } from '../../../../types/npcForm.type';
+import { CreatureFamily, NPCForm } from '../../../../types/npcForm.type';
 
 @Component({
   selector: 'app-npc-form',
@@ -120,13 +121,25 @@ export class NpcFormComponent implements OnInit, OnDestroy {
       damageSchool: ['Normal'],
       primaryFlags: this.createPrimaryFlags(),
       secondaryFlags: this.createSecondaryFlags(),
+      gossipMenu: [''],
+      designerComments: [''],
     });
 
     this.subs.sink = this.form.valueChanges.subscribe((value) =>
       this.npcService.setNPCValues(value)
     );
 
+    this.subs.sink = this.npcService.importedNPC.subscribe((value) =>
+      this.importNPC(value)
+    );
+
     this.familyOptions = this.enumToSelectChoices(CreatureFamily);
+  }
+
+  importNPC(values?: NPCForm) {
+    if (values && values.name) {
+      this.form.setValue(values);
+    }
   }
 
   enumToSelectChoices(enumValues: typeof CreatureFamily): SelectChoice[] {
