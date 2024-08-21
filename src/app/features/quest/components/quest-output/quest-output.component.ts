@@ -55,8 +55,8 @@ export class QuestOutputComponent implements OnInit, OnDestroy {
   downloadJSONhref!: SafeUrl;
   form!: FormGroup;
   outputOptions: ExportOptions = {
-    includeExport: true,
-    includeSTDImport: true,
+    includeExport: false,
+    includeSTDImport: false,
   };
 
   constructor() {}
@@ -67,8 +67,8 @@ export class QuestOutputComponent implements OnInit, OnDestroy {
     });
 
     this.form = this.fb.group({
-      includeSTDImport: [true],
-      includeExport: [true],
+      includeSTDImport: [false],
+      includeExport: [false],
     });
 
     this.subs.sink = this.form.valueChanges.subscribe((value) => {

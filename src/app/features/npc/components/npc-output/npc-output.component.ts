@@ -54,8 +54,8 @@ export class NpcOutputComponent implements OnInit, OnDestroy {
   private sanitizer = inject(DomSanitizer);
   private fb = inject(FormBuilder);
   outputOptions: ExportOptions = {
-    includeSTDImport: true,
-    includeExport: true,
+    includeSTDImport: false,
+    includeExport: false,
   };
 
   @ViewChild('fileInput') fileInput!: ElementRef;
@@ -70,8 +70,8 @@ export class NpcOutputComponent implements OnInit, OnDestroy {
     });
 
     this.form = this.fb.group({
-      includeSTDImport: [true],
-      includeExport: [true],
+      includeSTDImport: [false],
+      includeExport: [false],
     });
 
     this.subs.sink = this.form.valueChanges.subscribe(

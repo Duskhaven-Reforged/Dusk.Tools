@@ -1,9 +1,112 @@
-<div>
-  <h2>Home Component</h2>
-  <p>Welcome to the home page!</p>
-  <nav>
-    <a routerLink="/npc">Go to NPC Tool</a>
-    <a routerLink="/spells">Go to Spells Tool</a>
-    <button hlmBtn variant="outline">Test</button>
-  </nav>
+<div class="w-full h-full py-6 px-56">
+  <h1
+    class="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl text-center"
+  >
+    Welcome to <span class="text-yellow-500">Dusk.Tools!</span>
+  </h1>
+
+  <h2
+    class="mt-10 scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0"
+  >
+    Introduction
+  </h2>
+  <p class="leading-7 [&:not(:first-child)]:mt-3">
+    Dusk.Tools is a code generator for
+    <a href="https://github.com/tswow/tswow" target="_blank" class="underline"
+      >TSWOW</a
+    >
+    that builds code in typescript from a graphical interface. The user may
+    export their code by copying the code or downloading a JSON that can be
+    imported into the tool by another user.
+  </p>
+
+  <h2
+    class="mt-10 scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0"
+  >
+    Getting started
+  </h2>
+  <p class="leading-7 [&:not(:first-child)]:mt-6">
+    Click on any of the three links in the header (Quest, Item or NPC) to
+    navigate to their respective code generators. Fill the "title" field to get
+    the code generating. Code is generated on the fly as you fill out more
+    fields.
+  </p>
+
+  <h2
+    class="mt-10 scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0"
+  >
+    Exporting
+  </h2>
+
+  <p class="leading-7 [&:not(:first-child)]:mt-6">
+    As mentioned above, users can export their work to either use it in game or
+    pass it to others.
+  </p>
+
+  <blockquote class="mt-6 border-l-2 pl-6 italic">Using it in game</blockquote>
+  <p class="leading-7 mt-6">
+    Look for the <hlm-icon size="sm" name="lucideCopy" /> icon and click it to
+    copy the code to clipboard.
+  </p>
+  <p class="leading-7 mt-4">
+    Follow the
+    <a
+      href="https://tswow.github.io/tswow-wiki/getting-started/01-modding-introduction#modules"
+      target="_blank"
+      class="underline"
+      >Module creation guide</a
+    >
+    from TSWOW to create a seperate module, this module will house your
+    additions to the game.
+  </p>
+  <p class="leading-7 mt-4">
+    <a
+      href="https://tswow.github.io/tswow-wiki/getting-started/01-modding-introduction#datascripts"
+      target="_blank"
+      class="underline"
+      >Create a datascript</a
+    >
+    as shown in the guide, paste in your code and save it (CTRL+S)
+  </p>
+
+  <p class="leading-7 mt-4">
+    <a
+      href="https://tswow.github.io/tswow-wiki/getting-started/01-modding-introduction#datascripts"
+      target="_blank"
+      class="underline"
+      >Create a datascript</a
+    >
+    as shown in the guide, paste in your code and save it (CTRL+S)
+  </p>
+
+  <p class="leading-7 mt-4">
+    Run
+    <code
+      class="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold"
+      >build data</code
+    >
+    in your terminal (while the dev server is running) to compile your additions
+  </p>
+
+  <blockquote class="mt-6 border-l-2 pl-6 italic">
+    Sharing to others/saving locally
+  </blockquote>
+  <p class="leading-7 mt-6">
+    Look for the
+    <code
+      class="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold"
+      >Export</code
+    >
+    button in the code creator and click it.
+  </p>
+  <p class="leading-7 mt-4">Save the JSON locally and share it with others.</p>
+  <p class="leading-7 mt-4">
+    To import, click the
+    <code
+      class="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold"
+      >Import</code
+    >
+    button and select the JSON file. The fields will automatically update
+    themselves.
+  </p>
 </div>
