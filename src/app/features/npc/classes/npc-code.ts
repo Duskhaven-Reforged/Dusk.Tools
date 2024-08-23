@@ -41,7 +41,12 @@ export class NpcCode extends CodeCreator {
       .toUpperCase()} = std.CreatureTemplates.create('${moduleName}', '${name
       .split(' ')
       .join('-')
-      .toUpperCase()}') ${subName}${level}${unitClass}${rank}${type}${faction}${family}${damageSchool}${flags}${gossipMenu} ${model}`;
+      .toUpperCase()}') ${this.constructName()} ${subName}${level}${unitClass}${rank}${type}${faction}${family}${damageSchool}${flags}${gossipMenu} ${model}`;
+  }
+
+  private constructName() {
+    return `
+    .Name.enGB.set('${this.values.name}')`;
   }
 
   private constructSubName() {

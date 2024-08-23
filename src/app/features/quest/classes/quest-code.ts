@@ -221,7 +221,7 @@ ${designerComments}
     };
 
     return Object.entries(flagMap)
-      .filter(([_, value]) => value !== undefined)
+      .filter(([_, value]) => value === true)
       .map(
         ([key, value]) => `
       .Flags.${key}.set(${value})`
