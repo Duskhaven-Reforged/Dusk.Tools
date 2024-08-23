@@ -92,7 +92,7 @@ export class QuestOutputComponent implements OnInit, OnDestroy {
       .join('\n\r\n\r');
 
     const stdImport = this.outputOptions.includeSTDImport
-      ? `import { std } from "wow/wotlk
+      ? `import { std } from "wow/wotlk"
 `
       : '';
 
