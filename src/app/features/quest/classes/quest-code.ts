@@ -6,19 +6,25 @@ import { POI, Questform } from '../../../types/questform.type';
 export class QuestCode extends CodeCreator {
   override values!: Questform;
   override exportOptions!: ExportOptions;
+  prevQuest: string = '';
 
   // Due to quests having the ability to be chained, importSTD will not be checked here
 
-  constructor(values: Questform, exportOptions: ExportOptions) {
+  constructor(
+    values: Questform,
+    exportOptions: ExportOptions,
+    prevQuest: string
+  ) {
     super(values, exportOptions);
 
     this.values = values;
     this.exportOptions = exportOptions;
+    this.prevQuest = prevQuest;
   }
 
-  override constructCode(): string {
+  override constructCode() {
     const title = this.values.title;
-    if (!title) return '';
+    if (!title) return { code: '', keyword: '' };
 
     const objectives = this.constructObjectives();
     const comments = this.constructComments();
@@ -36,21 +42,25 @@ export class QuestCode extends CodeCreator {
     const difficulty = this.constructDifficulty();
     const areaSort = this.constructAreaSort();
     const exportKeyword = this.exportOptions.includeExport ? 'export' : '';
+    const prevQuestCode = this.constructPrevQuest();
+    const nameKeyword = title.split(' ').join('_').toUpperCase();
 
-    return `${comments}${exportKeyword} const ${title
-      .split(' ')
-      .join('_')
-      .toUpperCase()} = std.Quests.create('${moduleName}', '${title
-      .split(' ')
-      .join('-')
-      .toUpperCase()}')${textContent.map((text) => text).join('')} ${objectives
-      .map((objective) => objective)
-      .join('')} ${POIs.map((poi) => poi).join('')} ${questGivers
-      .map((questGiver) => questGiver)
-      .join('')} ${factions} ${level} ${levelRequired} ${flags
-      .map((flag) => flag)
-      .join('')} ${difficulty} ${areaSort}
-      .Name.enGB.set('${title}'); ${groupSize}`;
+    return {
+      code: `${comments}${exportKeyword} const ${nameKeyword} = std.Quests.create('${moduleName}', '${title
+        .split(' ')
+        .join('-')
+        .toUpperCase()}')${textContent
+        .map((text) => text)
+        .join('')} ${objectives
+        .map((objective) => objective)
+        .join('')} ${POIs.map((poi) => poi).join('')} ${questGivers
+        .map((questGiver) => questGiver)
+        .join('')} ${factions} ${level} ${levelRequired} ${flags
+        .map((flag) => flag)
+        .join('')} ${difficulty} ${areaSort}
+      .Name.enGB.set('${title}') ${prevQuestCode}; ${groupSize}`,
+      keyword: nameKeyword,
+    };
   }
 
   private constructComments() {
@@ -252,6 +262,13 @@ ${titleVar}.row.SuggestedGroupNum.set(${groupSize});`;
       ? ''
       : `
       .AreaSort.set(${areaSort})`;
+  }
+
+  private constructPrevQuest() {
+    if (this.prevQuest === '') return '';
+
+    return `
+      .PrevQuest.set(${this.formatID(this.prevQuest)})`;
   }
 
   private formatID(ID: string) {

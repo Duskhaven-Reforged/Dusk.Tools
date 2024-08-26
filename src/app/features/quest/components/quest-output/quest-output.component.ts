@@ -17,7 +17,11 @@ import { Highlight, HighlightAuto, HighlightModule } from 'ngx-highlightjs';
 import { ToastrService } from 'ngx-toastr';
 import { SubSink } from 'subsink';
 import { ExportOptions } from '../../../../types/exportOptions.type';
-import { ImportQuest, ParentQuestForm } from '../../../../types/questform.type';
+import {
+  ImportQuest,
+  ParentQuestForm,
+  QuestOutput,
+} from '../../../../types/questform.type';
 import { QuestCode } from '../../classes/quest-code';
 import { QuestService } from '../../services/quest.service';
 import { HlmSwitchImports } from '@spartan-ng/ui-switch-helm';
@@ -82,21 +86,23 @@ export class QuestOutputComponent implements OnInit, OnDestroy {
       return '';
     }
 
-    const code = values.quests
-      .map((questObj) => {
-        return new QuestCode(
+    const code: QuestOutput[] = [];
+
+    values.quests.forEach(
+      (questObj, i) =>
+        (code[i] = new QuestCode(
           questObj.quest,
-          this.outputOptions
-        ).constructCode();
-      })
-      .join('\n\r\n\r');
+          this.outputOptions,
+          i === 0 ? '' : code[i - 1].keyword
+        ).constructCode())
+    );
 
     const stdImport = this.outputOptions.includeSTDImport
       ? `import { std } from "wow/wotlk"
 `
       : '';
 
-    return `${stdImport}${code}`;
+    return `${stdImport}${code.map((code) => code.code).join('\n\r\n\r')}`;
   }
 
   ngOnDestroy(): void {

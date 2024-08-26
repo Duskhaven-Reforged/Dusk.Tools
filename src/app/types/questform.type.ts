@@ -68,3 +68,8 @@ export interface Flags {
 export interface ImportQuest {
   quests: { quest: Questform }[];
 }
+
+export interface QuestOutput {
+  code: string;
+  keyword: string;
+}

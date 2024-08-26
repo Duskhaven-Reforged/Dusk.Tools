@@ -8,7 +8,7 @@ export abstract class CodeCreator {
 
   constructor(values: Questform | NPCForm, exportOptions: ExportOptions) {}
 
-  abstract constructCode(): string;
+  abstract constructCode(): string | any;
 
   public constructImports() {
     return this.exportOptions.includeSTDImport
