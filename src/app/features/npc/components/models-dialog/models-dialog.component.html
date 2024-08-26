@@ -1,0 +1,17 @@
+<hlm-dialog>
+  <button id="edit-profile" brnDialogTrigger hlmBtn>
+    <hlm-icon size="sm" name="lucidePlus"></hlm-icon>
+  </button>
+  <hlm-dialog-content class="sm:max-w-[425px]" *brnDialogContent="let ctx">
+    <hlm-dialog-header>
+      <h3 hlmDialogTitle>Add NPC Model</h3>
+      <p hlmDialogDescription>Specify how to copy the model</p>
+    </hlm-dialog-header>
+    <div class="py-4 flex flex-row gap-4">
+      <button hlmBtn variant="outline" (click)="addNPCID(ctx)">NPC ID</button>
+      <button hlmBtn variant="outline" (click)="addVisualID(ctx)">
+        Visual ID
+      </button>
+    </div>
+  </hlm-dialog-content>
+</hlm-dialog>

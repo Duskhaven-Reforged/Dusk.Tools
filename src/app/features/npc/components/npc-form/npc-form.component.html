@@ -43,12 +43,40 @@
       [options]="familyOptions"
       *ngIf="form.get('type')?.value === 'BEAST'"
     />
-    <app-input
-      formControlName="modelID"
-      label="Model (Copy From)"
-      type="number"
-    />
   </div>
+
+  <section hlmCard class="mt-3">
+    <div
+      class="flex flex-row justify-between items-center p-4 bg-stone-900 rounded-t-sm"
+      hlmCardHeader
+    >
+      <h3 hlmCardTitle>Models</h3>
+      <app-models-dialog (addModelEvent)="addModel($event)"></app-models-dialog>
+    </div>
+    <div formArrayName="models" hlmCardContent class="flex flex-col gap-3 py-3">
+      <section
+        hlmCard
+        *ngFor="let model of models.controls; let i = index"
+        class="p-3 flex justify-between items-center"
+      >
+        <div [formGroupName]="i" class="flex flex-row gap-3">
+          <app-input
+            formControlName="npcID"
+            label="NPC ID"
+            *ngIf="model.get('npcID') !== null"
+          />
+          <app-input
+            formControlName="visualID"
+            label="Visual ID"
+            *ngIf="model.get('visualID') !== null"
+          />
+        </div>
+        <button hlmBtn variant="destructive" (click)="removeModel(i)">
+          <hlm-icon size="sm" name="lucideTrash"></hlm-icon>
+        </button>
+      </section>
+    </div>
+  </section>
 
   <section hlmCard class="mt-3" formGroupName="primaryFlags">
     <div hlmCardHeader class="p-4 bg-stone-900 rounded-t-sm">

@@ -16,6 +16,11 @@ import { HlmSwitchComponent } from '../../../../shared/directives/ui-switch-helm
 import { HlmSwitchImports } from '@spartan-ng/ui-switch-helm';
 import { SelectChoice } from '../../../../types/selectChoice.type';
 import { CreatureFamily, NPCForm } from '../../../../types/npcForm.type';
+import { ModelsDialogComponent } from '../models-dialog/models-dialog.component';
+import { HlmIconComponent } from '@spartan-ng/ui-icon-helm';
+import { provideIcons } from '@ng-icons/core';
+import { lucideTrash } from '@ng-icons/lucide';
+import { HlmButtonDirective } from '@spartan-ng/ui-button-helm';
 
 @Component({
   selector: 'app-npc-form',
@@ -28,7 +33,12 @@ import { CreatureFamily, NPCForm } from '../../../../types/npcForm.type';
     HlmLabelDirective,
     HlmSwitchImports,
     HlmSwitchComponent,
+    ModelsDialogComponent,
+    HlmIconComponent,
+    HlmButtonDirective,
   ],
+
+  providers: [provideIcons({ lucideTrash })],
   templateUrl: './npc-form.component.html',
   styleUrl: './npc-form.component.scss',
 })
@@ -123,7 +133,7 @@ export class NpcFormComponent implements OnInit, OnDestroy {
       secondaryFlags: this.createSecondaryFlags(),
       gossipMenu: [''],
       designerComments: [''],
-      modelID: [0],
+      models: this.fb.array([]),
     });
 
     this.subs.sink = this.form.valueChanges.subscribe((value) =>
@@ -141,6 +151,24 @@ export class NpcFormComponent implements OnInit, OnDestroy {
     if (values && values.name) {
       this.form.setValue(values);
     }
+  }
+
+  createModel(type: 'npcID' | 'visualID'): FormGroup {
+    if (type === 'npcID') return this.fb.group({ npcID: 0 });
+
+    return this.fb.group({ visualID: 0 });
+  }
+
+  get models(): FormArray {
+    return this.form.get('models') as FormArray;
+  }
+
+  addModel(type: 'npcID' | 'visualID') {
+    this.models.push(this.createModel(type));
+  }
+
+  removeModel(index: number) {
+    this.models.removeAt(index);
   }
 
   enumToSelectChoices(enumValues: typeof CreatureFamily): SelectChoice[] {

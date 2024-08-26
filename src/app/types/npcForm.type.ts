@@ -14,7 +14,7 @@ export interface NPCForm {
   secondaryFlags?: NPCSecondaryFlags;
   gossipMenu?: string;
   designerComments?: string;
-  modelID?: number;
+  models?: NPCModels[];
 }
 
 export interface NPCPrimaryFlags {
@@ -38,6 +38,16 @@ export interface NPCSecondaryFlags {
   // noWoundAnimation?: boolean;
   forceGossip?: boolean;
   // isBoss?: boolean;
+}
+
+type NPCModels = { npcID: number } | { visualID: number };
+
+export interface NPCCopyModel {
+  npcID: number;
+}
+
+export interface VisualModel {
+  visualID: number;
 }
 
 type UnitClass = 'WARRIOR' | 'MAGE' | 'ROGUE' | 'PALADIN';

@@ -1,22 +1,23 @@
 import { Component, EventEmitter, Output } from '@angular/core';
+import { provideIcons } from '@ng-icons/core';
 import { lucidePlus } from '@ng-icons/lucide';
 import { HlmButtonDirective } from '@spartan-ng/ui-button-helm';
 import {
-  BrnDialogContentDirective,
   BrnDialogTriggerDirective,
+  BrnDialogContentDirective,
 } from '@spartan-ng/ui-dialog-brain';
 import {
   HlmDialogComponent,
   HlmDialogContentComponent,
-  HlmDialogDescriptionDirective,
-  HlmDialogFooterComponent,
   HlmDialogHeaderComponent,
+  HlmDialogFooterComponent,
   HlmDialogTitleDirective,
+  HlmDialogDescriptionDirective,
 } from '@spartan-ng/ui-dialog-helm';
-import { HlmIconComponent, provideIcons } from '@spartan-ng/ui-icon-helm';
+import { HlmIconComponent } from '@spartan-ng/ui-icon-helm';
 
 @Component({
-  selector: 'app-objective-dialog',
+  selector: 'app-models-dialog',
   standalone: true,
   imports: [
     HlmButtonDirective,
@@ -31,19 +32,19 @@ import { HlmIconComponent, provideIcons } from '@spartan-ng/ui-icon-helm';
     HlmIconComponent,
   ],
   providers: [provideIcons({ lucidePlus })],
-  templateUrl: './objective-dialog.component.html',
-  styleUrl: './objective-dialog.component.scss',
+  templateUrl: './models-dialog.component.html',
+  styleUrl: './models-dialog.component.scss',
 })
-export class ObjectiveDialogComponent {
-  @Output() addObjectiveEvent = new EventEmitter<'Item Drop' | 'NPC Target'>();
+export class ModelsDialogComponent {
+  @Output() addModelEvent = new EventEmitter<'npcID' | 'visualID'>();
 
-  addItemDrop(ctx: any) {
-    this.addObjectiveEvent.emit('Item Drop');
+  addNPCID(ctx: any) {
+    this.addModelEvent.emit('npcID');
     ctx.close();
   }
 
-  addNPC(ctx: any) {
-    this.addObjectiveEvent.emit('NPC Target');
+  addVisualID(ctx: any) {
+    this.addModelEvent.emit('visualID');
     ctx.close();
   }
 }

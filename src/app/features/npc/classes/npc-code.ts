@@ -1,6 +1,10 @@
 import { CodeCreator } from '../../../shared/classes/code-creator';
 import { ExportOptions } from '../../../types/exportOptions.type';
-import { NPCForm } from '../../../types/npcForm.type';
+import {
+  NPCCopyModel,
+  NPCForm,
+  VisualModel,
+} from '../../../types/npcForm.type';
 import { NpcFlags } from './npc-flags';
 
 export class NpcCode extends CodeCreator {
@@ -29,19 +33,23 @@ export class NpcCode extends CodeCreator {
     const gossipMenu = this.constructGossipMenu();
     const exportKeyword = this.exportOptions.includeExport ? 'export' : '';
     const designerComments = this.constructComments();
-    const model = this.constructModel();
+    const nameKeyword = this.constructConst();
+    const models = this.constructModels(nameKeyword);
 
     const flags = this.constructFlags();
 
     if (!name) return '';
 
-    return `${imports}${designerComments}${exportKeyword} const ${name
-      .split(' ')
-      .join('_')
-      .toUpperCase()} = std.CreatureTemplates.create('${moduleName}', '${name
+    return `${imports}${designerComments}${exportKeyword} const ${nameKeyword} = std.CreatureTemplates.create('${moduleName}', '${name
       .split(' ')
       .join('-')
-      .toUpperCase()}') ${this.constructName()} ${subName}${level}${unitClass}${rank}${type}${faction}${family}${damageSchool}${flags}${gossipMenu} ${model}`;
+      .toUpperCase()}') ${this.constructName()} ${subName}${level}${unitClass}${rank}${type}${faction}${family}${damageSchool}${flags}${gossipMenu}${
+      models.visualCode
+    }${models.copyCode}`;
+  }
+
+  private constructConst() {
+    return this.values.name?.split(' ').join('_').toUpperCase();
   }
 
   private constructName() {
@@ -121,10 +129,28 @@ export class NpcCode extends CodeCreator {
     return returnCode;
   }
 
-  private constructModel() {
-    return this.values.modelID !== 0
-      ? `
-    .Models.copyFrom(std.CreatureTemplates.load(${this.values.modelID}).Models)`
-      : '';
+  private constructModels(exportName?: string) {
+    if (!this.values.models || !exportName)
+      return { copyCode: '', visualCode: '' };
+
+    const npcModels = this.values.models.filter(
+      (model): model is NPCCopyModel => 'npcID' in model
+    );
+    const visualModels = this.values.models.filter(
+      (model): model is VisualModel => 'visualID' in model
+    );
+
+    return {
+      copyCode: npcModels
+        .map(
+          (model) => `
+${exportName}.Models.copyFrom(std.CreatureTemplates.load(${model.npcID}).Models)`
+        )
+        .join(''),
+      visualCode: visualModels.map(
+        (model) => `
+    .Models.addIds(${model.visualID})`
+      ),
+    };
   }
 }
