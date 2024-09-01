@@ -44,6 +44,7 @@ export class QuestCode extends CodeCreator {
     const exportKeyword = this.exportOptions.includeExport ? 'export' : '';
     const prevQuestCode = this.constructPrevQuest();
     const nameKeyword = title.split(' ').join('_').toUpperCase();
+    const startItem = this.constructStartItem();
 
     return {
       code: `${comments}${exportKeyword} const ${nameKeyword} = std.Quests.create('${moduleName}', '${title
@@ -58,7 +59,7 @@ export class QuestCode extends CodeCreator {
         .join('')} ${factions} ${level} ${levelRequired} ${flags
         .map((flag) => flag)
         .join('')} ${difficulty} ${areaSort}
-      .Name.enGB.set('${title}') ${prevQuestCode}; ${groupSize}`,
+      .Name.enGB.set('${title}') ${startItem} ${prevQuestCode}; ${groupSize}`,
       keyword: nameKeyword,
     };
   }
@@ -269,6 +270,13 @@ ${titleVar}.row.SuggestedGroupNum.set(${groupSize});`;
 
     return `
       .PrevQuest.set(${this.formatID(this.prevQuest)})`;
+  }
+
+  private constructStartItem() {
+    return this.values.startItem === undefined || ''
+      ? ''
+      : `
+      .StartItem.set(${this.formatID(this.values.startItem)})`;
   }
 
   private formatID(ID: string) {

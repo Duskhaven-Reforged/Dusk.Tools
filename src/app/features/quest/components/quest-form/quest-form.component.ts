@@ -128,6 +128,7 @@ export class QuestFormComponent implements OnInit, OnDestroy {
       groupSize: [quest.groupSize],
       difficulty: [quest.difficulty],
       areaSort: [quest.areaSort],
+      startItem: [quest.startItem],
     });
   }
 

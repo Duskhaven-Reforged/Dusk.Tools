@@ -143,6 +143,7 @@ export class SingleQuestFormComponent
       groupSize: [1],
       difficulty: ['1'],
       areaSort: [''],
+      startItem: [''],
     });
 
     this.subs.sink = this.form.valueChanges.subscribe((value: Questform) => {

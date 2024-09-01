@@ -17,6 +17,7 @@ export interface Questform {
   groupSize?: number;
   difficulty?: string;
   areaSort?: string;
+  startItem?: string;
 }
 
 export interface ParentQuestForm {
