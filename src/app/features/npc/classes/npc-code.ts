@@ -1,4 +1,5 @@
 import { CodeCreator } from '../../../shared/classes/code-creator';
+import { formatID } from '../../../shared/utils/utils';
 import { ExportOptions } from '../../../types/exportOptions.type';
 import {
   NPCCopyModel,
@@ -35,6 +36,7 @@ export class NpcCode extends CodeCreator {
     const designerComments = this.constructComments();
     const nameKeyword = this.constructConst();
     const models = this.constructModels(nameKeyword);
+    const loot = this.constructLoot();
 
     const flags = this.constructFlags();
 
@@ -43,7 +45,7 @@ export class NpcCode extends CodeCreator {
     return `${imports}${designerComments}${exportKeyword} const ${nameKeyword} = std.CreatureTemplates.create('${moduleName}', '${name
       .split(' ')
       .join('-')
-      .toUpperCase()}') ${this.constructName()} ${subName}${level}${unitClass}${rank}${type}${faction}${family}${damageSchool}${flags}${gossipMenu}${
+      .toUpperCase()}') ${this.constructName()} ${subName}${level}${unitClass}${rank}${type}${faction}${family}${damageSchool}${flags}${gossipMenu}${loot}${
       models.visualCode
     }${models.copyCode}`;
   }
@@ -152,5 +154,22 @@ ${exportName}.Models.copyFrom(std.CreatureTemplates.load(${model.npcID}).Models)
     .Models.addIds(${model.visualID})`
       ),
     };
+  }
+
+  private constructLoot() {
+    if (!this.values.loot) return '';
+
+    const lootItemCode = this.values.loot.map(
+      (item) =>
+        `E.addItem(${formatID(item.itemID)}, ${item.minDropAmount}, ${
+          item.maxDropAmount
+        })`
+    ).join(`
+      `);
+
+    return `
+    .NormalLoot.modRef((E) => {
+      ${lootItemCode}
+    })`;
   }
 }

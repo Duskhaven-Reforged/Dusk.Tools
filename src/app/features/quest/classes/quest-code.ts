@@ -2,6 +2,7 @@ import { CodeCreator } from '../../../shared/classes/code-creator';
 import { ExportOptions } from '../../../types/exportOptions.type';
 import { NPCForm } from '../../../types/npcForm.type';
 import { POI, Questform } from '../../../types/questform.type';
+import { formatID } from '../../../shared/utils/utils';
 
 export class QuestCode extends CodeCreator {
   override values!: Questform;
@@ -84,12 +85,12 @@ ${designerComments}
 
     objectiveObj.forEach((objective) => {
       if ('objectiveItemID' in objective) {
-        const formattedId = this.formatID(objective.objectiveItemID);
+        const formattedId = formatID(objective.objectiveItemID);
 
         returnCode.push(`
       .Objectives.Item.add(${formattedId}, ${objective.count})`);
       } else {
-        const formattedID = this.formatID(objective.objectiveCreatureID);
+        const formattedID = formatID(objective.objectiveCreatureID);
 
         returnCode.push(`
       .Objectives.Entity.add(${formattedID}, ${objective.count})`);
@@ -175,7 +176,7 @@ ${designerComments}
       const methodName = methodMapping[methodKey as keyof typeof methodMapping];
 
       if (methodName) {
-        const formattedId = this.formatID(questGiver.id);
+        const formattedId = formatID(questGiver.id);
         returnCode.push(`
       ${methodName}(${formattedId})`);
       }
@@ -269,17 +270,13 @@ ${titleVar}.row.SuggestedGroupNum.set(${groupSize});`;
     if (this.prevQuest === '') return '';
 
     return `
-      .PrevQuest.set(${this.formatID(this.prevQuest)})`;
+      .PrevQuest.set(${formatID(this.prevQuest)})`;
   }
 
   private constructStartItem() {
     return this.values.startItem === undefined || ''
       ? ''
       : `
-      .StartItem.set(${this.formatID(this.values.startItem)})`;
-  }
-
-  private formatID(ID: string) {
-    return /^\d+$/.test(ID) ? ID : `${ID}.ID`;
+      .StartItem.set(${formatID(this.values.startItem)})`;
   }
 }

@@ -19,7 +19,7 @@ import { CreatureFamily, NPCForm } from '../../../../types/npcForm.type';
 import { ModelsDialogComponent } from '../models-dialog/models-dialog.component';
 import { HlmIconComponent } from '@spartan-ng/ui-icon-helm';
 import { provideIcons } from '@ng-icons/core';
-import { lucideTrash } from '@ng-icons/lucide';
+import { lucidePlus, lucideTrash } from '@ng-icons/lucide';
 import { HlmButtonDirective } from '@spartan-ng/ui-button-helm';
 
 @Component({
@@ -38,7 +38,7 @@ import { HlmButtonDirective } from '@spartan-ng/ui-button-helm';
     HlmButtonDirective,
   ],
 
-  providers: [provideIcons({ lucideTrash })],
+  providers: [provideIcons({ lucideTrash, lucidePlus })],
   templateUrl: './npc-form.component.html',
   styleUrl: './npc-form.component.scss',
 })
@@ -134,6 +134,7 @@ export class NpcFormComponent implements OnInit, OnDestroy {
       gossipMenu: [''],
       designerComments: [''],
       models: this.fb.array([]),
+      loot: this.fb.array([]),
     });
 
     this.subs.sink = this.form.valueChanges.subscribe((value) =>
@@ -148,9 +149,13 @@ export class NpcFormComponent implements OnInit, OnDestroy {
   }
 
   importNPC(values?: NPCForm) {
-    if (values && values.name) {
-      this.form.setValue(values);
-    }
+    if (!values) return;
+
+    Object.keys(values).forEach((importKey) => {
+      this.form.controls[importKey].setValue(
+        values[importKey as keyof NPCForm]
+      );
+    });
   }
 
   createModel(type: 'npcID' | 'visualID'): FormGroup {
@@ -169,6 +174,22 @@ export class NpcFormComponent implements OnInit, OnDestroy {
 
   removeModel(index: number) {
     this.models.removeAt(index);
+  }
+
+  createLoot(): FormGroup {
+    return this.fb.group({ itemID: '', minDropAmount: 0, maxDropAmount: 0 });
+  }
+
+  get loot(): FormArray {
+    return this.form.get('loot') as FormArray;
+  }
+
+  addLoot() {
+    this.loot.push(this.createLoot());
+  }
+
+  removeLoot(index: number) {
+    this.loot.removeAt(index);
   }
 
   enumToSelectChoices(enumValues: typeof CreatureFamily): SelectChoice[] {

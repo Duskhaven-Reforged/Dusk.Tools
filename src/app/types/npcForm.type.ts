@@ -15,6 +15,7 @@ export interface NPCForm {
   gossipMenu?: string;
   designerComments?: string;
   models?: NPCModels[];
+  loot?: LootItem[];
 }
 
 export interface NPCPrimaryFlags {
@@ -48,6 +49,12 @@ export interface NPCCopyModel {
 
 export interface VisualModel {
   visualID: number;
+}
+
+interface LootItem {
+  itemID: string;
+  minDropAmount: number;
+  maxDropAmount: number;
 }
 
 type UnitClass = 'WARRIOR' | 'MAGE' | 'ROGUE' | 'PALADIN';
