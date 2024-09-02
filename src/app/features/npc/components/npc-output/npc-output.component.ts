@@ -99,6 +99,7 @@ export class NpcOutputComponent implements OnInit, OnDestroy {
     if (!files) return;
 
     const parsedJSON: NPCForm = JSON.parse(await files[0].text());
+    console.log(parsedJSON);
     this.npcService.setImportedNPC(parsedJSON);
   }
 

@@ -46,6 +46,7 @@ export class QuestCode extends CodeCreator {
     const prevQuestCode = this.constructPrevQuest();
     const nameKeyword = title.split(' ').join('_').toUpperCase();
     const startItem = this.constructStartItem();
+    const rewards = this.constructRewards();
 
     return {
       code: `${comments}${exportKeyword} const ${nameKeyword} = std.Quests.create('${moduleName}', '${title
@@ -57,10 +58,10 @@ export class QuestCode extends CodeCreator {
         .map((objective) => objective)
         .join('')} ${POIs.map((poi) => poi).join('')} ${questGivers
         .map((questGiver) => questGiver)
-        .join('')} ${factions} ${level} ${levelRequired} ${flags
+        .join('')}${factions}${level}${levelRequired}${flags
         .map((flag) => flag)
-        .join('')} ${difficulty} ${areaSort}
-      .Name.enGB.set('${title}') ${startItem} ${prevQuestCode}; ${groupSize}`,
+        .join('')} ${difficulty}${areaSort}
+      .Name.enGB.set('${title}')${startItem}${rewards}${prevQuestCode}; ${groupSize}`,
       keyword: nameKeyword,
     };
   }
@@ -274,9 +275,41 @@ ${titleVar}.row.SuggestedGroupNum.set(${groupSize});`;
   }
 
   private constructStartItem() {
-    return this.values.startItem === undefined || ''
+    return this.values.startItem === undefined || this.values.startItem === ''
       ? ''
       : `
       .StartItem.set(${formatID(this.values.startItem)})`;
+  }
+
+  private constructRewards(): string {
+    if (!this.values.rewards) return '';
+
+    const { money, reputation, items, titleID, honor, choiceItems } =
+      this.values.rewards;
+
+    const rewardLines = [
+      money !== 0 ? `.Rewards.Money.set(${money})` : '',
+      ...reputation.map(
+        (rep) =>
+          `.Rewards.Reputation.add(${formatID(rep.factionID)}, ${rep.amount})`
+      ),
+      ...items.map(
+        (item) =>
+          `.Rewards.Items.add(${formatID(item.rewardItemID)}, ${item.count})`
+      ),
+      titleID !== '' ? `.Rewards.Title.set(${formatID(titleID)})` : '',
+      honor !== 0 ? `.Rewards.Honor.set(${honor})` : '',
+      ...choiceItems.map(
+        (item) =>
+          `.Rewards.ChoiceItem.add(${formatID(item.rewardItemID)}, ${
+            item.count
+          })`
+      ),
+    ].filter(Boolean);
+
+    return rewardLines.length === 0
+      ? ''
+      : `
+      ` + rewardLines.join('\n      ');
   }
 }

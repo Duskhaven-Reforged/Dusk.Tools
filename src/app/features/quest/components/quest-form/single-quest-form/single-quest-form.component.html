@@ -224,6 +224,134 @@
     </div>
   </section>
 
+  <section hlmCard class="mt-3" formGroupName="rewards">
+    <div
+      class="flex flex-row justify-between items-center p-4 bg-stone-900 rounded-t-sm"
+      hlmCardHeader
+    >
+      <h3 hlmCardTitle>Rewards</h3>
+    </div>
+    <div hlmCardContent class="flex flex-col gap-3 py-3">
+      <app-input formControlName="money" type="number" label="Money" />
+      <app-input formControlName="titleID" label="Title" />
+      <app-input formControlName="honor" label="Honor" type="number" />
+
+      <!-- START REPUTATION -->
+
+      <section hlmCard class="mt-3">
+        <div
+          hlmCardHeader
+          class="flex flex-row justify-between items-center p-4 bg-stone-800 rounded-t-sm"
+        >
+          <h4 hlmCardTitle>Reputation</h4>
+          <button hlmBtn (click)="addReputationReward()">
+            <hlm-icon size="sm" name="lucidePlus" />
+          </button>
+        </div>
+
+        <div
+          hlmCardContent
+          class="flex flex-col gap-3 py-3"
+          formArrayName="reputation"
+        >
+          <section
+            hlmCard
+            *ngFor="let rep of reputationRewards.controls; let i = index"
+            class="p-3 flex justify-between items-center"
+          >
+            <div [formGroupName]="i" class="flex flex-row gap-3">
+              <app-input formControlName="factionID" label="Faction ID" />
+              <app-input formControlName="amount" label="Amount" />
+            </div>
+            <button
+              hlmBtn
+              variant="destructive"
+              (click)="removeReputationReward(i)"
+            >
+              <hlm-icon size="sm" name="lucideTrash"></hlm-icon>
+            </button>
+          </section>
+        </div>
+      </section>
+
+      <!-- END REPUTATION -->
+
+      <!-- START REWARD ITEMS -->
+
+      <section hlmCard class="mt-3">
+        <div
+          hlmCardHeader
+          class="flex flex-row justify-between items-center p-4 bg-stone-800 rounded-t-sm"
+        >
+          <h4 hlmCardTitle>Items</h4>
+          <button hlmBtn (click)="addItemReward()">
+            <hlm-icon size="sm" name="lucidePlus" />
+          </button>
+        </div>
+
+        <div
+          hlmCardContent
+          class="flex flex-col gap-3 py-3"
+          formArrayName="items"
+        >
+          <section
+            hlmCard
+            *ngFor="let item of itemRewards.controls; let i = index"
+            class="p-3 flex justify-between items-center"
+          >
+            <div [formGroupName]="i" class="flex flex-row gap-3">
+              <app-input formControlName="rewardItemID" label="Item ID" />
+              <app-input formControlName="count" label="Amount" type="number" />
+            </div>
+            <button hlmBtn variant="destructive" (click)="removeItemReward(i)">
+              <hlm-icon size="sm" name="lucideTrash"></hlm-icon>
+            </button>
+          </section>
+        </div>
+      </section>
+
+      <!-- END REWARD ITEMS -->
+
+      <!-- START CHOICE ITEM REWARDS -->
+
+      <section hlmCard class="mt-3">
+        <div
+          hlmCardHeader
+          class="flex flex-row justify-between items-center p-4 bg-stone-800 rounded-t-sm"
+        >
+          <h4 hlmCardTitle>Choice Items</h4>
+          <button hlmBtn (click)="addChoiceItemReward()">
+            <hlm-icon size="sm" name="lucidePlus" />
+          </button>
+        </div>
+
+        <div
+          hlmCardContent
+          class="flex flex-col gap-3 py-3"
+          formArrayName="choiceItems"
+        >
+          <section
+            hlmCard
+            *ngFor="let choice of choiceItemRewards.controls; let i = index"
+            class="p-3 flex justify-between items-center"
+          >
+            <div [formGroupName]="i" class="flex flex-row gap-3">
+              <app-input formControlName="rewardItemID" label="Item ID" />
+              <app-input formControlName="count" label="Amount" type="number" />
+            </div>
+            <button
+              hlmBtn
+              variant="destructive"
+              (click)="removeChoiceItemReward(i)"
+            >
+              <hlm-icon size="sm" name="lucideTrash"></hlm-icon>
+            </button>
+          </section>
+        </div>
+      </section>
+    </div>
+  </section>
+
   <div class="mt-3 w-full">
     <!-- <app-input formControlName="designerComments" label="Desginer Comments" /> -->
     <app-textarea

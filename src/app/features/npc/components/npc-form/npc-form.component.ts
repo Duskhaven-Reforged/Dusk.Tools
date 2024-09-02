@@ -1,4 +1,10 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  inject,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -46,6 +52,7 @@ export class NpcFormComponent implements OnInit, OnDestroy {
   private fb = inject(FormBuilder);
   private npcService = inject(NpcService);
   private subs = new SubSink();
+  private changeDetectorRef = inject(ChangeDetectorRef);
 
   form!: FormGroup;
   unitClassOptions: SelectChoice[] = [
@@ -137,13 +144,14 @@ export class NpcFormComponent implements OnInit, OnDestroy {
       loot: this.fb.array([]),
     });
 
-    this.subs.sink = this.form.valueChanges.subscribe((value) =>
-      this.npcService.setNPCValues(value)
-    );
+    this.subs.sink = this.form.valueChanges.subscribe((value) => {
+      this.npcService.setNPCValues(value);
+    });
 
-    this.subs.sink = this.npcService.importedNPC.subscribe((value) =>
-      this.importNPC(value)
-    );
+    this.subs.sink = this.npcService.importedNPC.subscribe((value) => {
+      this.importNPC(value);
+      console.log(value);
+    });
 
     this.familyOptions = this.enumToSelectChoices(CreatureFamily);
   }
@@ -152,10 +160,25 @@ export class NpcFormComponent implements OnInit, OnDestroy {
     if (!values) return;
 
     Object.keys(values).forEach((importKey) => {
-      this.form.controls[importKey].setValue(
-        values[importKey as keyof NPCForm]
-      );
+      const control = this.form.get(importKey);
+      if (control) {
+        if (importKey === 'loot') {
+          values[importKey]?.forEach(() => this.addLoot());
+          control.patchValue(values[importKey]);
+        } else if (importKey === 'models') {
+          values[importKey]?.forEach((model) =>
+            this.addModel('npcID' in model ? 'npcID' : 'visualID')
+          );
+        } else {
+          control.patchValue(values[importKey as keyof NPCForm]);
+        }
+      } else {
+        console.warn(`Form control ${importKey} not found`);
+      }
     });
+
+    // Trigger change detection
+    this.changeDetectorRef.detectChanges();
   }
 
   createModel(type: 'npcID' | 'visualID'): FormGroup {

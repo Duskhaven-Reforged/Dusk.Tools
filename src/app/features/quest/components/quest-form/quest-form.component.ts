@@ -129,6 +129,7 @@ export class QuestFormComponent implements OnInit, OnDestroy {
       difficulty: [quest.difficulty],
       areaSort: [quest.areaSort],
       startItem: [quest.startItem],
+      rewards: [quest.rewards],
     });
   }
 

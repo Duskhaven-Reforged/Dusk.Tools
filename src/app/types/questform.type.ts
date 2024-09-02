@@ -18,10 +18,30 @@ export interface Questform {
   difficulty?: string;
   areaSort?: string;
   startItem?: string;
+  rewards?: Rewards;
 }
 
 export interface ParentQuestForm {
   quests?: { quest: Questform }[];
+}
+
+interface Rewards {
+  money: number;
+  reputation: Reputation[];
+  items: RewardItem[];
+  titleID: string;
+  honor: number;
+  choiceItems: RewardItem[];
+}
+
+interface Reputation {
+  factionID: string;
+  amount: number;
+}
+
+interface RewardItem {
+  rewardItemID: string;
+  count: number;
 }
 
 interface ObjectiveItem {

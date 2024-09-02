@@ -144,6 +144,14 @@ export class SingleQuestFormComponent
       difficulty: ['1'],
       areaSort: [''],
       startItem: [''],
+      rewards: this.fb.group({
+        money: [0],
+        reputation: this.fb.array([]),
+        items: this.fb.array([]),
+        titleID: [''],
+        honor: [0],
+        choiceItems: this.fb.array([]),
+      }),
     });
 
     this.subs.sink = this.form.valueChanges.subscribe((value: Questform) => {
@@ -224,8 +232,56 @@ export class SingleQuestFormComponent
     this.questGivers.push(this.createQuestGiver(entityType));
   }
 
+  createReputationReward() {
+    return this.fb.group({ factionID: [''], amount: [0] });
+  }
+
+  get reputationRewards(): FormArray {
+    return this.form.get('rewards.reputation') as FormArray;
+  }
+
+  addReputationReward() {
+    this.reputationRewards.push(this.createReputationReward());
+  }
+
+  removeReputationReward(index: number) {
+    this.reputationRewards.removeAt(index);
+  }
+
   removeQuestGiver(index: number) {
     this.questGivers.removeAt(index);
+  }
+
+  createItemReward() {
+    return this.fb.group({ rewardItemID: [''], count: [0] });
+  }
+
+  get itemRewards(): FormArray {
+    return this.form.get('rewards.items') as FormArray;
+  }
+
+  addItemReward() {
+    this.itemRewards.push(this.createItemReward());
+  }
+
+  removeItemReward(index: number) {
+    this.itemRewards.removeAt(index);
+  }
+
+  createChoiceItems() {
+    return this.fb.group({ rewardItemID: [''], count: [0] });
+  }
+
+  get choiceItemRewards(): FormArray {
+    return this.form.get('rewards.choiceItems') as FormArray;
+  }
+
+  addChoiceItemReward() {
+    this.choiceItemRewards.push(this.createChoiceItems());
+  }
+
+  removeChoiceItemReward(index: number) {
+    this.choiceItemRewards.removeAt(index);
   }
 
   writeValue(value: any): void {
