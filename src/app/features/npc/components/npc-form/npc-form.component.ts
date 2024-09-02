@@ -1,10 +1,5 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  inject,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -12,21 +7,20 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { NpcService } from '../../services/npc.service';
-import { CommonModule } from '@angular/common';
-import { SharedModule } from '../../../../shared/shared.module';
-import { SubSink } from 'subsink';
-import { HlmCardImports } from '@spartan-ng/ui-card-helm';
-import { HlmLabelDirective } from '@spartan-ng/ui-label-helm';
-import { HlmSwitchComponent } from '../../../../shared/directives/ui-switch-helm/src/lib/hlm-switch.component';
-import { HlmSwitchImports } from '@spartan-ng/ui-switch-helm';
-import { SelectChoice } from '../../../../types/selectChoice.type';
-import { CreatureFamily, NPCForm } from '../../../../types/npcForm.type';
-import { ModelsDialogComponent } from '../models-dialog/models-dialog.component';
-import { HlmIconComponent } from '@spartan-ng/ui-icon-helm';
 import { provideIcons } from '@ng-icons/core';
 import { lucidePlus, lucideTrash } from '@ng-icons/lucide';
 import { HlmButtonDirective } from '@spartan-ng/ui-button-helm';
+import { HlmCardImports } from '@spartan-ng/ui-card-helm';
+import { HlmIconComponent } from '@spartan-ng/ui-icon-helm';
+import { HlmLabelDirective } from '@spartan-ng/ui-label-helm';
+import { HlmSwitchImports } from '@spartan-ng/ui-switch-helm';
+import { SubSink } from 'subsink';
+import { HlmSwitchComponent } from '../../../../shared/directives/ui-switch-helm/src/lib/hlm-switch.component';
+import { SharedModule } from '../../../../shared/shared.module';
+import { CreatureFamily, NPCForm } from '../../../../types/npcForm.type';
+import { SelectChoice } from '../../../../types/selectChoice.type';
+import { NpcService } from '../../services/npc.service';
+import { ModelsDialogComponent } from '../models-dialog/models-dialog.component';
 
 @Component({
   selector: 'app-npc-form',
@@ -52,7 +46,6 @@ export class NpcFormComponent implements OnInit, OnDestroy {
   private fb = inject(FormBuilder);
   private npcService = inject(NpcService);
   private subs = new SubSink();
-  private changeDetectorRef = inject(ChangeDetectorRef);
 
   form!: FormGroup;
   unitClassOptions: SelectChoice[] = [
@@ -159,26 +152,33 @@ export class NpcFormComponent implements OnInit, OnDestroy {
   importNPC(values?: NPCForm) {
     if (!values) return;
 
-    Object.keys(values).forEach((importKey) => {
-      const control = this.form.get(importKey);
-      if (control) {
-        if (importKey === 'loot') {
-          values[importKey]?.forEach(() => this.addLoot());
-          control.patchValue(values[importKey]);
-        } else if (importKey === 'models') {
-          values[importKey]?.forEach((model) =>
-            this.addModel('npcID' in model ? 'npcID' : 'visualID')
-          );
-        } else {
-          control.patchValue(values[importKey as keyof NPCForm]);
-        }
-      } else {
-        console.warn(`Form control ${importKey} not found`);
-      }
+    Object.entries(values).forEach(([key, value]) => {
+      this.handleImport(key, value);
     });
+  }
 
-    // Trigger change detection
-    this.changeDetectorRef.detectChanges();
+  handleImport(key: string, value: any): void {
+    const control = this.form.get(key);
+
+    if (!control) {
+      console.warn(`Form control ${key} not found`);
+      return;
+    }
+
+    switch (key) {
+      case 'loot':
+        (value as any[]).forEach(() => this.addLoot());
+        control.patchValue(value);
+        break;
+      case 'models':
+        (value as any[]).forEach(() =>
+          this.addModel('npcID' in value ? 'npcID' : 'visualID')
+        );
+        control.patchValue(value);
+        break;
+      default:
+        control.patchValue(value);
+    }
   }
 
   createModel(type: 'npcID' | 'visualID'): FormGroup {
