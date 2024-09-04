@@ -221,7 +221,12 @@ export class SingleQuestFormComponent
   }
 
   createQuestGiver(entityType: QuestGiverEntityType): FormGroup {
-    return this.fb.group({ entityType, id: '', starter: true });
+    return this.fb.group({
+      entityType,
+      id: '',
+      starter: true,
+      commentOut: false,
+    });
   }
 
   get questGivers(): FormArray {

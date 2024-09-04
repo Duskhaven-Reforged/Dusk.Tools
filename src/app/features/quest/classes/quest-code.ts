@@ -179,7 +179,11 @@ ${designerComments}
       if (methodName) {
         const formattedId = formatID(questGiver.id);
         returnCode.push(`
-      ${methodName}(${formattedId})`);
+      ${
+        questGiver.commentOut === true ? '/* ' : ''
+      }${methodName}(${formattedId})${
+          questGiver.commentOut === true ? ' */' : ''
+        }`);
       }
     });
 

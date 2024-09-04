@@ -216,6 +216,10 @@
                 : "This is a Quest Ender"
             }}
           </label>
+          <label class="flex items-center" hlmLabel>
+            <hlm-switch class="mr-2" formControlName="commentOut" />
+            Comment Out
+          </label>
         </div>
         <button hlmBtn variant="destructive" (click)="removeQuestGiver(i)">
           <hlm-icon size="sm" name="lucideTrash"></hlm-icon>
@@ -232,9 +236,11 @@
       <h3 hlmCardTitle>Rewards</h3>
     </div>
     <div hlmCardContent class="flex flex-col gap-3 py-3">
-      <app-input formControlName="money" type="number" label="Money" />
-      <app-input formControlName="titleID" label="Title" />
-      <app-input formControlName="honor" label="Honor" type="number" />
+      <div class="flex gap-3">
+        <app-input formControlName="money" type="number" label="Money" />
+        <app-input formControlName="titleID" label="Title" />
+        <app-input formControlName="honor" label="Honor" type="number" />
+      </div>
 
       <!-- START REPUTATION -->
 

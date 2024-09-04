@@ -71,6 +71,7 @@ interface QuestGiver {
   entityType: QuestGiverEntityType;
   id: string;
   starter: boolean;
+  commentOut: boolean;
 }
 
 export type Factions = 'neutral' | 'alliance' | 'horde';
