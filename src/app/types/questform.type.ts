@@ -70,7 +70,7 @@ export type QuestGiverEntityType = 'creature' | 'object';
 interface QuestGiver {
   entityType: QuestGiverEntityType;
   id: string;
-  starter: boolean;
+  type: 'starter' | 'ender' | 'both';
   commentOut: boolean;
 }
 

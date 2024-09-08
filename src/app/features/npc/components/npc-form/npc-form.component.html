@@ -6,39 +6,29 @@
     <app-input formControlName="minLevel" label="Min Level" type="number" />
     <app-input formControlName="maxLevel" label="Max Level" type="number" />
     <app-select
-      [form]="form"
-      controlName="class"
+      formControlName="class"
       label="Class"
       [options]="unitClassOptions"
     />
     <app-select
-      [form]="form"
-      controlName="damageSchool"
+      formControlName="damageSchool"
       label="Damage School"
       [options]="damageSchoolOptions"
     />
+    <app-select formControlName="rank" label="Rank" [options]="rankOptions" />
     <app-select
-      [form]="form"
-      controlName="rank"
-      label="Rank"
-      [options]="rankOptions"
-    />
-    <app-select
-      [form]="form"
-      controlName="type"
+      formControlName="type"
       label="Type"
       [options]="creatureTypeOptions"
     />
     <app-select
-      [form]="form"
-      controlName="factionTemplate"
+      formControlName="factionTemplate"
       label="Faction Template"
       [options]="factionTemplateOptions"
       *ngIf="form.get('type')?.value !== 'BEAST'"
     />
     <app-select
-      [form]="form"
-      controlName="family"
+      formControlName="family"
       label="Family"
       [options]="familyOptions"
       *ngIf="form.get('type')?.value === 'BEAST'"
@@ -190,6 +180,20 @@
       class="flex flex-row justify-between items-center p-4 bg-stone-900 rounded-t-sm"
       hlmCardHeader
     >
+      <h3 hlmCardTitle>Weapon</h3>
+    </div>
+    <div hlmCardContent class="py-3 flex flex-row gap-3" formGroupName="weapon">
+      <app-input formControlName="rightHand" label="Right Hand" />
+      <app-input formControlName="leftHand" label="Left Hand" />
+      <app-input formControlName="ranged" label="Ranged" />
+    </div>
+  </section>
+
+  <section hlmCard class="mt-3">
+    <div
+      class="flex flex-row justify-between items-center p-4 bg-stone-900 rounded-t-sm"
+      hlmCardHeader
+    >
       <h3 hlmCardTitle>Loot</h3>
       <button hlmBtn (click)="addLoot()">
         <hlm-icon size="sm" name="lucidePlus" />
@@ -204,6 +208,7 @@
       >
         <div [formGroupName]="i" class="flex flex-row gap-3">
           <app-input formControlName="itemID" label="Item ID" />
+          <app-input formControlName="dropChance" label="Drop Chance" />
           <app-input
             formControlName="minDropAmount"
             label="Minimum Drop Amount"

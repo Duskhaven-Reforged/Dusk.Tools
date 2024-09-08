@@ -1,13 +1,29 @@
-<div [formGroup]="form">
+<div>
   <label hlmLabel>{{ label }}</label>
-  <brn-select [formControlName]="controlName">
-    <hlm-select-trigger class="w-56">
-      <hlm-select-value />
-    </hlm-select-trigger>
-    <hlm-select-content>
-      <hlm-option *ngFor="let option of options" [value]="option.value">{{
-        option.label
-      }}</hlm-option>
-    </hlm-select-content>
-  </brn-select>
+  <brn-popover closeDelay="100">
+    <button
+      class="bg-stone-950 border-input border overflow-hidden flex justify-between items-center rounded-sm relative after:absolute after:right-3 after:pointer-events-none min-w-48"
+      brnPopoverTrigger
+      hlmBtn
+      variant="outline"
+    >
+      {{ value === undefined ? "Select an Option" : findOptionFromValue(value)
+      }}<hlm-icon size="sm" name="lucideChevronDown" />
+    </button>
+    <div
+      class="flex flex-col p-1 overflow-auto max-h-80"
+      hlmPopoverContent
+      *brnPopoverContent="let ctx"
+    >
+      <button
+        hlmBtn
+        variant="ghost"
+        *ngFor="let option of options"
+        (click)="selectOption(option, ctx)"
+        class="py-6 px-0 font-normal"
+      >
+        {{ option.label }}
+      </button>
+    </div>
+  </brn-popover>
 </div>

@@ -78,7 +78,12 @@ export class SingleQuestFormComponent
 
   areaOptions: SelectChoice[] = [];
 
-  difficultyOptions: { value: string; label: string }[] = [
+  questGiverOptions: SelectChoice[] = [
+    { value: 'starter', label: 'Starter' },
+    { value: 'ender', label: 'Ender' },
+    { value: 'both', label: 'Both' },
+  ];
+  difficultyOptions: SelectChoice[] = [
     { value: '1', label: '1 - Simple Quests: Usually close by "Speak with X"' },
     {
       value: '2',
@@ -140,7 +145,7 @@ export class SingleQuestFormComponent
         raid: [false],
         weekly: [false],
       }),
-      groupSize: [1],
+      groupSize: [0],
       difficulty: ['1'],
       areaSort: [''],
       startItem: [''],
@@ -224,7 +229,7 @@ export class SingleQuestFormComponent
     return this.fb.group({
       entityType,
       id: '',
-      starter: true,
+      type: 'ender',
       commentOut: false,
     });
   }

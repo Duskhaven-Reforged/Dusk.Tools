@@ -93,6 +93,7 @@ export class NpcFormComponent implements OnInit, OnDestroy {
     { value: 'EXODAR', label: 'Exodar' },
     { value: 'SHATAR', label: 'Shatar' },
     { value: 'KIRIN_TOR', label: 'Kirin Tor' },
+    { value: 'BLACKROCK', label: 'Blackrock' },
   ];
   rankOptions: SelectChoice[] = [
     { value: 'NORMAL', label: 'Normal' },
@@ -135,6 +136,7 @@ export class NpcFormComponent implements OnInit, OnDestroy {
       designerComments: [''],
       models: this.fb.array([]),
       loot: this.fb.array([]),
+      weapon: this.fb.group({ rightHand: '', leftHand: '', ranged: '' }),
     });
 
     this.subs.sink = this.form.valueChanges.subscribe((value) => {
@@ -200,7 +202,12 @@ export class NpcFormComponent implements OnInit, OnDestroy {
   }
 
   createLoot(): FormGroup {
-    return this.fb.group({ itemID: '', minDropAmount: 0, maxDropAmount: 0 });
+    return this.fb.group({
+      itemID: '',
+      dropChance: 0,
+      minDropAmount: 0,
+      maxDropAmount: 0,
+    });
   }
 
   get loot(): FormArray {

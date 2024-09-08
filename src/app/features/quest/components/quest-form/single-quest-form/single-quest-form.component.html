@@ -3,8 +3,7 @@
     <app-input formControlName="title" label="Title" type="text"></app-input>
     <app-input formControlName="moduleName" label="Module Name"></app-input>
     <app-select
-      controlName="faction"
-      [form]="form"
+      formControlName="faction"
       label="Faction"
       [options]="factionOptions"
     ></app-select>
@@ -20,8 +19,7 @@
       type="number"
     ></app-input>
     <app-select
-      controlName="difficulty"
-      [form]="form"
+      formControlName="difficulty"
       label="Difficulty"
       [options]="difficultyOptions"
     ></app-select>
@@ -208,14 +206,11 @@
                 : 'Object ID'
             "
           />
-          <label class="flex items-center" hlmLabel>
-            <hlm-switch class="mr-2" formControlName="starter" />
-            {{
-              questGiver.get("starter")?.value
-                ? "This is a Quest Starter"
-                : "This is a Quest Ender"
-            }}
-          </label>
+          <app-select
+            [options]="questGiverOptions"
+            label="Type"
+            formControlName="type"
+          />
           <label class="flex items-center" hlmLabel>
             <hlm-switch class="mr-2" formControlName="commentOut" />
             Comment Out

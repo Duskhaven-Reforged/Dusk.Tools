@@ -37,6 +37,7 @@ export class NpcCode extends CodeCreator {
     const nameKeyword = this.constructConst();
     const models = this.constructModels(nameKeyword);
     const loot = this.constructLoot();
+    const weapon = this.constructWeapon();
 
     const flags = this.constructFlags();
 
@@ -45,7 +46,7 @@ export class NpcCode extends CodeCreator {
     return `${imports}${designerComments}${exportKeyword} const ${nameKeyword} = std.CreatureTemplates.create('${moduleName}', '${name
       .split(' ')
       .join('-')
-      .toUpperCase()}') ${this.constructName()} ${subName}${level}${unitClass}${rank}${type}${faction}${family}${damageSchool}${flags}${gossipMenu}${loot}${
+      .toUpperCase()}') ${this.constructName()} ${subName}${level}${unitClass}${rank}${type}${faction}${family}${damageSchool}${flags}${gossipMenu}${loot}${weapon}${
       models.visualCode
     }${models.copyCode}`;
   }
@@ -60,6 +61,8 @@ export class NpcCode extends CodeCreator {
   }
 
   private constructSubName() {
+    if (this.values.subname === '') return '';
+
     return `
     .Subname.enGB.set("${this.values.subname}")`;
   }
@@ -161,9 +164,9 @@ ${exportName}.Models.copyFrom(std.CreatureTemplates.load(${model.npcID}).Models)
 
     const lootItemCode = this.values.loot.map(
       (item) =>
-        `E.addItem(${formatID(item.itemID)}, ${item.minDropAmount}, ${
-          item.maxDropAmount
-        })`
+        `E.addItem(${formatID(item.itemID)}, ${item.dropChance}, ${
+          item.minDropAmount
+        }, ${item.maxDropAmount})`
     ).join(`
       `);
 
@@ -171,5 +174,20 @@ ${exportName}.Models.copyFrom(std.CreatureTemplates.load(${model.npcID}).Models)
     .NormalLoot.modRef((E) => {
       ${lootItemCode}
     })`;
+  }
+
+  private constructWeapon() {
+    if (!this.values.weapon) return '';
+
+    const weapon = this.values.weapon;
+
+    if (weapon.leftHand === '' && weapon.ranged === '')
+      return `
+    .Weapons.add(${formatID(weapon.rightHand)})`;
+
+    return `
+    .Weapons.add(${formatID(weapon.rightHand)}, ${formatID(
+      weapon.leftHand
+    )}, ${formatID(weapon.ranged)})`;
   }
 }

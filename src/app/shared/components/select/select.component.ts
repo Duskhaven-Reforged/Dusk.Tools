@@ -4,6 +4,9 @@ import {
   FormGroup,
   NG_VALUE_ACCESSOR,
 } from '@angular/forms';
+import { lucideChevronDown } from '@ng-icons/lucide';
+import { provideIcons } from '@spartan-ng/ui-icon-helm';
+import { SelectChoice } from '../../../types/selectChoice.type';
 
 @Component({
   selector: 'app-select',
@@ -15,13 +18,12 @@ import {
       useExisting: forwardRef(() => SelectComponent),
       multi: true,
     },
+    provideIcons({ lucideChevronDown }),
   ],
 })
-export class SelectComponent {
-  @Input() controlName!: string;
+export class SelectComponent implements ControlValueAccessor {
   @Input() label!: string;
-  @Input() options!: { value: string; label: string }[];
-  @Input() form!: FormGroup;
+  @Input() options!: SelectChoice[];
 
   value: any;
   onChange: any = () => {};
@@ -40,13 +42,23 @@ export class SelectComponent {
     this.onTouched = fn;
   }
 
-  setDisabledState(isDisabled: boolean): void {
-    this.isDisabled = isDisabled;
-  }
-
-  onValueChange(event: any): void {
-    this.value = event.target.value;
+  handleInputChange(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    this.value = target.value;
     this.onChange(this.value);
     this.onTouched();
+  }
+
+  selectOption(option: SelectChoice, ctx: any) {
+    this.onChange(option.value);
+    this.writeValue(option.value);
+    ctx.close();
+  }
+
+  findOptionFromValue(value: any) {
+    const selectedOption = this.options.find((op) => op.value === value);
+    if (selectedOption) return selectedOption.label;
+
+    return value;
   }
 }

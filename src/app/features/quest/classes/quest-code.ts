@@ -165,15 +165,17 @@ ${designerComments}
 
     const returnCode: string[] = [];
     const methodMapping = {
-      creaturetrue: '.Questgiver.addCreatureStarter',
-      creaturefalse: '.Questgiver.addCreatureEnder',
-      objecttrue: '.Questgiver.addObjectStarter',
-      objectfalse: '.Questgiver.addObjectEnder',
+      creaturestarter: '.Questgiver.addCreatureStarter',
+      creatureender: '.Questgiver.addCreatureEnder',
+      creatureboth: '.Questgiver.addCreatureBoth',
+      objectstarter: '.Questgiver.addObjectStarter',
+      objectender: '.Questgiver.addObjectEnder',
+      objectboth: '.Questgiver.addObjectBoth',
     };
 
     this.values.questGivers.forEach((questGiver) => {
       const entityType = questGiver.entityType;
-      const methodKey = `${entityType}${questGiver.starter}`;
+      const methodKey = `${entityType}${questGiver.type}`;
       const methodName = methodMapping[methodKey as keyof typeof methodMapping];
 
       if (methodName) {
@@ -248,7 +250,7 @@ ${designerComments}
   private constructGroupSize(titleVar: string) {
     const groupSize = this.values.groupSize;
 
-    return groupSize === undefined
+    return groupSize === undefined || Number(groupSize) === 0
       ? ''
       : `
 ${titleVar}.row.SuggestedGroupNum.set(${groupSize});`;
@@ -299,7 +301,7 @@ ${titleVar}.row.SuggestedGroupNum.set(${groupSize});`;
       ),
       ...items.map(
         (item) =>
-          `.Rewards.Items.add(${formatID(item.rewardItemID)}, ${item.count})`
+          `.Rewards.Item.add(${formatID(item.rewardItemID)}, ${item.count})`
       ),
       titleID !== '' ? `.Rewards.Title.set(${formatID(titleID)})` : '',
       honor !== 0 ? `.Rewards.Honor.set(${honor})` : '',

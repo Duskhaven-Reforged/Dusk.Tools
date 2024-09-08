@@ -68,9 +68,6 @@
       "@spartan-ng/ui-tooltip-helm": [
         "./src/app/shared/directives/ui-tooltip-helm/src/index.ts"
       ],
-      "@spartan-ng/ui-select-helm": [
-        "./src/app/shared/directives/ui-select-helm/src/index.ts"
-      ],
       "@spartan-ng/ui-helm-helm": [
         "./src/app/shared/directives/ui-helm-helm/src/index.ts"
       ],
@@ -82,7 +79,7 @@
       ],
       "@spartan-ng/ui-popover-helm": [
         "./src/app/shared/directives/ui-popover-helm/src/index.ts"
-      ]
+      ],
     }
   },
   "angularCompilerOptions": {

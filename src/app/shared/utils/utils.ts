@@ -1,3 +1,3 @@
 export function formatID(ID: string) {
-  return /^\d+$/.test(ID) ? ID : `${ID}.ID`;
+  return /^\d+$/.test(ID) ? ID : `${ID.replace(' ', '_')}.ID`;
 }

@@ -1,4 +1,14 @@
-import { Component, inject, Input, OnChanges, signal } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  inject,
+  Input,
+  OnChanges,
+  Renderer2,
+  signal,
+  ViewChild,
+} from '@angular/core';
 import { provideIcons } from '@ng-icons/core';
 import {
   lucideChevronsUpDown,
@@ -33,13 +43,26 @@ export class ComboboxComponent implements OnChanges, ControlValueAccessor {
   private fb = inject(FormBuilder);
   private fuse!: Fuse<SelectChoice>;
   private subs = new SubSink();
+  private elementRef = inject(ElementRef);
+  private renderer = inject(Renderer2);
   shownItems: SelectChoice[] = [];
+
+  @ViewChild('boundary') boundary!: ElementRef;
+  @ViewChild('toggleButton') toggleButton!: ElementRef;
 
   searchForm!: FormGroup;
 
   constructor() {
     this.searchForm = this.fb.group({
       input: [''],
+    });
+
+    this.renderer.listen('window', 'click', (e: Event) => {
+      if (
+        !this.boundary.nativeElement.contains(e.target) &&
+        this.dropdownVisible
+      )
+        this.dropdownVisible = false;
     });
 
     this.subs.sink = this.searchForm.valueChanges.subscribe(

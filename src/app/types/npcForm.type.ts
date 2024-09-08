@@ -16,6 +16,7 @@ export interface NPCForm {
   designerComments?: string;
   models?: NPCModels[];
   loot?: LootItem[];
+  weapon?: Weapon;
 }
 
 export interface NPCPrimaryFlags {
@@ -53,8 +54,15 @@ export interface VisualModel {
 
 interface LootItem {
   itemID: string;
+  dropChance: number;
   minDropAmount: number;
   maxDropAmount: number;
+}
+
+interface Weapon {
+  rightHand: string;
+  leftHand: string;
+  ranged: string;
 }
 
 type UnitClass = 'WARRIOR' | 'MAGE' | 'ROGUE' | 'PALADIN';
