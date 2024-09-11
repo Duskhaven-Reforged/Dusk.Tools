@@ -45,6 +45,7 @@
     "@spartan-ng/ui-tabs-brain": "0.0.1-alpha.353",
     "@spartan-ng/ui-toggle-brain": "0.0.1-alpha.353",
     "@spartan-ng/ui-tooltip-brain": "0.0.1-alpha.353",
+    "angular-split": "^18.0.0-beta.1",
     "class-variance-authority": "^0.6.0",
     "clsx": "^1.2.1",
     "embla-carousel-angular": "^14.0.0",

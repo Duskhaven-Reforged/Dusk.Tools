@@ -1,8 +1,15 @@
-<div class="flex w-full min-h-screen py-5 px-3 gap-5">
-  <div class="flex flex-col gap-3 w-3/4">
-    <app-quest-form />
-  </div>
-  <app-quest-output class="w-1/4 h-fit" />
+<div class="w-full py-5 px-3 gap-5">
+  <as-split direction="horizontal" gutterSize="5">
+    <as-split-area  [size]="70" minSize="40" maxSize="70" >
+      <div class="px-3">
+      <app-quest-form  />
+    </div>
+  </as-split-area>
+  <as-split-area [size]="30">
+    <app-quest-output />
+  </as-split-area>
+  </as-split>
+  
 </div>
 
 <app-quest-docs />

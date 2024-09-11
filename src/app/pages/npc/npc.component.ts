@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { NpcFormComponent } from '../../features/npc/components/npc-form/npc-form.component';
 import { NpcOutputComponent } from '../../features/npc/components/npc-output/npc-output.component';
+import { AngularSplitModule } from 'angular-split';
 
 @Component({
   selector: 'app-npc',
@@ -14,6 +15,7 @@ import { NpcOutputComponent } from '../../features/npc/components/npc-output/npc
     CommonModule,
     NpcFormComponent,
     NpcOutputComponent,
+    AngularSplitModule,
   ],
   templateUrl: './npc.component.html',
   styleUrl: './npc.component.scss',

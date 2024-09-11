@@ -17,7 +17,7 @@ import { lucideCopy } from '@ng-icons/lucide';
 import { QuestFormComponent } from '../../features/quest/components/quest-form/quest-form.component';
 import { QuestOutputComponent } from '../../features/quest/components/quest-output/quest-output.component';
 import { QuestDocsComponent } from '../../features/quest/components/quest-docs/quest-docs.component';
-
+import { AngularSplitModule } from 'angular-split';
 @Component({
   selector: 'app-quest',
   standalone: true,
@@ -36,6 +36,7 @@ import { QuestDocsComponent } from '../../features/quest/components/quest-docs/q
     QuestFormComponent,
     QuestOutputComponent,
     QuestDocsComponent,
+    AngularSplitModule
   ],
   providers: [provideIcons({ lucideCopy })],
   templateUrl: './quest.component.html',
