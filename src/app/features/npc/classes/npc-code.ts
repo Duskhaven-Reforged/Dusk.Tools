@@ -175,17 +175,16 @@ ${exportName}.Models.copyFrom(std.CreatureTemplates.load(${model.npcID}).Models)
   }
 
   private constructWeapon() {
-    if (!this.values.weapon) return '';
+    const weapon = this.values.weapon!;
+    if (Object.values(weapon as Object).every(value => value === '')) return ``;
+    
 
-    const weapon = this.values.weapon;
-
-    if (weapon.leftHand === '' && weapon.ranged === '')
-      return `
-    .Weapons.add(${formatID(weapon.rightHand)})`;
+    // if (weapon?.leftHand === '' && weapon?.ranged === '')
+    //   return `
+    // .Weapons.add(${formatID(weapon.rightHand)})`;
 
     return `
-    .Weapons.add(${formatID(weapon.rightHand)}, ${formatID(
-      weapon.leftHand
-    )}, ${formatID(weapon.ranged)})`;
+    .Weapons.add(${formatID(weapon.leftHand || '0')}, ${formatID(
+      weapon.rightHand || '0')}, ${formatID(weapon.ranged || '0')})`;
   }
 }
