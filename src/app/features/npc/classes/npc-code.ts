@@ -152,10 +152,8 @@ export class NpcCode extends CodeCreator {
 ${exportName}.Models.copyFrom(std.CreatureTemplates.load(${model.npcID}).Models)`
         )
         .join(''),
-      visualCode: visualModels.map(
-        (model) => `
-    .Models.addIds(${model.visualID})`
-      ),
+      visualCode: `
+    .Models.addIds(${visualModels.map(model => model.visualID).join(',')})`,
     };
   }
 
