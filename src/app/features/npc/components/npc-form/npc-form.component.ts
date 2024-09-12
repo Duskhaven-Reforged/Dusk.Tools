@@ -203,7 +203,7 @@ export class NpcFormComponent implements OnInit, OnDestroy {
 
   createLoot(): FormGroup {
     return this.fb.group({
-      itemID: '',
+      itemID: '0',
       dropChance: 0,
       minDropAmount: 0,
       maxDropAmount: 0,
