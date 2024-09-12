@@ -126,7 +126,7 @@
       <section
         hlmCard
         *ngFor="let objective of objectives.controls; let i = index"
-        class="p-3 flex justify-between items-center"
+        class="p-3 flex justify-between items-end"
       >
         <div [formGroupName]="i" class="flex flex-row gap-3">
           <app-input
@@ -195,7 +195,7 @@
       <section
         hlmCard
         *ngFor="let questGiver of questGivers.controls; let i = index"
-        class="p-3 flex justify-between items-center"
+        class="p-3 flex justify-between items-end"
       >
         <div [formGroupName]="i" class="flex flex-row gap-3">
           <app-input
@@ -258,7 +258,7 @@
           <section
             hlmCard
             *ngFor="let rep of reputationRewards.controls; let i = index"
-            class="p-3 flex justify-between items-center"
+            class="p-3 flex justify-between items-end"
           >
             <div [formGroupName]="i" class="flex flex-row gap-3">
               <app-input formControlName="factionID" label="Faction ID" />
@@ -298,7 +298,7 @@
           <section
             hlmCard
             *ngFor="let item of itemRewards.controls; let i = index"
-            class="p-3 flex justify-between items-center"
+            class="p-3 flex justify-between items-end"
           >
             <div [formGroupName]="i" class="flex flex-row gap-3">
               <app-input formControlName="rewardItemID" label="Item ID" />
@@ -334,7 +334,7 @@
           <section
             hlmCard
             *ngFor="let choice of choiceItemRewards.controls; let i = index"
-            class="p-3 flex justify-between items-center"
+            class="p-3 flex justify-between items-end"
           >
             <div [formGroupName]="i" class="flex flex-row gap-3">
               <app-input formControlName="rewardItemID" label="Item ID" />

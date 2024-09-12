@@ -47,7 +47,7 @@
       <section
         hlmCard
         *ngFor="let model of models.controls; let i = index"
-        class="p-3 flex justify-between items-center"
+        class="p-3 flex justify-between items-end"
       >
         <div [formGroupName]="i" class="flex flex-row gap-3">
           <app-input
@@ -204,7 +204,7 @@
       <section
         hlmCard
         *ngFor="let item of loot.controls; let i = index"
-        class="p-3 flex justify-between items-center"
+        class="p-3 flex justify-between items-end" 
       >
         <div [formGroupName]="i" class="flex flex-row gap-3">
           <app-input formControlName="itemID" label="Item ID" />

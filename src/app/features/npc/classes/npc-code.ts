@@ -152,14 +152,13 @@ export class NpcCode extends CodeCreator {
 ${exportName}.Models.copyFrom(std.CreatureTemplates.load(${model.npcID}).Models)`
         )
         .join(''),
-      visualCode: `
-    .Models.addIds(${visualModels.map(model => model.visualID).join(',')})`,
+      visualCode: visualModels.length > 0 ?`
+    .Models.addIds(${visualModels.map(model => model.visualID).join(',')})` : ``,
     };
   }
 
   private constructLoot() {
-    if (!this.values.loot) return '';
-
+    if (!this.values.loot || this.values.loot.length === 0) return '';
     const lootItemCode = this.values.loot.map(
       (item) =>
         `E.addItem(${formatID(item.itemID)}, ${item.dropChance}, ${
@@ -176,8 +175,7 @@ ${exportName}.Models.copyFrom(std.CreatureTemplates.load(${model.npcID}).Models)
 
   private constructWeapon() {
     const weapon = this.values.weapon!;
-    if (Object.values(weapon as Object).every(value => value === '')) return ``;
-    
+    if (!weapon || Object.values(weapon as Object).every(value => value === '')) return ``;
 
     // if (weapon?.leftHand === '' && weapon?.ranged === '')
     //   return `
