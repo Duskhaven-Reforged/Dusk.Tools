@@ -26,4 +26,9 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./pages/quest/quest.component').then((m) => m.QuestComponent),
   },
+  {
+    path: 'item',
+    loadComponent: () =>
+      import('./pages/item/item.component').then((m) => m.ItemComponent),
+  },
 ];

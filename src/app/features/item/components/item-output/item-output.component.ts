@@ -1,30 +1,22 @@
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  ElementRef,
-  inject,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { provideIcons } from '@ng-icons/core';
-import { lucideCopy, lucideDownload, lucideUpload } from '@ng-icons/lucide';
 import { HlmButtonDirective } from '@spartan-ng/ui-button-helm';
 import { HlmCardImports } from '@spartan-ng/ui-card-helm';
-import { HlmIconComponent } from '@spartan-ng/ui-icon-helm';
+import { HlmIconComponent, provideIcons } from '@spartan-ng/ui-icon-helm';
 import { HlmSwitchImports } from '@spartan-ng/ui-switch-helm';
-import { Highlight, HighlightAuto, HighlightModule } from 'ngx-highlightjs';
-import { ToastrService } from 'ngx-toastr';
-import { SubSink } from 'subsink';
+import { HighlightModule, HighlightAuto, Highlight } from 'ngx-highlightjs';
+import { ItemForm } from '../../../../types/itemForm.type';
 import { ExportOptions } from '../../../../types/exportOptions.type';
-import { NPCForm } from '../../../../types/npcForm.type';
-import { NpcCode } from '../../classes/npc-code';
-import { NpcService } from '../../services/npc.service';
+import { ItemService } from '../../services/item.service';
+import { SubSink } from 'subsink';
+import { ToastrService } from 'ngx-toastr';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { lucideCopy, lucideUpload, lucideDownload } from '@ng-icons/lucide';
+import { ItemCode } from '../../classes/item-code';
 
 @Component({
-  selector: 'app-npc-output',
+  selector: 'app-item-output',
   standalone: true,
   imports: [
     CommonModule,
@@ -38,12 +30,12 @@ import { NpcService } from '../../services/npc.service';
     ReactiveFormsModule,
   ],
   providers: [provideIcons({ lucideCopy, lucideUpload, lucideDownload })],
-  templateUrl: './npc-output.component.html',
-  styleUrl: './npc-output.component.scss',
+  templateUrl: './item-output.component.html',
+  styleUrl: './item-output.component.scss',
 })
-export class NpcOutputComponent implements OnInit, OnDestroy {
+export class ItemOutputComponent {
   private subs = new SubSink();
-  private npcService = inject(NpcService);
+  private itemService = inject(ItemService);
   private toastr = inject(ToastrService);
   private sanitizer = inject(DomSanitizer);
   private fb = inject(FormBuilder);
@@ -59,8 +51,8 @@ export class NpcOutputComponent implements OnInit, OnDestroy {
   form!: FormGroup;
 
   ngOnInit(): void {
-    this.subs.sink = this.npcService.getNPCValues().subscribe((value) => {
-      this.code = new NpcCode(value, this.outputOptions).constructCode();
+    this.subs.sink = this.itemService.getItemValues().subscribe((value) => {
+      this.code = new ItemCode(value, this.outputOptions).constructCode();
     });
 
     this.form = this.fb.group({
@@ -71,8 +63,8 @@ export class NpcOutputComponent implements OnInit, OnDestroy {
     this.subs.sink = this.form.valueChanges.subscribe(
       (value: ExportOptions) => {
         this.outputOptions = value;
-        this.code = new NpcCode(
-          this.npcService.npcValues.value,
+        this.code = new ItemCode(
+          this.itemService.itemValues.value,
           this.outputOptions
         ).constructCode();
       }
@@ -92,9 +84,9 @@ export class NpcOutputComponent implements OnInit, OnDestroy {
     const files = target?.files;
     if (!files) return;
 
-    const parsedJSON: NPCForm = JSON.parse(await files[0].text());
+    const parsedJSON: ItemForm = JSON.parse(await files[0].text());
     console.log(parsedJSON);
-    this.npcService.setImportedNPC(parsedJSON);
+    // this.npcService.setImportedNPC(parsedJSON);
   }
 
   async copyCode() {
@@ -108,10 +100,10 @@ export class NpcOutputComponent implements OnInit, OnDestroy {
   }
 
   export() {
-    let npcJSON = JSON.stringify(this.npcService.npcValues.value);
-    let uri = this.sanitizer.bypassSecurityTrustUrl(
-      'data:text/json;charset=UTF-8,' + encodeURIComponent(npcJSON)
-    );
-    this.downloadJSONhref = uri;
+    // let npcJSON = JSON.stringify(this.npcService.npcValues.value);
+    // let uri = this.sanitizer.bypassSecurityTrustUrl(
+    //   'data:text/json;charset=UTF-8,' + encodeURIComponent(npcJSON)
+    // );
+    // this.downloadJSONhref = uri;
   }
 }

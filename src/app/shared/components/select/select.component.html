@@ -1,8 +1,10 @@
 <div>
-  <label hlmLabel>{{ label }}</label>
+  <label hlmLabel class="{{ labelClass }}">{{ label }}</label>
   <brn-popover closeDelay="100">
     <button
-      class="bg-stone-950 border-input border overflow-hidden flex justify-between items-center rounded-sm relative after:absolute after:right-3 after:pointer-events-none min-w-48"
+      class="{{
+        labelClass
+      }} bg-stone-950 border-input border overflow-hidden flex justify-between items-center rounded-sm relative after:absolute after:right-3 after:pointer-events-none min-w-48"
       brnPopoverTrigger
       hlmBtn
       variant="outline"
@@ -20,7 +22,7 @@
         variant="ghost"
         *ngFor="let option of options"
         (click)="selectOption(option, ctx)"
-        class="py-6 px-0 font-normal"
+        class="py-6 px-0 font-normal {{ option.className }}"
       >
         {{ option.label }}
       </button>

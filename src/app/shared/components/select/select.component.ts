@@ -29,9 +29,12 @@ export class SelectComponent implements ControlValueAccessor {
   onChange: any = () => {};
   onTouched: any = () => {};
   isDisabled: boolean = false;
+  labelClass: string | undefined = undefined;
 
   writeValue(value: any): void {
     this.value = value;
+    const findOption = this.options.find((op) => op.value === value);
+    if (findOption) this.labelClass = findOption.className;
   }
 
   registerOnChange(fn: any): void {
