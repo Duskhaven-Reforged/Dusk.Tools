@@ -1,1 +1,1 @@
-export type SelectChoice = { label: string; value: string };
+export type SelectChoice = { label: string; value: string; className?: string };
