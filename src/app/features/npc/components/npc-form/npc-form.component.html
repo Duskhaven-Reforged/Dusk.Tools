@@ -51,11 +51,13 @@
       >
         <div [formGroupName]="i" class="flex flex-row gap-3">
           <app-input
+            type="number"
             formControlName="npcID"
             label="NPC ID"
             *ngIf="model.get('npcID') !== null"
           />
           <app-input
+            type="number"
             formControlName="visualID"
             label="Visual ID"
             *ngIf="model.get('visualID') !== null"
@@ -204,7 +206,7 @@
       <section
         hlmCard
         *ngFor="let item of loot.controls; let i = index"
-        class="p-3 flex justify-between items-end" 
+        class="p-3 flex justify-between items-end"
       >
         <div [formGroupName]="i" class="flex flex-row gap-3">
           <app-input formControlName="itemID" label="Item ID" />
