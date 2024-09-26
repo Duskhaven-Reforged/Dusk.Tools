@@ -15,6 +15,8 @@ import { ModelsDialogComponent } from '../../../npc/components/models-dialog/mod
 import { ItemService } from '../../services/item.service';
 import { SelectChoice } from '../../../../types/selectChoice.type';
 import { ItemForm } from '../../../../types/itemForm.type';
+import { WeaponDetailsComponent } from './weapon-details/weapon-details.component';
+import { ArmorDetailsComponent } from './armor-details/armor-details.component';
 
 @Component({
   selector: 'app-item-form',
@@ -30,6 +32,8 @@ import { ItemForm } from '../../../../types/itemForm.type';
     ModelsDialogComponent,
     HlmIconComponent,
     HlmButtonDirective,
+    WeaponDetailsComponent,
+    ArmorDetailsComponent,
   ],
   templateUrl: './item-form.component.html',
   styleUrl: './item-form.component.scss',
@@ -109,6 +113,8 @@ export class ItemFormComponent implements OnInit, OnDestroy {
         sellPrice: [0],
         buyPrice: [0],
       }),
+      weaponDetails: [''],
+      armorDetails: [''],
     });
 
     this.subs.sink = this.form.valueChanges.subscribe((value: ItemForm) => {

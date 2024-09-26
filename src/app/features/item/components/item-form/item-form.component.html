@@ -27,4 +27,12 @@
       <app-input formControlName="buyPrice" label="Buy Price" type="number" />
     </div>
   </div>
+  <app-weapon-details
+    formControlName="weaponDetails"
+    *ngIf="form.get('type')?.value === 'WEAPON'"
+  />
+  <app-armor-details
+    formControlName="armorDetails"
+    *ngIf="form.get('type')?.value === 'ARMOR'"
+  />
 </form>

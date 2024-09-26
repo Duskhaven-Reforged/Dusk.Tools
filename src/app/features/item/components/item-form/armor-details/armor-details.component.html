@@ -1,0 +1,21 @@
+<form [formGroup]="form">
+  <section hlmCard class="mt-3">
+    <div hlmCardHeader class="p-4 bg-stone-900 rounded-t-sm">
+      <h3 hlmCardTitle>Armor Details</h3>
+    </div>
+    <div hlmCardContent class="py-3 grid grid-cols-4 grid-rows-2 gap-7">
+      <app-select
+        [options]="armorTypeOptions"
+        label="Armor Type"
+        formControlName="type"
+      />
+      <app-select [options]="slotOptions" label="Slot" formControlName="slot" />
+      <app-input label="Armor" type="number" formControlName="armor" />
+      <app-input
+        label="Durability"
+        type="number"
+        formControlName="durability"
+      />
+    </div>
+  </section>
+</form>

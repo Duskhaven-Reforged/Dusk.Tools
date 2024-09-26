@@ -4,6 +4,8 @@ import { ExportOptions } from '../../../types/exportOptions.type';
 import { ItemForm } from '../../../types/itemForm.type';
 import { NPCForm } from '../../../types/npcForm.type';
 import { Questform } from '../../../types/questform.type';
+import { ArmorDetailsCode } from './armor-details-code';
+import { WeaponDetailsCode } from './weapon-details-code';
 
 export class ItemCode extends CodeCreator {
   override values!: ItemForm;
@@ -32,13 +34,15 @@ export class ItemCode extends CodeCreator {
     const flavorText = this.constructFlavorText();
     const price = this.constructPrice();
     const maxStack = this.constructMaxStack();
+    const weaponDetailsCode = this.constructWeaponDetails();
+    const armorDetailsCode = this.constructArmorDetails();
 
     return `${imports}${exportKeyword} const ${nameKeyword} = std.Items.create(${
       this.values.moduleName
     }, ${this.values.name
       .split(' ')
       .join('-')
-      .toUpperCase()})${type}${quality}${itemLevel}${requiredLevel}${displayID}${bonding}${flavorText}${price}${maxStack}`;
+      .toUpperCase()})${type}${quality}${itemLevel}${weaponDetailsCode}${armorDetailsCode}${requiredLevel}${displayID}${bonding}${flavorText}${price}${maxStack}`;
   }
 
   private constructConst() {
@@ -53,8 +57,31 @@ export class ItemCode extends CodeCreator {
   private constructType() {
     if (!this.values.type) return '';
 
+    if (
+      this.values.weaponDetails?.mainHandOnly === true &&
+      this.values.type === 'WEAPON'
+    )
+      return `
+    .InventoryType.MAINHAND.set()`;
+
+    if (this.values.armorDetails?.slot && this.values.type === 'ARMOR')
+      return `
+    .InventoryType.${this.values.armorDetails.slot}.set()`;
+
     return `
     .InventoryType.${this.values.type}.set()`;
+  }
+
+  private constructWeaponDetails() {
+    if (this.values.type !== 'WEAPON' || !this.values.weaponDetails) return '';
+
+    return new WeaponDetailsCode(this.values.weaponDetails).constructCode();
+  }
+
+  private constructArmorDetails() {
+    if (this.values.type !== 'ARMOR' || !this.values.armorDetails) return '';
+
+    return new ArmorDetailsCode(this.values.armorDetails).constructCode();
   }
 
   private constructQuality() {
