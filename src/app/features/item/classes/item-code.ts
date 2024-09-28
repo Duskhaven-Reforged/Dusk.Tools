@@ -37,12 +37,12 @@ export class ItemCode extends CodeCreator {
     const weaponDetailsCode = this.constructWeaponDetails();
     const armorDetailsCode = this.constructArmorDetails();
 
-    return `${imports}${exportKeyword} const ${nameKeyword} = std.Items.create(${
+    return `${imports}${exportKeyword} const ${nameKeyword} = std.Items.create(\`${
       this.values.moduleName
-    }, ${this.values.name
+    }\`, \`${this.values.name
       .split(' ')
       .join('-')
-      .toUpperCase()})${type}${quality}${itemLevel}${weaponDetailsCode}${armorDetailsCode}${requiredLevel}${displayID}${bonding}${flavorText}${price}${maxStack}`;
+      .toUpperCase()}\`)${name}${type}${quality}${itemLevel}${weaponDetailsCode}${armorDetailsCode}${requiredLevel}${displayID}${bonding}${flavorText}${price}${maxStack}`;
   }
 
   private constructConst() {
