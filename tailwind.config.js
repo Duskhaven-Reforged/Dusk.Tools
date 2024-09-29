@@ -4,7 +4,11 @@ module.exports = {
   content: ["./src/**/*.{html,ts}", "./libs/ui/**/*.{html,ts}"],
   darkMode: "class",
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        artifact: "#e6cc80",
+      },
+    },
   },
   plugins: [],
 };

@@ -80,13 +80,13 @@ export class ItemFormComponent implements OnInit, OnDestroy {
   ];
 
   qualityOptions: SelectChoice[] = [
-    { value: 'BLUE', label: 'Blue', className: 'text-blue-600' },
-    { value: 'GRAY', label: 'Gray', className: 'text-gray-600' },
-    { value: 'GREEN', label: 'Green', className: 'text-green-600' },
-    { value: 'HEIRLOOM', label: 'Heirloom', className: 'text-yellow-300' },
-    { value: 'ORANGE', label: 'Orange', className: 'text-orange-600' },
-    { value: 'PURPLE', label: 'Purple', className: 'text-purple-600' },
-    { value: 'WHITE', label: 'White', className: 'text-white' },
+    { value: 'GRAY', label: 'Poor', className: 'text-gray-500' },
+    { value: 'WHITE', label: 'Common', className: 'text-white' },
+    { value: 'GREEN', label: 'Uncommon', className: 'text-green-600' },
+    { value: 'BLUE', label: 'Rare', className: 'text-blue-600' },
+    { value: 'PURPLE', label: 'Epic', className: 'text-purple-600' },
+    { value: 'ORANGE', label: 'Legendary', className: 'text-orange-600' },
+    { value: 'HEIRLOOM', label: 'Artifact', className: 'text-artifact' },
   ];
 
   bondingOptions: SelectChoice[] = [
